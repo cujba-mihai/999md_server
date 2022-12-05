@@ -1,4 +1,3 @@
-import { GraphQLDefinitionsFactory } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -10,14 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
-
-const definitionsFactory = new GraphQLDefinitionsFactory();
-definitionsFactory.generate({
-  typePaths: ['./src/**/*.graphql'],
-  path: join(process.cwd(), 'src/graphql.ts'),
-  outputAs: 'class',
-  watch: true,
-});
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -26,7 +18,8 @@ definitionsFactory.generate({
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.graphql'],
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class',
@@ -37,6 +30,9 @@ definitionsFactory.generate({
     }),
     DatabaseModule,
     UsersModule,
+    MongooseModule.forRoot(
+      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`,
+    ),
   ],
   controllers: [AppController],
   providers: [AppService, ...databaseProviders],

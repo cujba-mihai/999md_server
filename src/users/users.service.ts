@@ -1,30 +1,20 @@
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { User, UserDocument } from './users.schema';
+import { UserInput } from './dto/user.input';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    console.log(createUserInput);
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-    return 'This action adds a new user';
+  async create(createUserDto: UserInput): Promise<User> {
+    const createdUser = await this.userModel.create(createUserDto);
+
+    return createdUser.save();
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserInput: UpdateUserInput) {
-    console.log(updateUserInput);
-
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 }

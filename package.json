@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^9.1.5",
-    "@nestjs/jwt": "^9.0.0",
+    "@nestjs/jwt": "^10.0.0",
     "@nestjs/schematics": "^9.0.3",
     "@nestjs/serve-static": "^3.0.0",
     "@nestjs/testing": "^9.2.1",

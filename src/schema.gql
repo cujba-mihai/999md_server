@@ -2,11 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  id: String!
+  name: String!
+}
+
+input CreateCategoriesInput {
+  categoriesToAdd: [String!]!
+}
+
 type Mutation {
+  createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
   createUser(input: UserInput!): UserType!
 }
 
 type Query {
+  categories: [Category!]!
   users: [UserType!]!
 }
 

@@ -1,6 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Subcategory } from 'src/subcategories/entities/subcategory.entity';
 
 export type CategoryDocument = HydratedDocument<Category>;
 
@@ -11,8 +12,21 @@ export class Category {
   id: string;
 
   @Field()
-  @Prop()
+  @Prop({ unique: true, required: true })
   name: string;
+
+  @Field(() => [Subcategory])
+  @Prop({
+    type: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: 'Subcategory',
+        nullable: false,
+        default: [],
+      },
+    ],
+  })
+  subcategories: Subcategory[];
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

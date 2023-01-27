@@ -11,5 +11,6 @@ import { Category, CategorySchema } from './entities/category.entity';
     ]),
   ],
   providers: [CategoriesResolver, CategoriesService],
+  exports: [CategoriesResolver, CategoriesService],
 })
 export class CategoriesModule {}

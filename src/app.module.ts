@@ -11,6 +11,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategoriesModule } from './categories/categories.module';
+import { SubcategoriesModule } from './subcategories/subcategories.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { CategoriesModule } from './categories/categories.module';
       `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`,
     ),
     CategoriesModule,
+    SubcategoriesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ...databaseProviders],

@@ -10,6 +10,10 @@ export class CategoriesService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
+  async findOne(id: string): Promise<Category | null> {
+    return await this.categoryModel.findById(id).exec();
+  }
+
   async createMany(
     createCategoriesInput: CreateCategoriesInput,
   ): Promise<CategoryDocument[]> {

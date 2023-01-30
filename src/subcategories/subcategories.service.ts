@@ -47,7 +47,9 @@ export class SubcategoriesService {
     subcategories: CreateSubcategoriesInput[],
     name: string,
   ) {
-    const parent = await this.categoryModel.findOne({ name: parentCategory });
+    const parent = await this.categoryModel
+      .findOne({ name: parentCategory })
+      .exec();
 
     if (!parent) {
       throw new Error(`Parent category with name ${parentCategory} not found`);
@@ -74,7 +76,8 @@ export class SubcategoriesService {
   @Mutation(() => Boolean)
   async removeAllSubcategories(): Promise<boolean> {
     try {
-      await this.subcategoryModel.deleteMany({});
+      await this.subcategoryModel.deleteMany({}).exec();
+
       return true;
     } catch (e) {
       console.log(e);

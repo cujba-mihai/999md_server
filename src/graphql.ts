@@ -40,7 +40,7 @@ export class UpdateProductInput {
   category?: Nullable<string>;
   currency?: Nullable<string>;
   description?: Nullable<string>;
-  id: number;
+  id: string;
   images?: Nullable<string[]>;
   name?: Nullable<string>;
   price?: Nullable<number>;
@@ -90,6 +90,8 @@ export abstract class IMutation {
 
   abstract removeAllSubcategories(): boolean | Promise<boolean>;
 
+  abstract removeAllUsers(): boolean | Promise<boolean>;
+
   abstract removeProduct(id: number): Product | Promise<Product>;
 
   abstract removeSubcategory(id: number): Subcategory | Promise<Subcategory>;
@@ -109,6 +111,7 @@ export abstract class IMutation {
 }
 
 export class Product {
+  _id: string;
   author: string;
   category: string;
   currency: string;

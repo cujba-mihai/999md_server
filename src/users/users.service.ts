@@ -24,14 +24,28 @@ export class UsersService {
     private subcategoryModel: Model<SubcategoryDocument>,
   ) {}
 
+  async removeAll(): Promise<boolean> {
+    await this.userModel.deleteMany({}).exec();
+    return true;
+  }
+
   async create(createUserDto: UserInput): Promise<User> {
+    const userExists = !!(await this.userModel
+      .findOne({ email: createUserDto.email })
+      .exec());
+
+    if (userExists) throw Error('User already exists');
+
     const createdUser = await this.userModel.create(createUserDto);
 
     return createdUser.save();
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel
+      .find()
+      .populate({ path: 'products', model: 'Product' })
+      .exec();
   }
 
   async createProduct(

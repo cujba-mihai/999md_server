@@ -2,12 +2,106 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  id: String!
+  name: String!
+  subcategories: [Subcategory!]!
+}
+
+input CreateCategoriesInput {
+  categoriesToAdd: [String!]!
+}
+
+input CreateProductInput {
+  author: String!
+  category: String!
+  currency: String!
+  description: String
+  images: [String!]!
+  name: String!
+  price: Int!
+  productDetails: String!
+  subcategory: String!
+  thumbnail: String!
+}
+
+input CreateSubcategoriesInput {
+  name: String!
+  parentCategory: String!
+  subcategories: [CreateSubcategoriesInput!]
+}
+
+input CreateSubcategoryInput {
+  categoryId: String!
+  name: String!
+}
+
 type Mutation {
+  createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  createSubcategories(input: CreateSubcategoriesInput!): Subcategory!
+  createSubcategory(
+    createSubcategoryInput: CreateSubcategoryInput!
+  ): Subcategory!
   createUser(input: UserInput!): UserType!
+  removeAllProducts: Product!
+  removeAllSubcategories: Boolean!
+  removeProduct(id: Int!): Product!
+  removeSubcategory(id: Int!): Subcategory!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateSubcategory(
+    updateSubcategoryInput: UpdateSubcategoryInput!
+  ): Subcategory!
+  userCreateProduct(product: CreateProductInput!, userId: String!): UserType!
+}
+
+type Product {
+  author: String!
+  category: String!
+  currency: String!
+  description: String!
+  images: [String!]!
+  name: String!
+  price: Float!
+  productDetails: String!
+  subcategory: String!
+  thumbnail: String!
 }
 
 type Query {
+  categories: [Category!]!
+  product(id: Int!): Product!
+  products: [Product!]!
+  subcategories: [Subcategory!]!
+  subcategory(id: Int!): Subcategory!
   users: [UserType!]!
+}
+
+type Subcategory {
+  _id: String!
+  childCategories: [Subcategory!]!
+  name: String!
+  parentCategory: String!
+}
+
+input UpdateProductInput {
+  author: String
+  category: String
+  currency: String
+  description: String
+  id: Int!
+  images: [String!]
+  name: String
+  price: Int
+  productDetails: String
+  subcategory: String
+  thumbnail: String
+}
+
+input UpdateSubcategoryInput {
+  categoryId: String
+  id: Int!
+  name: String
 }
 
 input UserInput {
@@ -21,4 +115,5 @@ type UserType {
   firstName: String!
   id: ID!
   lastName: String!
+  products: [Product!]!
 }

@@ -8,6 +8,9 @@ export type ProductDocument = HydratedDocument<Product>;
 @Schema({ timestamps: true })
 export class Product {
   @Field()
+  _id: string;
+
+  @Field()
   @Prop({
     type: SchemaTypes.ObjectId,
     ref: 'User',

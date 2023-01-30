@@ -46,6 +46,7 @@ type Mutation {
   createUser(input: UserInput!): UserType!
   removeAllProducts: Product!
   removeAllSubcategories: Boolean!
+  removeAllUsers: Boolean!
   removeProduct(id: Int!): Product!
   removeSubcategory(id: Int!): Subcategory!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
@@ -56,6 +57,7 @@ type Mutation {
 }
 
 type Product {
+  _id: String!
   author: String!
   category: String!
   currency: String!
@@ -89,7 +91,7 @@ input UpdateProductInput {
   category: String
   currency: String
   description: String
-  id: Int!
+  id: String!
   images: [String!]
   name: String
   price: Int

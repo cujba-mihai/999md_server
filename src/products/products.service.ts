@@ -33,7 +33,7 @@ export class ProductsService {
     return product;
   }
 
-  async update(id: number, updateProductInput: UpdateProductInput) {
+  async update(id: string, updateProductInput: UpdateProductInput) {
     const product = await this.productModel
       .findByIdAndUpdate(id, updateProductInput)
       .exec();

@@ -1,11 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { HydratedDocument } from 'mongoose';
-import {
-  Product,
-  ProductDocument,
-  ProductSchema,
-} from 'src/products/entities/product.entity';
+import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Product, ProductDocument } from 'src/products/entities/product.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -24,11 +20,11 @@ export class User {
   lastName: string;
 
   @Field()
-  @Prop({ unique: true })
+  @Prop({ unique: true, required: true })
   email: string;
 
   @Field(() => [Product])
-  @Prop({ type: [ProductSchema], default: [] })
+  @Prop({ type: [SchemaTypes.ObjectId], ref: 'Product', default: [] })
   products: ProductDocument[];
 }
 

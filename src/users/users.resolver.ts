@@ -18,6 +18,10 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
+  @Mutation(() => Boolean, { name: 'removeAllUsers' })
+  async removeAllUsers() {
+    return this.usersService.removeAll();
+  }
   @Mutation(() => UserType, { name: 'userCreateProduct' })
   async createProduct(
     @Args('userId') userId: string,

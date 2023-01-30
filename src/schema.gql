@@ -52,6 +52,7 @@ type Mutation {
   updateSubcategory(
     updateSubcategoryInput: UpdateSubcategoryInput!
   ): Subcategory!
+  userCreateProduct(product: CreateProductInput!, userId: String!): UserType!
 }
 
 type Product {
@@ -114,4 +115,5 @@ type UserType {
   firstName: String!
   id: ID!
   lastName: String!
+  products: [Product!]!
 }

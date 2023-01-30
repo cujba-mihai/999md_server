@@ -11,6 +11,7 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
+  // TODO: Add guard to make it available only from User
   async create(createProductInput: CreateProductInput) {
     const product = await this.productModel.create(createProductInput);
 
@@ -18,7 +19,7 @@ export class ProductsService {
   }
 
   async findAll() {
-    const products = await this.productModel.find();
+    const products = await this.productModel.find().exec();
 
     return products;
   }
@@ -33,15 +34,14 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductInput: UpdateProductInput) {
-    const product = await this.productModel.findByIdAndUpdate(
-      id,
-      updateProductInput,
-    );
+    const product = await this.productModel
+      .findByIdAndUpdate(id, updateProductInput)
+      .exec();
     return product;
   }
 
   async remove(id: number) {
-    const product = await this.productModel.findByIdAndRemove(id);
+    const product = await this.productModel.findByIdAndRemove(id).exec();
 
     return product;
   }

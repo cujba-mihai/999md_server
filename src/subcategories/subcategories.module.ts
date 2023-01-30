@@ -13,5 +13,6 @@ import { CategorySchema } from 'src/categories/entities/category.entity';
     ]),
   ],
   providers: [SubcategoriesResolver, SubcategoriesService],
+  exports: [SubcategoriesResolver, SubcategoriesService],
 })
 export class SubcategoriesModule {}

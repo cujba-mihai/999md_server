@@ -36,6 +36,14 @@ input CreateSubcategoryInput {
   name: String!
 }
 
+type FormField {
+  _id: ID!
+  element: String!
+  name: String!
+  type: String!
+  values: [String!]!
+}
+
 type Mutation {
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
   createProduct(createProductInput: CreateProductInput!): Product!
@@ -72,6 +80,7 @@ type Product {
 
 type Query {
   categories: [Category!]!
+  findAllFields: [FormField!]!
   product(id: Int!): Product!
   products: [Product!]!
   subcategories: [Subcategory!]!

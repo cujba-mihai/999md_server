@@ -5,7 +5,7 @@ export const databaseProviders = [
     provide: 'DATABASE_CONNECTION',
     useFactory: (): Promise<typeof mongoose> => {
       const MONO_DB_CONNECTION_STRING = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`;
-
+      mongoose.set('strictQuery', false);
       return mongoose.connect(MONO_DB_CONNECTION_STRING);
     },
   },

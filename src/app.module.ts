@@ -10,9 +10,17 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CategoriesModule } from './categories/categories.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { ProductsModule } from './products/products.module';
+import { FormfieldService } from './formfields/formfield.service';
+import { FormFieldSchema } from './formfields/entity/formfield.entity';
+import { FormFieldModule } from './formfields/formfield.module';
+import { CategoriesModule } from './categories/categories.module';
+import { SubcategorySchema } from './subcategories/entities/subcategory.entity';
+import { CategorySchema } from './categories/entities/category.entity';
+import { CategoriesService } from './categories/categories.service';
+import { SubcategoriesService } from './subcategories/subcategories.service';
+import { Seeder } from './seeders';
 
 @Module({
   imports: [
@@ -39,8 +47,41 @@ import { ProductsModule } from './products/products.module';
     CategoriesModule,
     SubcategoriesModule,
     ProductsModule,
+    MongooseModule.forFeature([
+      {
+        name: 'FormField',
+        schema: FormFieldSchema,
+      },
+      {
+        name: 'Category',
+        schema: CategorySchema,
+      },
+      {
+        name: 'Subcategory',
+        schema: SubcategorySchema,
+      },
+    ]),
+    FormFieldModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ...databaseProviders],
+  providers: [
+    ...databaseProviders,
+    AppService,
+    FormfieldService,
+    CategoriesService,
+    SubcategoriesService,
+  ],
 })
-export class AppModule {}
+export class AppModule extends Seeder {
+  constructor(
+    private readonly formFieldService: FormfieldService,
+    private readonly categoriesService: CategoriesService,
+    private readonly subcategoriesService: SubcategoriesService,
+  ) {
+    super();
+  }
+
+  async onModuleInit() {
+    await this.seed();
+  }
+}

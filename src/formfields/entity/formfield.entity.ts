@@ -1,34 +1,34 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 
 @ObjectType()
 @Schema({ timestamps: true })
-export class FormFields {
-  @Field()
+export class FormField {
+  @Field(() => ID)
   _id: string;
 
-  @Field()
+  @Field(() => String)
   @Prop({ required: true })
   name: string;
 
-  @Field()
+  @Field(() => String)
   @Prop({ default: 'input' })
   element: string;
 
-  @Field()
+  @Field(() => String)
   @Prop({ default: 'text' })
-  type: FormFieldsType;
+  type: FormFieldType;
 
   @Field(() => [String])
   @Prop({ type: SchemaTypes.Array, default: [] })
   values?: string[];
 }
-export type FormFieldsDocument = HydratedDocument<FormFields>;
+export type FormFieldDocument = HydratedDocument<FormField>;
 
-export const FormFieldsSchema = SchemaFactory.createForClass(FormFields);
+export const FormFieldSchema = SchemaFactory.createForClass(FormField);
 
-export type FormFieldsType =
+export type FormFieldType =
   | 'text'
   | 'number'
   | 'radio'

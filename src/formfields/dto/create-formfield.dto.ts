@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { FormFieldsType } from '../entity/formfields.entity';
+import { FormFieldType } from '../entity/formfield.entity';
 
 @ObjectType()
 export class CreateFormField {
@@ -13,7 +13,7 @@ export class CreateFormField {
   element: string;
 
   @Field()
-  type: FormFieldsType;
+  type: FormFieldType;
 
   @Field(() => [String])
   values?: string[];

@@ -13,9 +13,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CategoriesModule } from './categories/categories.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { ProductsModule } from './products/products.module';
-import { FormfieldsModule } from './formfields/formfields.module';
-import { FormfieldsService } from './formfields/formfields.service';
-import { FormFieldsSchema } from './formfields/entity/formfields.entity';
+import { FormfieldService } from './formfields/formfield.service';
+import { FormFieldSchema } from './formfields/entity/formfield.entity';
+import { FormFieldModule as FTASD } from './formfields/formfield.module';
 
 @Module({
   imports: [
@@ -42,21 +42,21 @@ import { FormFieldsSchema } from './formfields/entity/formfields.entity';
     CategoriesModule,
     SubcategoriesModule,
     ProductsModule,
-    // FormfieldsModule,
     MongooseModule.forFeature([
       {
-        name: 'FormFields',
-        schema: FormFieldsSchema,
+        name: 'FormField',
+        schema: FormFieldSchema,
       },
     ]),
+    FTASD,
   ],
   controllers: [AppController],
-  providers: [...databaseProviders, AppService, FormfieldsService],
+  providers: [...databaseProviders, AppService, FormfieldService],
 })
 export class AppModule {
-  constructor(private readonly formFieldsService: FormfieldsService) {}
+  constructor(private readonly formFieldService: FormfieldService) {}
 
   async onModuleInit() {
-    await this.formFieldsService.addDefaultFields();
+    await this.formFieldService.addDefaultFields();
   }
 }

@@ -1,8 +1,8 @@
-import { FormFields } from './formfields/entity/formfields.entity';
+import { FormField } from './formfields/entity/formfield.entity';
 
 export const MONO_DB_CONNECTION_STRING = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`;
 
-type DefaultFieldsType = Omit<FormFields, '_id'>;
+type DefaultFieldsType = Omit<FormField, '_id'>;
 
 export const regions = [
   'chisinau',

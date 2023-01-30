@@ -2,8 +2,6 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 
-export type ProductFieldDocument = HydratedDocument<FormFields>;
-
 @ObjectType()
 @Schema({ timestamps: true })
 export class FormFields {
@@ -26,6 +24,7 @@ export class FormFields {
   @Prop({ type: SchemaTypes.Array, default: [] })
   values?: string[];
 }
+export type FormFieldsDocument = HydratedDocument<FormFields>;
 
 export const FormFieldsSchema = SchemaFactory.createForClass(FormFields);
 

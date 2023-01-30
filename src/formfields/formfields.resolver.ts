@@ -2,7 +2,7 @@ import { Query, Resolver } from '@nestjs/graphql';
 import { FormFields } from './entity/formfields.entity';
 import { FormfieldsService } from './formfields.service';
 
-@Resolver()
+@Resolver(() => FormFields)
 export class FormfieldsResolver {
   constructor(private readonly formfieldsService: FormfieldsService) {}
 

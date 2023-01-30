@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { FormFieldsType } from '../entity/formfields.entity';
 
 @ObjectType()
-export class CreateFormField {
+export class FormFieldDTO {
   @Field(() => ID)
   readonly id: string;
 

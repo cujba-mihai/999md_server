@@ -67,6 +67,14 @@ export class Category {
   subcategories: Subcategory[];
 }
 
+export class FormField {
+  _id: string;
+  element: string;
+  name: string;
+  type: string;
+  values: string[];
+}
+
 export abstract class IMutation {
   abstract createCategories(
     createCategoriesInput: CreateCategoriesInput,
@@ -126,6 +134,8 @@ export class Product {
 
 export abstract class IQuery {
   abstract categories(): Category[] | Promise<Category[]>;
+
+  abstract findAllFields(): FormField[] | Promise<FormField[]>;
 
   abstract product(id: number): Product | Promise<Product>;
 

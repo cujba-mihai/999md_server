@@ -101,6 +101,11 @@ export abstract class IMutation {
   abstract updateSubcategory(
     updateSubcategoryInput: UpdateSubcategoryInput,
   ): Subcategory | Promise<Subcategory>;
+
+  abstract userCreateProduct(
+    product: CreateProductInput,
+    userId: string,
+  ): UserType | Promise<UserType>;
 }
 
 export class Product {
@@ -142,6 +147,7 @@ export class UserType {
   firstName: string;
   id: string;
   lastName: string;
+  products: Product[];
 }
 
 type Nullable<T> = T | null;

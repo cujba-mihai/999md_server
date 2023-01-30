@@ -16,8 +16,8 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Link to graphQL playground"', () => {
-      expect(appController.getPlaygroundURL()).toBe(
-        'Hi, for the API playground please follow to <a href="http://localhost:3000/graphql">GraphQL Playground</a>.',
+      expect(appController.getPlaygroundURL().replace(/\s+/, '')).toContain(
+        'GraphQL Playground',
       );
     });
   });

@@ -1,0 +1,144 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: String!
+  name: String!
+  subcategories: [Subcategory!]!
+}
+
+input CreateCategoriesInput {
+  categoriesToAdd: [String!]!
+}
+
+input CreateProductInput {
+  author: String!
+  category: String!
+  currency: String!
+  description: String
+  images: [String!]!
+  name: String!
+  price: Int!
+  productDetails: String!
+  subcategory: String!
+  thumbnail: String!
+}
+
+input CreateSubcategoriesInput {
+  name: String!
+  parentCategory: String!
+  subcategories: [CreateSubcategoriesInput!]
+}
+
+input CreateSubcategoryInput {
+  categoryId: String!
+  name: String!
+}
+
+type FormField {
+  _id: ID!
+  element: String!
+  name: String!
+  type: String!
+  values: [String!]!
+}
+
+type Mutation {
+  LogIn(email: String!, password: String!): User!
+  Register(input: UserInput!): UserType!
+  createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  createSubcategories(input: CreateSubcategoriesInput!): Subcategory!
+  createSubcategory(
+    createSubcategoryInput: CreateSubcategoryInput!
+  ): Subcategory!
+  removeAllProducts: Product!
+  removeAllSubcategories: Boolean!
+  removeAllUsers: Boolean!
+  removeProduct(id: Int!): Product!
+  removeSubcategory(id: Int!): Subcategory!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateSubcategory(
+    updateSubcategoryInput: UpdateSubcategoryInput!
+  ): Subcategory!
+  userCreateProduct(product: CreateProductInput!, userId: String!): UserType!
+}
+
+type Product {
+  _id: String!
+  author: String!
+  category: String!
+  currency: String!
+  description: String!
+  images: [String!]!
+  name: String!
+  price: Float!
+  productDetails: String!
+  subcategory: String!
+  thumbnail: String!
+}
+
+type Query {
+  categories: [Category!]!
+  findAllFields: [FormField!]!
+  me: User!
+  product(id: Int!): Product!
+  products: [Product!]!
+  subcategories: [Subcategory!]!
+  subcategory(id: Int!): Subcategory!
+  users: [UserType!]!
+}
+
+type Subcategory {
+  _id: String!
+  childCategories: [Subcategory!]!
+  name: String!
+  parentCategory: String!
+}
+
+input UpdateProductInput {
+  author: String
+  category: String
+  currency: String
+  description: String
+  id: String!
+  images: [String!]
+  name: String
+  price: Int
+  productDetails: String
+  subcategory: String
+  thumbnail: String
+}
+
+input UpdateSubcategoryInput {
+  categoryId: String
+  id: Int!
+  name: String
+}
+
+type User {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  products: [Product!]!
+  refresh_token: String
+}
+
+input UserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type UserType {
+  _id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  products: [Product!]!
+}

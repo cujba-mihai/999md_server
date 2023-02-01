@@ -3,22 +3,35 @@
 # ------------------------------------------------------
 
 type Mutation {
-  createUser(input: UserInput!): UserType!
+  LogIn(email: String!, password: String!): User!
+  Register(input: UserInput!): UserType!
 }
 
 type Query {
+  me: User!
   users: [UserType!]!
+}
+
+type User {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  refresh_token: String
 }
 
 input UserInput {
   email: String!
   firstName: String!
   lastName: String!
+  password: String!
 }
 
 type UserType {
+  _id: ID!
   email: String!
   firstName: String!
-  id: ID!
   lastName: String!
 }

@@ -10,10 +10,17 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { getEnvPath } from './common/helper/env.helper';
+import { AuthModule } from './auth/auth.module';
+
+const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
   imports: [
+    UsersModule,
+    AuthModule,
     ConfigModule.forRoot({
+      envFilePath,
       isGlobal: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({

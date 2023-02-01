@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -8,24 +9,39 @@
 /* eslint-disable */
 
 export class UserInput {
-  email: string;
-  firstName: string;
-  lastName: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
 }
 
 export abstract class IMutation {
-  abstract createUser(input: UserInput): UserType | Promise<UserType>;
+    abstract LogIn(email: string, password: string): User | Promise<User>;
+
+    abstract Register(input: UserInput): UserType | Promise<UserType>;
 }
 
 export abstract class IQuery {
-  abstract users(): UserType[] | Promise<UserType[]>;
+    abstract me(): User | Promise<User>;
+
+    abstract users(): UserType[] | Promise<UserType[]>;
+}
+
+export class User {
+    _id: string;
+    access_token?: Nullable<string>;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
+    refresh_token?: Nullable<string>;
 }
 
 export class UserType {
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
 }
 
 type Nullable<T> = T | null;

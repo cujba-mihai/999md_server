@@ -12,6 +12,12 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getEnvPath } from './common/helper/env.helper';
 import { AuthModule } from './auth/auth.module';
+import { CategoriesModule } from './categories/categories.module';
+import { SubcategoriesModule } from './subcategories/subcategories.module';
+import { ProductsModule } from './products/products.module';
+import { FormfieldService } from './formfields/formfield.service';
+import { FormFieldSchema } from './formfields/entity/formfield.entity';
+import { FormFieldModule as FTASD } from './formfields/formfield.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -40,8 +46,24 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     MongooseModule.forRoot(
       `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`,
     ),
+    CategoriesModule,
+    SubcategoriesModule,
+    ProductsModule,
+    MongooseModule.forFeature([
+      {
+        name: 'FormField',
+        schema: FormFieldSchema,
+      },
+    ]),
+    FTASD,
   ],
   controllers: [AppController],
-  providers: [AppService, ...databaseProviders],
+  providers: [...databaseProviders, AppService, FormfieldService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly formFieldService: FormfieldService) {}
+
+  async onModuleInit() {
+    await this.formFieldService.addDefaultFields();
+  }
+}

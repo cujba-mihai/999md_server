@@ -15,8 +15,10 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "Link to graphQL playground"', () => {
+      expect(appController.getPlaygroundURL().replace(/\s+/, '')).toContain(
+        'GraphQL Playground',
+      );
     });
   });
 });

@@ -29,9 +29,11 @@ export class CategoriesService {
       });
     }, Promise.resolve());
 
-    const categories = await this.categoryModel.find({
-      name: { $in: categoriesToAdd },
-    });
+    const categories = await this.categoryModel
+      .find({
+        name: { $in: categoriesToAdd },
+      })
+      .exec();
 
     return categories;
   }

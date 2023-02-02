@@ -5,7 +5,7 @@
 type Category {
   id: String!
   name: String!
-  subcategories: [Subcategory!]!
+  subcategories: [Subcategory!]
 }
 
 input CreateCategoriesInput {
@@ -45,13 +45,15 @@ type FormField {
 }
 
 type Mutation {
+  LogIn(email: String!, password: String!): User!
+  Register(input: UserInput!): UserType!
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
   createProduct(createProductInput: CreateProductInput!): Product!
   createSubcategories(input: CreateSubcategoriesInput!): Subcategory!
   createSubcategory(
     createSubcategoryInput: CreateSubcategoryInput!
   ): Subcategory!
-  createUser(input: UserInput!): UserType!
+  removeAllCategories: Boolean!
   removeAllProducts: Product!
   removeAllSubcategories: Boolean!
   removeAllUsers: Boolean!
@@ -81,6 +83,7 @@ type Product {
 type Query {
   categories: [Category!]!
   findAllFields: [FormField!]!
+  me: User!
   product(id: Int!): Product!
   products: [Product!]!
   subcategories: [Subcategory!]!
@@ -91,7 +94,7 @@ type Query {
 type Subcategory {
   _id: String!
   childCategories: [Subcategory!]!
-  name: String!
+  name: String
   parentCategory: String!
 }
 
@@ -115,16 +118,28 @@ input UpdateSubcategoryInput {
   name: String
 }
 
+type User {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  products: [Product!]!
+  refresh_token: String
+}
+
 input UserInput {
   email: String!
   firstName: String!
   lastName: String!
+  password: String!
 }
 
 type UserType {
+  _id: ID!
   email: String!
   firstName: String!
-  id: ID!
   lastName: String!
   products: [Product!]!
 }

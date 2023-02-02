@@ -4,7 +4,7 @@ import { Product } from 'src/products/entities/product.entity';
 @ObjectType()
 export class UserType {
   @Field(() => ID)
-  readonly id: string;
+  readonly _id: string;
 
   @Field()
   firstName: string;

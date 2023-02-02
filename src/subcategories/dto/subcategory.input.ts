@@ -1,11 +1,11 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, ID } from '@nestjs/graphql';
 
 @InputType()
 export class SubcategoryInput {
   @Field()
   name: string;
 
-  @Field()
+  @Field(() => ID)
   parentCategory: string;
 
   @Field(() => [SubcategoryInput], { nullable: true })

@@ -15,7 +15,7 @@ export class Category {
   @Prop({ unique: true, required: true })
   name: string;
 
-  @Field(() => [Subcategory])
+  @Field(() => [Subcategory], { nullable: true })
   @Prop({
     type: [
       {

@@ -8,7 +8,7 @@ import { CreateProductInput } from 'src/products/dto/create-product.input';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => UserType)
+  @Mutation(() => UserType, { name: 'Register' })
   async createUser(@Args('input') input: UserInput) {
     return this.usersService.create(input);
   }

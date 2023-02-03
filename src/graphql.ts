@@ -59,12 +59,13 @@ export class UserInput {
   email: string;
   firstName: string;
   lastName: string;
+  password: string;
 }
 
 export class Category {
   id: string;
   name: string;
-  subcategories: Subcategory[];
+  subcategories?: Nullable<Subcategory[]>;
 }
 
 export class FormField {
@@ -75,6 +76,10 @@ export class FormField {
 }
 
 export abstract class IMutation {
+  abstract LogIn(email: string, password: string): User | Promise<User>;
+
+  abstract Register(input: UserInput): UserType | Promise<UserType>;
+
   abstract createCategories(
     createCategoriesInput: CreateCategoriesInput,
   ): Category[] | Promise<Category[]>;
@@ -91,7 +96,7 @@ export abstract class IMutation {
     createSubcategoryInput: CreateSubcategoryInput,
   ): Subcategory | Promise<Subcategory>;
 
-  abstract createUser(input: UserInput): UserType | Promise<UserType>;
+  abstract removeAllCategories(): boolean | Promise<boolean>;
 
   abstract removeAllProducts(): Product | Promise<Product>;
 
@@ -136,6 +141,8 @@ export abstract class IQuery {
 
   abstract findAllFields(): FormField[] | Promise<FormField[]>;
 
+  abstract me(): User | Promise<User>;
+
   abstract product(id: number): Product | Promise<Product>;
 
   abstract products(): Product[] | Promise<Product[]>;
@@ -150,14 +157,25 @@ export abstract class IQuery {
 export class Subcategory {
   _id: string;
   childCategories: Subcategory[];
-  name: string;
+  name?: Nullable<string>;
   parentCategory: string;
 }
 
-export class UserType {
+export class User {
+  _id: string;
+  access_token?: Nullable<string>;
   email: string;
   firstName: string;
-  id: string;
+  lastName: string;
+  password: string;
+  products: Product[];
+  refresh_token?: Nullable<string>;
+}
+
+export class UserType {
+  _id: string;
+  email: string;
+  firstName: string;
   lastName: string;
   products: Product[];
 }

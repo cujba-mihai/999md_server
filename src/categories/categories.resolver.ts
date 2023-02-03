@@ -14,6 +14,11 @@ export class CategoriesResolver {
     return this.categoriesService.createMany(createCategoriesInput);
   }
 
+  @Mutation(() => Boolean, { name: 'removeAllCategories' })
+  removeAllCategories() {
+    return this.categoriesService.removeAll();
+  }
+
   @Query(() => [Category], { name: 'categories' })
   findAll() {
     return this.categoriesService.findAll();

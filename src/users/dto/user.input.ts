@@ -10,4 +10,7 @@ export class UserInput {
 
   @Field(() => String)
   email: string;
+
+  @Field(() => String)
+  password: string;
 }

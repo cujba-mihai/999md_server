@@ -29,9 +29,7 @@ export class SubcategoriesService {
           $gt: [{ $size: '$childCategories' }, 0],
         },
       })
-      .populate(['childCategories'])
-      .populate({ path: 'parentCategory', model: 'Category' })
-      .exec();
+      .populate(['childCategories', 'parentCategory']);
   }
 
   findOne(id: number) {
@@ -70,7 +68,9 @@ export class SubcategoriesService {
       parentCategory: parent._id,
       childCategories: createdSubcategories.map((subcat) => subcat._id),
     });
-    return subcategory.save();
+    await subcategory.save();
+
+    return subcategory;
   }
 
   @Mutation(() => Boolean)

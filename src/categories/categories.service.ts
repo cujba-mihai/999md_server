@@ -10,6 +10,15 @@ export class CategoriesService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
   ) {}
 
+  async removeAll(): Promise<boolean> {
+    try {
+      await this.categoryModel.deleteMany({}).exec();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   async findOne(id: string): Promise<Category | null> {
     return await this.categoryModel.findById(id).exec();
   }
@@ -21,6 +30,12 @@ export class CategoriesService {
 
     await categoriesToAdd.reduce(async (promise, category) => {
       return promise.then(async () => {
+        const categoryExists = await this.categoryModel.findOne({
+          name: category,
+        });
+
+        if (categoryExists) return Promise.resolve('Category already exists');
+
         const createdCategory = await this.categoryModel.create({
           name: category,
         });
@@ -39,6 +54,16 @@ export class CategoriesService {
   }
 
   async findAll() {
-    return this.categoryModel.find().exec();
+    return await this.categoryModel
+      .find()
+      .populate([
+        {
+          path: 'subcategories',
+          populate: {
+            path: 'childCategories',
+          },
+        },
+      ])
+      .exec();
   }
 }

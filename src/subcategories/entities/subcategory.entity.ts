@@ -15,8 +15,8 @@ export class Subcategory {
   @Prop({ type: SchemaTypes.ObjectId, ref: 'Category', required: true })
   parentCategory: string;
 
-  @Field()
-  @Prop()
+  @Field({ nullable: true })
+  @Prop({ nullable: false, require: true })
   name: string;
 
   @Field()

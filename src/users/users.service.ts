@@ -1,8 +1,11 @@
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User, UserDocument } from './users.schema';
 import { UserInput } from './dto/user.input';
+import encrypt from '../utils/encryption';
+import { ConfigService } from '@nestjs/config';
+
 import { Product, ProductDocument } from 'src/products/entities/product.entity';
 import { CreateProductInput } from 'src/products/dto/create-product.input';
 import {
@@ -16,6 +19,9 @@ import {
 
 @Injectable()
 export class UsersService {
+  @Inject(ConfigService)
+  public config: ConfigService;
+
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
@@ -36,14 +42,33 @@ export class UsersService {
 
     if (userExists) throw Error('User already exists');
 
-    const createdUser = await this.userModel.create(createUserDto);
+    const encryptedPass = encrypt(
+      createUserDto.password,
+      this.config.get('CRYPTO_SECRET_KEY'),
+    );
 
-    return createdUser.save();
+    const createdUser = await this.userModel.create({
+      ...createUserDto,
+      password: encryptedPass,
+    });
+
+    const user = await createdUser.save();
+
+    return Promise.resolve(user);
   }
 
   async findAll(): Promise<User[]> {
+    return this.userModel.find().lean();
+  }
+
+  async findOneById(id: string): Promise<User> {
+    return this.userModel.findById(id).lean();
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    // return this.userModel.findOne({ email }).lean();
     return this.userModel
-      .find()
+      .findOne({ email })
       .populate({ path: 'products', model: 'Product' })
       .exec();
   }

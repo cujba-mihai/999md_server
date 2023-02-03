@@ -38,10 +38,9 @@ input CreateSubcategoryInput {
 
 type FormField {
   _id: ID!
-  element: String!
   name: String!
+  options: [String!]!
   type: String!
-  values: [String!]!
 }
 
 type Mutation {

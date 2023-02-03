@@ -13,16 +13,12 @@ export class FormField {
   name: string;
 
   @Field(() => String)
-  @Prop({ default: 'input' })
-  element: string;
-
-  @Field(() => String)
   @Prop({ default: 'text' })
   type: FormFieldType;
 
   @Field(() => [String])
   @Prop({ type: SchemaTypes.Array, default: [] })
-  values?: string[];
+  options: string[];
 }
 export type FormFieldDocument = HydratedDocument<FormField>;
 

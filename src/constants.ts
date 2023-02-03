@@ -28,37 +28,31 @@ export const defaultFields: DefaultFieldsType[] = [
   {
     name: 'offerType',
     type: 'radio',
-    values: ['sell', 'buy'],
-    element: 'input',
+    options: ['sell', 'buy'],
   },
   {
     name: 'region',
-    element: 'input',
     type: 'select',
-    values: regions,
+    options: regions,
   },
   {
     name: 'contacts',
-    element: 'input',
     type: 'tel',
-    values: [],
+    options: [],
   },
   {
     name: 'agreement',
-    element: 'input',
     type: 'checkbox',
-    values: [],
+    options: [],
   },
   {
     name: 'price',
-    element: 'input',
     type: 'number',
-    values: [],
+    options: [],
   },
   {
     name: 'title',
-    element: 'input',
     type: 'text',
-    values: [],
+    options: [],
   },
 ];

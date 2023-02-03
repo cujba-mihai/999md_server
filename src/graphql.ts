@@ -69,10 +69,9 @@ export class Category {
 
 export class FormField {
   _id: string;
-  element: string;
   name: string;
+  options: string[];
   type: string;
-  values: string[];
 }
 
 export abstract class IMutation {

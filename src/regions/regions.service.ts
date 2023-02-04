@@ -5,6 +5,7 @@ import {
   Locations,
   LocationsDocument,
 } from '../locations/entity/locations.entity';
+import { LocationsService } from '../locations/locations.service';
 import { CreateRegionDTO } from './dto/create-region.dto';
 import { CreateRegionsDTO } from './dto/create-regions.dto';
 import { FindRegionDTO } from './dto/find-region.dto';
@@ -15,6 +16,7 @@ export class RegionsService {
   constructor(
     @InjectModel(Locations.name)
     private locationsModel: Model<LocationsDocument>,
+    private locationsService: LocationsService,
 
     @InjectModel(Regions.name)
     private regionsModel: Model<RegionsDocument>,
@@ -43,18 +45,25 @@ export class RegionsService {
   async createRegionWithLocations(
     regionDTO: CreateRegionDTO,
   ): Promise<RegionsDocument> {
-    const locations = await Promise.all(
-      regionDTO.locations.map(async (location) => {
+    const createdRegion = await this.regionsModel.create({
+      region: regionDTO.region,
+    });
+
+    const locationsToCreate = regionDTO.locations.map((location) => ({
+      region: createdRegion._id,
+      location: location.location,
+      sector: location.sector,
+    }));
+
+    const createdLocations = await Promise.all(
+      locationsToCreate.map(async (location) => {
         return await this.locationsModel.create(location);
       }),
     );
 
-    const region = {
-      region: regionDTO.region,
-      locations,
-    };
+    createdRegion.locations.push(...createdLocations);
 
-    const createdRegion = await this.regionsModel.create(region);
+    await createdRegion.save();
 
     return createdRegion;
   }

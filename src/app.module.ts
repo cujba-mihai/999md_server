@@ -22,9 +22,12 @@ import { SubcategorySchema } from './subcategories/entities/subcategory.entity';
 import { CategorySchema } from './categories/entities/category.entity';
 import { CategoriesService } from './categories/categories.service';
 import { SubcategoriesService } from './subcategories/subcategories.service';
-import { Seeder } from './seeders';
 import { LocationsModule } from './locations/locations.module';
 import { RegionsModule } from './regions/regions.module';
+import { Seeder } from './database/seeders';
+import { RegionsService } from './regions/regions.service';
+import { RegionsSchema } from './regions/entity/regions.entity';
+import { LocationsSchema } from './locations/entity/locations.entity';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -69,6 +72,14 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
         name: 'Subcategory',
         schema: SubcategorySchema,
       },
+      {
+        name: 'Regions',
+        schema: RegionsSchema,
+      },
+      {
+        name: 'Locations',
+        schema: LocationsSchema,
+      },
     ]),
     FormFieldModule,
     LocationsModule,
@@ -81,6 +92,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     FormfieldService,
     CategoriesService,
     SubcategoriesService,
+    RegionsService,
   ],
 })
 export class AppModule extends Seeder {
@@ -88,6 +100,7 @@ export class AppModule extends Seeder {
     private readonly formFieldService: FormfieldService,
     private readonly categoriesService: CategoriesService,
     private readonly subcategoriesService: SubcategoriesService,
+    private readonly regionsService: RegionsService,
   ) {
     super();
   }

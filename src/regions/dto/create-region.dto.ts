@@ -7,5 +7,5 @@ export class CreateRegionDTO {
   region: string;
 
   @Field(() => [Locations])
-  locations: Locations[];
+  locations: Omit<Locations, '_id'>[];
 }

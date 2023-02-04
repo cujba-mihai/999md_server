@@ -79,7 +79,7 @@ export class FormField {
 export class Locations {
   _id: string;
   location: string;
-  region: Regions;
+  region: string;
   sector: string[];
 }
 

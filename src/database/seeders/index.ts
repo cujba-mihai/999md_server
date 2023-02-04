@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as fs from 'fs';
 import * as path from 'path';
-import log from '../utils/log';
+import log from '~server/src/utils/log';
 
 export class Seeder {
   async seed() {
     try {
       const allFiles = fs
-        .readdirSync(path.join(process.cwd(), 'src', 'seeders'))
+        .readdirSync(path.join(process.cwd(), 'src', 'database', 'seeders'))
         .toString()
         .split(',');
 
@@ -17,6 +17,7 @@ export class Seeder {
             path.join(
               process.cwd(),
               'src',
+              'database',
               'seeders',
               `seeded_${process.env.NODE_ENV}.json`,
             ),
@@ -59,6 +60,7 @@ export class Seeder {
         path.join(
           process.cwd(),
           'src',
+          'database',
           'seeders',
           `seeded_${process.env.NODE_ENV}.json`,
         ),

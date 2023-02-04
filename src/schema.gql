@@ -47,7 +47,7 @@ type FormField {
 type Locations {
   _id: ID!
   location: String!
-  region: Regions!
+  region: String!
   sector: [String!]!
 }
 

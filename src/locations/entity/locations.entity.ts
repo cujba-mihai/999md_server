@@ -1,7 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
-import { Regions } from '~server/src/regions/entity/regions.entity';
 
 @ObjectType()
 @Schema()
@@ -16,7 +15,7 @@ export class Locations {
     required: true,
     nullable: false,
   })
-  region: Regions;
+  region: string;
 
   @Field()
   @Prop({ required: true })

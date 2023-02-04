@@ -18,8 +18,9 @@ export class Regions {
     ref: 'Locations',
     type: [SchemaTypes.ObjectId],
     nullable: false,
+    default: [],
   })
-  locations: [Locations];
+  locations: Locations[];
 }
 
 export type RegionsDocument = HydratedDocument<Regions>;

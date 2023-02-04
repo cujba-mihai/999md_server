@@ -7,6 +7,7 @@ import {
   LocationsSchema,
 } from '../locations/entity/locations.entity';
 import { Regions, RegionsSchema } from './entity/regions.entity';
+import { LocationsModule } from '../locations/locations.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Regions, RegionsSchema } from './entity/regions.entity';
       { name: Locations.name, schema: LocationsSchema },
       { name: Regions.name, schema: RegionsSchema },
     ]),
+    LocationsModule,
   ],
   providers: [RegionsResolver, RegionsService],
   exports: [RegionsResolver, RegionsService],

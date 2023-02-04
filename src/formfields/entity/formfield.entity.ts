@@ -28,13 +28,19 @@ export type FormFieldDocument = HydratedDocument<FormField>;
 
 export const FormFieldSchema = SchemaFactory.createForClass(FormField);
 
+FormFieldSchema.pre('save', function (next) {
+  this.validationSchema = JSON.stringify(this.validationSchema);
+
+  next();
+});
+
 export type FormFieldType =
   | 'text'
   | 'number'
   | 'radio'
   | 'checkbox'
   | 'tel'
-  | 'date-time'
+  | 'datetime'
   | 'email'
   | 'password'
   | 'search'
@@ -42,4 +48,5 @@ export type FormFieldType =
   | 'select'
   | 'multiselect'
   | 'price'
-  | 'textarea';
+  | 'textarea'
+  | 'sitearea';

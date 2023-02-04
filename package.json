@@ -32,6 +32,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.2.1",
     "@nestjs/typeorm": "^9.0.1",
+    "@sodaru/yup-to-json-schema": "^1.1.1",
     "apollo-server-express": "^3.11.1",
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
@@ -45,7 +46,8 @@
     "rimraf": "^4.0.0",
     "rxjs": "^7.6.0",
     "ts-morph": "^17.0.1",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.11",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.1.5",

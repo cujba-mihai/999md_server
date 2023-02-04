@@ -10,19 +10,19 @@ export class FormField {
 
   @Field(() => String)
   @Prop({ required: true })
-  name: string;
+  label: string;
 
   @Field(() => String)
-  @Prop({ default: 'input' })
-  element: string;
+  @Prop({ type: String, required: true, default: JSON.stringify({}) })
+  validationSchema: string;
 
   @Field(() => String)
-  @Prop({ default: 'text' })
+  @Prop({ required: true })
   type: FormFieldType;
 
   @Field(() => [String])
   @Prop({ type: SchemaTypes.Array, default: [] })
-  values?: string[];
+  options: string[];
 }
 export type FormFieldDocument = HydratedDocument<FormField>;
 
@@ -40,4 +40,6 @@ export type FormFieldType =
   | 'search'
   | 'file'
   | 'select'
-  | 'multiselect';
+  | 'multiselect'
+  | 'price'
+  | 'textarea';

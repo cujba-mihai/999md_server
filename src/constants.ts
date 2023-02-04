@@ -1,6 +1,6 @@
 import { FormField } from './formfields/entity/formfield.entity';
 
-export const MONO_DB_CONNECTION_STRING = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`;
+export const MONO_DB_CONNECTION_STRING = `mongodb+srv://${process.env.DB_USERlabel}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`;
 
 type DefaultFieldsType = Omit<FormField, '_id'>;
 
@@ -26,39 +26,39 @@ export const regions = [
 
 export const defaultFields: DefaultFieldsType[] = [
   {
-    name: 'offerType',
+    label: 'offerType',
     type: 'radio',
-    values: ['sell', 'buy'],
-    element: 'input',
+    options: ['sell', 'buy'],
+    validationSchema: JSON.stringify({}),
   },
   {
-    name: 'region',
-    element: 'input',
+    label: 'region',
     type: 'select',
-    values: regions,
+    options: regions,
+    validationSchema: JSON.stringify({}),
   },
   {
-    name: 'contacts',
-    element: 'input',
+    label: 'contacts',
     type: 'tel',
-    values: [],
+    options: [],
+    validationSchema: JSON.stringify({}),
   },
   {
-    name: 'agreement',
-    element: 'input',
+    label: 'agreement',
     type: 'checkbox',
-    values: [],
+    options: [],
+    validationSchema: JSON.stringify({}),
   },
   {
-    name: 'price',
-    element: 'input',
+    label: 'price',
     type: 'number',
-    values: [],
+    options: [],
+    validationSchema: JSON.stringify({}),
   },
   {
-    name: 'title',
-    element: 'input',
+    label: 'title',
     type: 'text',
-    values: [],
+    options: [],
+    validationSchema: JSON.stringify({}),
   },
 ];

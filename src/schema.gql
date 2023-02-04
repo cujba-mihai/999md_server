@@ -38,10 +38,17 @@ input CreateSubcategoryInput {
 
 type FormField {
   _id: ID!
-  element: String!
-  name: String!
+  label: String!
+  options: [String!]!
   type: String!
-  values: [String!]!
+  validationSchema: String!
+}
+
+type Locations {
+  _id: ID!
+  location: String!
+  region: Regions!
+  sector: [String!]!
 }
 
 type Mutation {
@@ -49,12 +56,15 @@ type Mutation {
   Register(input: UserInput!): UserType!
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
   createProduct(createProductInput: CreateProductInput!): Product!
+  createRegionWithLocations: Regions!
+  createRegionsWithLocations: [Regions!]!
   createSubcategories(input: CreateSubcategoriesInput!): Subcategory!
   createSubcategory(
     createSubcategoryInput: CreateSubcategoryInput!
   ): Subcategory!
   removeAllCategories: Boolean!
   removeAllProducts: Product!
+  removeAllRegions: Boolean!
   removeAllSubcategories: Boolean!
   removeAllUsers: Boolean!
   removeProduct(id: Int!): Product!
@@ -83,12 +93,20 @@ type Product {
 type Query {
   categories: [Category!]!
   findAllFields: [FormField!]!
+  findRegion: Regions!
+  findRegions: [Regions!]!
   me: User!
   product(id: Int!): Product!
   products: [Product!]!
   subcategories: [Subcategory!]!
   subcategory(id: Int!): Subcategory!
   users: [UserType!]!
+}
+
+type Regions {
+  _id: ID!
+  locations: [Locations!]!
+  region: String!
 }
 
 type Subcategory {

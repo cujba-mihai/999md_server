@@ -23,6 +23,8 @@ import { CategorySchema } from './categories/entities/category.entity';
 import { CategoriesService } from './categories/categories.service';
 import { SubcategoriesService } from './subcategories/subcategories.service';
 import { Seeder } from './seeders';
+import { LocationsModule } from './locations/locations.module';
+import { RegionsModule } from './regions/regions.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -69,6 +71,8 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
       },
     ]),
     FormFieldModule,
+    LocationsModule,
+    RegionsModule,
   ],
   controllers: [AppController],
   providers: [

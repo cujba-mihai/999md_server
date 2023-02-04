@@ -70,10 +70,17 @@ export class Category {
 
 export class FormField {
   _id: string;
-  element: string;
-  name: string;
+  label: string;
+  options: string[];
   type: string;
-  values: string[];
+  validationSchema: string;
+}
+
+export class Locations {
+  _id: string;
+  location: string;
+  region: Regions;
+  sector: string[];
 }
 
 export abstract class IMutation {
@@ -89,6 +96,10 @@ export abstract class IMutation {
     createProductInput: CreateProductInput,
   ): Product | Promise<Product>;
 
+  abstract createRegionWithLocations(): Regions | Promise<Regions>;
+
+  abstract createRegionsWithLocations(): Regions[] | Promise<Regions[]>;
+
   abstract createSubcategories(
     input: CreateSubcategoriesInput,
   ): Subcategory | Promise<Subcategory>;
@@ -100,6 +111,8 @@ export abstract class IMutation {
   abstract removeAllCategories(): boolean | Promise<boolean>;
 
   abstract removeAllProducts(): Product | Promise<Product>;
+
+  abstract removeAllRegions(): boolean | Promise<boolean>;
 
   abstract removeAllSubcategories(): boolean | Promise<boolean>;
 
@@ -142,6 +155,10 @@ export abstract class IQuery {
 
   abstract findAllFields(): FormField[] | Promise<FormField[]>;
 
+  abstract findRegion(): Regions | Promise<Regions>;
+
+  abstract findRegions(): Regions[] | Promise<Regions[]>;
+
   abstract me(): User | Promise<User>;
 
   abstract product(id: number): Product | Promise<Product>;
@@ -153,6 +170,12 @@ export abstract class IQuery {
   abstract subcategory(id: number): Subcategory | Promise<Subcategory>;
 
   abstract users(): UserType[] | Promise<UserType[]>;
+}
+
+export class Regions {
+  _id: string;
+  locations: Locations[];
+  region: string;
 }
 
 export class Subcategory {

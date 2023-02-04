@@ -18,7 +18,7 @@ export class FormfieldService {
     return await Promise.all(
       defaultFields.map(async (field) => {
         const existingField = await this.formFieldModel
-          .findOne({ name: field.name })
+          .findOne({ name: field.label })
           .exec();
 
         if (!existingField) {

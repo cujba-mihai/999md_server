@@ -1,448 +1,216 @@
 import { CreateRegionsDTO } from '~server/src/regions/dto/create-regions.dto';
 
+console.log('Building the default regions object...');
+
+const chisinauLocations = [
+  'Bacioi',
+  'Braila',
+  'Bubuieci',
+  'Budesti',
+  'Buneti',
+  'Bic',
+  'Ceroborta',
+  'Cheltuitori',
+  'Chisinau',
+  'Ciorescu',
+  'Codru',
+  'Colonita',
+  'Condrita',
+  'Cricova',
+  'Cruzesti',
+  'Dobrogea',
+  'Dumbrava',
+  'Frumusica',
+  'Fauresti',
+  'Ghidighici',
+  'Goian',
+  'GoianulNou',
+  'Gratiesti',
+  'Hulboaca',
+  'Humulesti',
+  'Revaca',
+  'Straisteni',
+  'Stauceni',
+  'Singera',
+  'Tohatin',
+  'Truseni',
+  'VadulLuiVoda',
+  'Vatra',
+  'Vaduleni',
+];
+
+const benderLocations = [
+  'Balasinesti',
+  'Beleavinti',
+  'Berlinsti',
+  'Bezeda',
+  'Bocicauti',
+  'Bogdanesti',
+  'Briceni',
+  'Bulboaca',
+  'Balcuti',
+  'CaracuseniiNoi',
+  'CaracuseniiVechi',
+  'Chirilovca',
+  'Colicauti',
+  'Corjeuti',
+  'Coteala',
+  'Cotiujeni',
+  'Criva',
+  'Drepcauti',
+  'Grimeshti',
+  'Grimancauti',
+  'Groznita',
+  'HalahoradeJos',
+  'HalahoradeSus',
+  'Hlina',
+  'Larga',
+  'Lipcani',
+  'Marcauti',
+  'Medveja',
+  'Mihaileni',
+  'Macaresti',
+  'MarcautiiNoi',
+  'Pavlovca',
+  'Pererita',
+  'SloboziaMedveja',
+  'SloboziaSirauti',
+  'Tabani',
+  'Tetcani',
+  'Trebisauti',
+  'Trestieni',
+  'Sirauti',
+];
+
+const basarabeascaLocations = [
+  'Abaclia',
+  'Basarabeasca',
+  'Bogdanovca',
+  'Carabetovca',
+  'Carabiber',
+  'Iordanovca',
+  'Iserlia',
+  'Ivanovca',
+  'Sadaclia',
+];
+
+const defaultLocations = [
+  'Balasinesti',
+  'Beleavinti',
+  'Berlinsti',
+  'Bezeda',
+  'Bocicauti',
+  'Bogdanesti',
+  'Briceni',
+  'Bulboaca',
+  'Balcuti',
+  'CaracuseniiNoi',
+  'CaracuseniiVechi',
+  'Chirilovca',
+  'Colicauti',
+  'Corjeuti',
+  'Coteala',
+  'Cotiujeni',
+  'Criva',
+  'Drepcauti',
+  'Grimeshti',
+  'Grimancauti',
+  'Groznita',
+  'HalahoradeJos',
+  'HalahoradeSus',
+  'Hlina',
+  'Larga',
+  'Lipcani',
+  'Marcauti',
+  'Medveja',
+  'Mihaileni',
+  'Macaresti',
+  'MarcautiiNoi',
+  'Pavlovca',
+  'Pererita',
+  'SloboziaMedveja',
+  'SloboziaSirauti',
+  'Tabani',
+  'Tetcani',
+  'Trebisauti',
+  'Trestieni',
+  'Sirauti',
+];
+
 const defaultRegions: CreateRegionsDTO = {
-  regions: [
-    {
-      region: 'chisinauMun',
-      locations: [
-        {
-          location: 'example',
+  regions: `
+chisinauMun
+baltiMun
+tiraspolMun
+cahul
+aneniiNoi
+basarabeasca
+benderMun
+briceni
+camenca
+cantemir
+ciadirLunga
+cimislia
+comrat
+criuleni
+calarasi
+causeni
+dnestrovsk
+donduseni
+drochia
+dubasari
+edinet
+floresti
+falesti
+glodeni
+grigoriopol
+hincesti
+ialoveni
+leova
+nisporeni
+ocnita
+orhei
+rezina
+ribnita
+riscani
+slobozia
+soroca
+straseni
+sangerei
+taraclia
+telenesti
+ungheni
+vulcanesti
+soldanesti
+stefanVoda
+    `
+    .split(/\n/)
+    .map((region) => {
+      let locations;
+
+      switch (region.trim()) {
+        case 'chisinauMun':
+          locations = chisinauLocations;
+          break;
+        case 'benderMun':
+          locations = benderLocations;
+          break;
+        case 'basarabeasca':
+          locations = basarabeascaLocations;
+          break;
+        default:
+          locations = defaultLocations;
+      }
+
+      return {
+        region,
+        locations: locations.map((location) => ({
           region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'baltiMun',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'tiraspolMun',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'cahul',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'aneniiNoi',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'basarabeasca',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'benderMun',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'briceni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'camenca',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'cantemir',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'ciadirLunga',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'cimislia',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'comrat',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'criuleni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'calarasi',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'causeni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'dnestrovsk',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'donduseni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'drochia',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'dubasari',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'edinet',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'floresti',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'falesti',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'glodeni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'grigoriopol',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'hincesti',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'ialoveni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'leova',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'nisporeni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'ocnita',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'orhei',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'rezina',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'ribnita',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'riscani',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'slobozia',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'soroca',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'straseni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'sangerei',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'taraclia',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'telenesti',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'ungheni',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'vulcanesti',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'soldanesti',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-    {
-      region: 'stefanVoda',
-      locations: [
-        {
-          location: 'example',
-          region: '',
-          sector: ['default'],
-        },
-      ],
-    },
-  ],
+          location: location?.[0].toLowerCase() + location?.slice(1),
+          sector: ['center', 'suburbs'],
+        })),
+      };
+    }),
 };
 
 export default defaultRegions;

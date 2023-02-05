@@ -26,7 +26,12 @@ export class FieldGroups {
 }
 
 export type FieldGroupsDocuments = HydratedDocument<FieldGroups>;
+
 export const FieldGroupsSchema = SchemaFactory.createForClass(FieldGroups);
+
+/**
+ * Hooks
+ */
 
 FieldGroupsSchema.pre('save', function (next) {
   this.groupValidationSchema = JSON.stringify(this.groupValidationSchema);

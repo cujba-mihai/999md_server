@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { FormFieldType } from '~server/types';
 
 @ObjectType()
 @Schema({ timestamps: true })
@@ -28,25 +29,12 @@ export type FormFieldDocument = HydratedDocument<FormField>;
 
 export const FormFieldSchema = SchemaFactory.createForClass(FormField);
 
+/**
+ * Hooks
+ */
+
 FormFieldSchema.pre('save', function (next) {
   this.validationSchema = JSON.stringify(this.validationSchema);
 
   next();
 });
-
-export type FormFieldType =
-  | 'text'
-  | 'number'
-  | 'radio'
-  | 'checkbox'
-  | 'tel'
-  | 'datetime'
-  | 'email'
-  | 'password'
-  | 'search'
-  | 'file'
-  | 'select'
-  | 'multiselect'
-  | 'price'
-  | 'textarea'
-  | 'sitearea';

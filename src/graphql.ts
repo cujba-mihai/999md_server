@@ -11,6 +11,11 @@ export class CreateCategoriesInput {
   categoriesToAdd: string[];
 }
 
+export class CreateFieldFromStringDTO {
+  label: string;
+  stringSchema: string;
+}
+
 export class CreateProductInput {
   author: string;
   category: string;
@@ -92,6 +97,10 @@ export abstract class IMutation {
     createCategoriesInput: CreateCategoriesInput,
   ): Category[] | Promise<Category[]>;
 
+  abstract createFieldFromString(
+    createField: CreateFieldFromStringDTO,
+  ): FormField | Promise<FormField>;
+
   abstract createProduct(
     createProductInput: CreateProductInput,
   ): Product | Promise<Product>;
@@ -109,6 +118,8 @@ export abstract class IMutation {
   ): Subcategory | Promise<Subcategory>;
 
   abstract removeAllCategories(): boolean | Promise<boolean>;
+
+  abstract removeAllFields(): boolean | Promise<boolean>;
 
   abstract removeAllProducts(): Product | Promise<Product>;
 

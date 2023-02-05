@@ -28,6 +28,7 @@ import { Seeder } from './database/seeders';
 import { RegionsService } from './regions/regions.service';
 import { RegionsSchema } from './regions/entity/regions.entity';
 import { LocationsSchema } from './locations/entity/locations.entity';
+import { FieldgroupsModule } from './fieldgroups/fieldgroups.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -84,6 +85,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     FormFieldModule,
     LocationsModule,
     RegionsModule,
+    FieldgroupsModule,
   ],
   controllers: [AppController],
   providers: [

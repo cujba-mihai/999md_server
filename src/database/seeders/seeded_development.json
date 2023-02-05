@@ -1,7 +1,7 @@
 {
   "seededFiles": [
-    "default_fields.ts",
     "categories_w_subcategories.ts",
-    "default_regions.ts"
+    "default_regions.ts",
+    "fields_from_string.ts"
   ]
 }

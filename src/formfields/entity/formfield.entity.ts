@@ -1,6 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { JsonSchemaType } from '@sodaru/yup-to-json-schema/dist/TypeMap';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { FormFieldType } from '~server/types';
 
 @ObjectType()
 @Schema({ timestamps: true })
@@ -13,11 +15,11 @@ export class FormField {
   label: string;
 
   @Field(() => String)
-  @Prop({ type: String, required: true, default: JSON.stringify({}) })
-  validationSchema: string;
+  @Prop({ type: Object, required: true, default: {} })
+  validationSchema: JsonSchemaType;
 
   @Field(() => String)
-  @Prop({ required: true })
+  @Prop({ type: SchemaTypes.String, required: true })
   type: FormFieldType;
 
   @Field(() => [String])
@@ -28,18 +30,6 @@ export type FormFieldDocument = HydratedDocument<FormField>;
 
 export const FormFieldSchema = SchemaFactory.createForClass(FormField);
 
-export type FormFieldType =
-  | 'text'
-  | 'number'
-  | 'radio'
-  | 'checkbox'
-  | 'tel'
-  | 'date-time'
-  | 'email'
-  | 'password'
-  | 'search'
-  | 'file'
-  | 'select'
-  | 'multiselect'
-  | 'price'
-  | 'textarea';
+/**
+ * Hooks
+ */

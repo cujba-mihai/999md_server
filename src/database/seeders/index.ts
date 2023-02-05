@@ -25,23 +25,25 @@ export class Seeder {
           .toString(),
       );
 
-      const files = allFiles.filter((file) => {
-        if (
-          file.startsWith('index') ||
-          file.endsWith('.json') ||
-          file.endsWith('md')
-        )
-          return false;
+      const files = allFiles
+        .filter((file) => {
+          if (
+            file.startsWith('index') ||
+            file.endsWith('.json') ||
+            file.endsWith('md')
+          )
+            return false;
 
-        if (seededFiles.includes(file)) return false;
+          if (seededFiles.includes(file)) return false;
 
-        return true;
-      });
+          return true;
+        })
+        .sort();
 
       if (files.length === 0) return;
 
-      await Promise.all(
-        files.map(async (file) => {
+      await files.reduce((promise, file) => {
+        return promise.then(async () => {
           const func = require(`./${file}`);
 
           await func.default.call(this);
@@ -53,8 +55,8 @@ export class Seeder {
         `);
 
           seededFiles.push(file);
-        }),
-      );
+        });
+      }, Promise.resolve());
 
       fs.writeFileSync(
         path.join(
@@ -75,8 +77,5 @@ export class Seeder {
     } catch (err) {
       throw new Error(err);
     }
-  }
-  async unseed() {
-    return 'Yet to be implemented';
   }
 }

@@ -1,4 +1,4 @@
-import fields from '~server/constants/fields';
+import fields from '../../../constants/fields';
 
 export default async function () {
   await Promise.all(
@@ -21,4 +21,6 @@ const mappedFields = fields
   })
   .filter(Boolean);
 
-console.log('MAPPED FIELDS: ', mappedFields);
+export async function unseed() {
+  return this;
+}

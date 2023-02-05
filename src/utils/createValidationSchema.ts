@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import log from './log';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -54,15 +55,10 @@ const extractValidationsFromString = (str) => {
  * @param formatString
  * @returns a Yup validation schema
  */
-const test = { schema: '' };
 const createValidationSchema = (formatString: string) => {
-  const yup = require('yup');
-  console.log(formatString);
   const formatArray = extractValidationsFromString(formatString);
   const { validation: type = 'string' } = formatArray?.[0] || {};
   const methods = formatArray.slice(1);
-
-  test.schema = yup.string().required();
 
   let schema = yup[type]();
 

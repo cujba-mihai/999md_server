@@ -76,7 +76,4 @@ export class Seeder {
       throw new Error(err);
     }
   }
-  async unseed() {
-    return 'Yet to be implemented';
-  }
 }

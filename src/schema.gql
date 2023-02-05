@@ -61,7 +61,10 @@ type Mutation {
   Register(input: UserInput!): UserType!
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
 
-  "Allows us to create form field with validation from string. \n      Example of validationString: string,oneOf['one','two],required,min[0],max[50]\n      \n      "
+  """
+  Allows us to create form field with validation from string.
+        Example of validationString: string,oneOf['one','two],required,min[0],max[50]
+  """
   createFieldFromString(createField: CreateFieldFromStringDTO!): FormField!
   createProduct(createProductInput: CreateProductInput!): Product!
   createRegionWithLocations: Regions!

@@ -2,8 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
+import { GetByIdDTO } from './dto/get-by-id.dto';
+import { ListProductsBySubcategoryDTO } from './dto/list-products-by-subcategory';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
+
+const DEFAULT_POPULATE_FIELDS = ['author', 'category', 'subcategory'];
 
 @Injectable()
 export class ProductsService {
@@ -11,11 +15,28 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  // TODO: Add guard to make it available only from User
   async create(createProductInput: CreateProductInput) {
     const product = await this.productModel.create(createProductInput);
 
     return product;
+  }
+
+  async getProductsBySubcategory(query: ListProductsBySubcategoryDTO) {
+    return await this.productModel
+      .find({
+        subcategory: query.subCategoryId,
+      })
+      .skip(query.offset)
+      .limit(query.limit)
+      .populate(DEFAULT_POPULATE_FIELDS)
+      .exec();
+  }
+
+  async getProducts() {
+    return await this.productModel
+      .find({})
+      .populate(DEFAULT_POPULATE_FIELDS)
+      .exec();
   }
 
   async findAll() {
@@ -24,10 +45,24 @@ export class ProductsService {
     return products;
   }
 
-  async findOne(id: number) {
+  async findOne({ id }: GetByIdDTO) {
     const product = await this.productModel
       .findById(id)
-      .populate(['author', 'category', 'subcategory'])
+      .populate({
+        path: 'author',
+      })
+      .populate({
+        path: 'category',
+        populate: {
+          path: 'subcategories',
+        },
+      })
+      .populate({
+        path: 'subcategory',
+        populate: {
+          path: 'childSubcategories',
+        },
+      })
       .exec();
 
     return product;
@@ -40,7 +75,7 @@ export class ProductsService {
     return product;
   }
 
-  async remove(id: number) {
+  async remove({ id }: GetByIdDTO) {
     const product = await this.productModel.findByIdAndRemove(id).exec();
 
     return product;

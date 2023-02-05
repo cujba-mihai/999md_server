@@ -58,7 +58,7 @@ export class Product {
   images: string[];
 
   @Field({ nullable: false })
-  @Prop({ required: true })
+  @Prop({ default: [] })
   thumbnail: string;
 
   // Should store specification categories (e.g. general, other) as objects

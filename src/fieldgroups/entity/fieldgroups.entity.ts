@@ -21,8 +21,13 @@ export class FieldGroups {
   fields: string[];
 
   @Field()
-  @Prop()
-  groupValidationSchema: string;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'FormField',
+    required: false,
+    nullable: true,
+  })
+  requiredFields: string[];
 }
 
 export type FieldGroupsDocuments = HydratedDocument<FieldGroups>;
@@ -32,9 +37,3 @@ export const FieldGroupsSchema = SchemaFactory.createForClass(FieldGroups);
 /**
  * Hooks
  */
-
-FieldGroupsSchema.pre('save', function (next) {
-  this.groupValidationSchema = JSON.stringify(this.groupValidationSchema);
-
-  next();
-});

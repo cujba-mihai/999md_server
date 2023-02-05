@@ -25,3 +25,7 @@ export default async function seedCategoriesWSubcategories() {
     }),
   );
 }
+
+export async function unseed() {
+  return this;
+}

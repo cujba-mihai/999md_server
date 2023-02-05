@@ -26,7 +26,7 @@ rl.question(
   async (answer) => {
     if (!lastSeed) return console.log('No seeders found');
 
-    if (!answer.endsWith('.ts')) answer = `${answer}.ts`;
+    if (answer && !answer.endsWith('.ts')) answer = `${answer}.ts`;
 
     let PATH_TO_SEED = path.join(PATH_TO_SEEDERS, answer || lastSeed);
 

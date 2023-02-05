@@ -11,6 +11,11 @@ export class CreateCategoriesInput {
   categoriesToAdd: string[];
 }
 
+export class CreateCategoryDTO {
+  name: string;
+  subcategories?: Nullable<CreateSubcategoriesInput[]>;
+}
+
 export class CreateFieldFromStringDTO {
   label: string;
   stringSchema: string;
@@ -30,14 +35,38 @@ export class CreateProductInput {
 }
 
 export class CreateSubcategoriesInput {
+  childSubcategories?: Nullable<CreateSubcategoriesInput[]>;
   name: string;
-  parentCategory: string;
-  subcategories?: Nullable<CreateSubcategoriesInput[]>;
 }
 
 export class CreateSubcategoryInput {
   categoryId: string;
   name: string;
+}
+
+export class GetByIdDTO {
+  id: string;
+}
+
+export class GetOneSubcategoryDTO {
+  id: string;
+}
+
+export class GetSubcategoryByRelationDTO {
+  category: string;
+  subcategory: string;
+}
+
+export class ListProductsBySubcategoryDTO {
+  limit: number;
+  offset: number;
+  subCategoryId: string;
+}
+
+export class SubcategoriesInputDTO {
+  childSubcategories?: Nullable<SubcategoriesInputDTO[]>;
+  id: string;
+  name?: Nullable<string>;
 }
 
 export class UpdateProductInput {
@@ -67,10 +96,21 @@ export class UserInput {
   password: string;
 }
 
+export class CategoriesDTO {
+  id: string;
+  name: string;
+  subcategories: SubcategoriesDTO[];
+}
+
 export class Category {
   id: string;
   name: string;
   subcategories?: Nullable<Subcategory[]>;
+}
+
+export class CreateSubcategoriesDTO {
+  childSubcategories?: Nullable<CreateSubcategoriesDTO[]>;
+  name: string;
 }
 
 export class FormField {
@@ -79,6 +119,20 @@ export class FormField {
   options: string[];
   type: string;
   validationSchema: string;
+}
+
+export class GetProductsDTO {
+  author: UserDTO;
+  category: CategoriesDTO;
+  currency: string;
+  description: string;
+  id: string;
+  images: string[];
+  name: string;
+  price: number;
+  productDetails: string;
+  subcategory: SubcategoriesDTO;
+  thumbnail: string;
 }
 
 export class Locations {
@@ -97,6 +151,10 @@ export abstract class IMutation {
     createCategoriesInput: CreateCategoriesInput,
   ): Category[] | Promise<Category[]>;
 
+  abstract createCategory(
+    category: CreateCategoryDTO,
+  ): Category | Promise<Category>;
+
   abstract createFieldFromString(
     createField: CreateFieldFromStringDTO,
   ): FormField | Promise<FormField>;
@@ -109,9 +167,7 @@ export abstract class IMutation {
 
   abstract createRegionsWithLocations(): Regions[] | Promise<Regions[]>;
 
-  abstract createSubcategories(
-    input: CreateSubcategoriesInput,
-  ): Subcategory | Promise<Subcategory>;
+  abstract createSubcategories(): Subcategory | Promise<Subcategory>;
 
   abstract createSubcategory(
     createSubcategoryInput: CreateSubcategoryInput,
@@ -129,9 +185,11 @@ export abstract class IMutation {
 
   abstract removeAllUsers(): boolean | Promise<boolean>;
 
-  abstract removeProduct(id: number): Product | Promise<Product>;
+  abstract removeProduct(id: GetByIdDTO): Product | Promise<Product>;
 
-  abstract removeSubcategory(id: number): Subcategory | Promise<Subcategory>;
+  abstract removeSubcategory(
+    id: GetOneSubcategoryDTO,
+  ): Subcategory | Promise<Subcategory>;
 
   abstract updateProduct(
     updateProductInput: UpdateProductInput,
@@ -162,23 +220,39 @@ export class Product {
 }
 
 export abstract class IQuery {
-  abstract categories(): Category[] | Promise<Category[]>;
-
   abstract findAllFields(): FormField[] | Promise<FormField[]>;
+
+  abstract findByRelation(
+    filter: GetSubcategoryByRelationDTO,
+  ): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
   abstract findRegion(): Regions | Promise<Regions>;
 
   abstract findRegions(): Regions[] | Promise<Regions[]>;
 
+  abstract getCategories(): Category[] | Promise<Category[]>;
+
+  abstract getCategoryByName(
+    categoryName: string,
+  ): Category | Promise<Category>;
+
+  abstract getProducts(): GetProductsDTO[] | Promise<GetProductsDTO[]>;
+
+  abstract getProductsBySubcategory(
+    listProductByCategoryInput: ListProductsBySubcategoryDTO,
+  ): GetProductsDTO[] | Promise<GetProductsDTO[]>;
+
   abstract me(): User | Promise<User>;
 
-  abstract product(id: number): Product | Promise<Product>;
+  abstract product(id: GetByIdDTO): GetProductsDTO | Promise<GetProductsDTO>;
 
   abstract products(): Product[] | Promise<Product[]>;
 
   abstract subcategories(): Subcategory[] | Promise<Subcategory[]>;
 
-  abstract subcategory(id: number): Subcategory | Promise<Subcategory>;
+  abstract subcategory(
+    subcategoryId: GetOneSubcategoryDTO,
+  ): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
   abstract users(): UserType[] | Promise<UserType[]>;
 }
@@ -189,11 +263,16 @@ export class Regions {
   region: string;
 }
 
-export class Subcategory {
-  _id: string;
-  childCategories: Subcategory[];
+export class SubcategoriesDTO {
+  childSubcategories?: Nullable<SubcategoriesDTO[]>;
+  id: string;
   name?: Nullable<string>;
-  parentCategory: string;
+}
+
+export class Subcategory {
+  childSubcategories?: Nullable<Subcategory[]>;
+  id: string;
+  name: string;
 }
 
 export class User {
@@ -204,6 +283,16 @@ export class User {
   lastName: string;
   password: string;
   products: Product[];
+  refresh_token?: Nullable<string>;
+}
+
+export class UserDTO {
+  _id: string;
+  access_token?: Nullable<string>;
+  email: string;
+  firstName: string;
+  lastName: string;
+  products: GetProductsDTO[];
   refresh_token?: Nullable<string>;
 }
 

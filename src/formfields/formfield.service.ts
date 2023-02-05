@@ -32,8 +32,10 @@ export class FormfieldService {
   }: CreateFieldFromStringDTO) {
     const validationSchema = createValidationSchema(stringSchema);
 
+    const schema = yupToJsonSchema(validationSchema.schema);
+
     const createdField = await this.formFieldModel.create({
-      validationSchema: yupToJsonSchema(validationSchema.schema),
+      validationSchema: schema,
       label,
       type: validationSchema.type,
     });

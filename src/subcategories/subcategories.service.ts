@@ -8,6 +8,8 @@ import {
 } from 'src/categories/entities/category.entity';
 import { CreateSubcategoriesInput } from './dto/create-subcategories.input';
 import { CreateSubcategoryInput } from './dto/create-subcategory.input';
+import { GetSubcategoryByRelationDTO } from './dto/get-by-relation.dto';
+import { GetOneSubcategoryDTO } from './dto/get-one-subcategory.dto';
 import { UpdateSubcategoryInput } from './dto/update-subcategory.input';
 import { Subcategory } from './entities/subcategory.entity';
 
@@ -25,39 +27,128 @@ export class SubcategoriesService {
   findAll() {
     return this.subcategoryModel
       .find({
-        $expr: {
-          $gt: [{ $size: '$childCategories' }, 0],
-        },
+        or: [
+          {
+            childCategories: {
+              $size: {
+                $gt: 0,
+              },
+            },
+          },
+          {
+            childCategories: {
+              $size: {
+                $ne: null,
+              },
+            },
+          },
+        ],
       })
-      .populate(['childCategories', 'parentCategory']);
+      .populate([
+        {
+          path: 'childCategories',
+          populate: {
+            path: 'childCategories',
+          },
+        },
+      ]);
   }
 
-  findOne(id: number) {
-    return this.subcategoryModel.findById(id).exec();
+  /**
+    Finds a subcategory by its relation to a category.
+    @param {GetSubcategoryByRelationDTO} category - The name or ID of the category to search.
+    @param {string} subcategory - The name or id of the subcategory to search.
+    @returns {Promise<Subcategory>} A Promise that resolves to the matching subcategory.
+  */
+  async findByRelation({ category, subcategory }: GetSubcategoryByRelationDTO) {
+    const categories = await this.categoryModel
+      .find({
+        $or: [
+          {
+            name: category,
+          },
+          {
+            id: category,
+          },
+        ],
+      })
+      .populate({
+        path: 'subcategories',
+        populate: {
+          path: 'childSubcategories',
+        },
+      })
+      .exec();
+    console.log('categories', categories);
+    const allSubcategories = categories
+      .map((category) => {
+        return category.subcategories;
+      })
+      .flat();
+
+    const allChildSubcategories = allSubcategories
+      .map((sub) => {
+        return sub.childSubcategories;
+      })
+      .flat();
+
+    const subcategoryREGEX = new RegExp(subcategory, 'gmi');
+
+    const matchingSubcategory = allChildSubcategories.find(
+      (childCat) =>
+        subcategoryREGEX.test(childCat.name) || childCat.id === subcategory,
+    );
+
+    const subcategoryFound = await this.subcategoryModel
+      .findById(matchingSubcategory.id)
+      .exec();
+
+    return subcategoryFound;
+  }
+
+  async findOne({ id }: GetOneSubcategoryDTO) {
+    return await this.subcategoryModel
+      .findById(id)
+      .populate([
+        {
+          path: 'childCategories',
+          strictPopulate: false,
+          populate: {
+            path: 'childCategories',
+            strictPopulate: false,
+          },
+        },
+      ])
+      .exec();
   }
 
   update(id: number, updateSubcategoryInput: UpdateSubcategoryInput) {
     return this.subcategoryModel.findByIdAndUpdate(id, updateSubcategoryInput);
   }
 
-  async createSubcategories(
-    parentCategory: string,
-    subcategories: CreateSubcategoriesInput[],
+  async createSubcategories(subcategories: CreateSubcategoriesInput[]) {
+    const result = await Promise.all(
+      subcategories.map(async (subcategory) => {
+        return await this.subcategoryModel.create({
+          name: subcategory.name,
+          childSubcategories: await this.subcategoryModel.create(
+            subcategory.childSubcategories,
+          ),
+        });
+      }),
+    );
+    return result;
+  }
+
+  async DEPRECATED_createSubcategories(
+    childSubcategories: CreateSubcategoriesInput[],
     name: string,
   ) {
-    const parent = await this.categoryModel
-      .findOne({ name: parentCategory })
-      .exec();
-
-    if (!parent) {
-      throw new Error(`Parent category with name ${parentCategory} not found`);
-    }
     const createdSubcategories = await Promise.all(
-      subcategories.map(async (subcategory) => {
+      childSubcategories.map(async (subcategory) => {
         const category = await this.subcategoryModel.create({
           name: subcategory.name,
-          parentCategory: parent._id,
-          childCategories: subcategory.subcategories,
+          childCategories: subcategory.childSubcategories,
         });
 
         return category;
@@ -65,7 +156,6 @@ export class SubcategoriesService {
     );
     const subcategory = new this.subcategoryModel({
       name,
-      parentCategory: parent._id,
       childCategories: createdSubcategories.map((subcat) => subcat._id),
     });
     await subcategory.save();
@@ -85,7 +175,7 @@ export class SubcategoriesService {
     }
   }
 
-  remove(id: number) {
+  remove({ id }: GetOneSubcategoryDTO) {
     return this.subcategoryModel.findByIdAndRemove(id);
   }
 }

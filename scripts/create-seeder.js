@@ -68,10 +68,6 @@ const extractServices = (filePath) => {
   const providers = extractProviders(fileContent);
   const constructorServices = extractConstructorServices(fileContent);
 
-  console.log('importedServices: ', importedServices);
-  console.log('providers: ', providers);
-  console.log('constructorServices: ', constructorServices);
-
   return constructorServices.filter(({ name, type }) => {
     if (!name) return false;
     return !!(providers.includes(type) || importedServices.includes(type));
@@ -84,12 +80,11 @@ rl.question('Enter the name of the seeder: ', (answer) => {
   const seederName = answer.trim().toLowerCase().replace(/\s+/g, '_');
   const seederPath = path.join(
     PATH_TO_SEEDERS,
-    `${new Date().toLocaleDateString().replaceAll('/', '-')}-${seederName}.ts`,
+    `${Date.now()}-${seederName}.ts`,
   );
   const pathToAppModule = path.join(process.cwd(), 'src', 'app.module.ts');
   const servicesAvailable = extractServices(pathToAppModule);
 
-  console.log(servicesAvailable);
   const functionString = `/** Services available are:
  *
 ${servicesAvailable?.reduce((acc, val, index) => {
@@ -97,7 +92,11 @@ ${servicesAvailable?.reduce((acc, val, index) => {
   return acc;
 }, '')}
  **/
-export default async function () {
+export default async function seed() {
+  return this;
+}
+
+export async function unseed() {
   return this;
 }
 `;

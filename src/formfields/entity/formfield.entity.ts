@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { JsonSchemaType } from '@sodaru/yup-to-json-schema/dist/TypeMap';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 import { FormFieldType } from '~server/types';
 
@@ -14,11 +15,11 @@ export class FormField {
   label: string;
 
   @Field(() => String)
-  @Prop({ type: String, required: true, default: JSON.stringify({}) })
-  validationSchema: string;
+  @Prop({ type: Object, required: true, default: {} })
+  validationSchema: JsonSchemaType;
 
   @Field(() => String)
-  @Prop({ required: true })
+  @Prop({ type: SchemaTypes.String, required: true })
   type: FormFieldType;
 
   @Field(() => [String])
@@ -32,9 +33,3 @@ export const FormFieldSchema = SchemaFactory.createForClass(FormField);
 /**
  * Hooks
  */
-
-FormFieldSchema.pre('save', function (next) {
-  this.validationSchema = JSON.stringify(this.validationSchema);
-
-  next();
-});

@@ -8,6 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "create:seeder": "node ./scripts/create-seeder",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
@@ -105,10 +106,10 @@
   },
   "volta": {
     "node": "18.13.0",
-    "npm": "9.4.0"
+    "npm": "9.4.1"
   },
   "engines": {
     "node": "18.13.0",
-    "npm": "9.4.0"
+    "npm": "9.4.1"
   }
 }

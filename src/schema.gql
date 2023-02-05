@@ -12,6 +12,11 @@ input CreateCategoriesInput {
   categoriesToAdd: [String!]!
 }
 
+input CreateFieldFromStringDTO {
+  label: String!
+  stringSchema: String!
+}
+
 input CreateProductInput {
   author: String!
   category: String!
@@ -55,6 +60,9 @@ type Mutation {
   LogIn(email: String!, password: String!): User!
   Register(input: UserInput!): UserType!
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
+
+  "Allows us to create form field with validation from string. \n      Example of validationString: string,oneOf['one','two],required,min[0],max[50]\n      \n      "
+  createFieldFromString(createField: CreateFieldFromStringDTO!): FormField!
   createProduct(createProductInput: CreateProductInput!): Product!
   createRegionWithLocations: Regions!
   createRegionsWithLocations: [Regions!]!
@@ -63,6 +71,7 @@ type Mutation {
     createSubcategoryInput: CreateSubcategoryInput!
   ): Subcategory!
   removeAllCategories: Boolean!
+  removeAllFields: Boolean!
   removeAllProducts: Product!
   removeAllRegions: Boolean!
   removeAllSubcategories: Boolean!

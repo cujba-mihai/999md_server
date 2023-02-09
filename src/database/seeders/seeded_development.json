@@ -2,6 +2,9 @@
   "seededFiles": [
     "1675613554522-categories_w_subcategories.ts",
     "1675613585701-default_regions.ts",
-    "1675613606374-fields_from_string.ts"
+    "1675613606374-fields_from_string.ts",
+    "1675848052619-default_field_groups.ts",
+    "1675861552858-car_brand_models.ts",
+    "1675863346333-car_characteristics_fields.ts"
   ]
 }

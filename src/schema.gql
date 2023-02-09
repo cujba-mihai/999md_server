@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type BrandModels {
+  _id: ID!
+  brand: String!
+  models: [String!]!
+  subcategoryName: String!
+}
+
 type Category {
   id: String!
   name: String!
@@ -14,7 +21,9 @@ input CreateCategoriesInput {
 
 input CreateFieldFromStringDTO {
   label: String!
-  stringSchema: String!
+  options: [String!]!
+  type: String!
+  validationString: String!
 }
 
 input CreateProductInput {
@@ -41,12 +50,23 @@ input CreateSubcategoryInput {
   name: String!
 }
 
+type FieldGroups {
+  _id: String!
+  canBeToggled: Boolean!
+  fields: [FormField!]
+  name: String!
+}
+
 type FormField {
   _id: ID!
   label: String!
   options: [String!]!
   type: String!
-  validationSchema: String!
+  validationString: String!
+}
+
+input GetFieldGroupDTO {
+  id: String!
 }
 
 type Locations {
@@ -66,6 +86,8 @@ type Mutation {
         Example of validationString: string,oneOf['one','two],required,min[0],max[50]
   """
   createFieldFromString(createField: CreateFieldFromStringDTO!): FormField!
+  createFormGroup: FieldGroups!
+  createFormGroups: [FieldGroups!]!
   createProduct(createProductInput: CreateProductInput!): Product!
   createRegionWithLocations: Regions!
   createRegionsWithLocations: [Regions!]!
@@ -73,7 +95,9 @@ type Mutation {
   createSubcategory(
     createSubcategoryInput: CreateSubcategoryInput!
   ): Subcategory!
+  removeAllBrandModels: Boolean!
   removeAllCategories: Boolean!
+  removeAllFieldGroups: Boolean!
   removeAllFields: Boolean!
   removeAllProducts: Product!
   removeAllRegions: Boolean!
@@ -104,9 +128,12 @@ type Product {
 
 type Query {
   categories: [Category!]!
+  findAllBrandModels: [BrandModels!]!
   findAllFields: [FormField!]!
   findRegion: Regions!
   findRegions: [Regions!]!
+  getAllFieldGroups: [FieldGroups!]!
+  getFieldGroup(id: GetFieldGroupDTO!): FieldGroups!
   me: User!
   product(id: Int!): Product!
   products: [Product!]!

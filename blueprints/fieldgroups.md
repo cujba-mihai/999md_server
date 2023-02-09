@@ -1,0 +1,13 @@
+default
+category
+subcategory
+offerType
+general
+adTitle
+adTags
+price
+characteristics
+additionalOptions
+media
+regions
+contacts

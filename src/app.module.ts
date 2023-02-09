@@ -9,26 +9,50 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { InjectModel, MongooseModule } from '@nestjs/mongoose';
 import { getEnvPath } from './common/helper/env.helper';
 import { AuthModule } from './auth/auth.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { ProductsModule } from './products/products.module';
-import { FormfieldService } from './formfields/formfield.service';
-import { FormFieldSchema } from './formfields/entity/formfield.entity';
+import {
+  FormField,
+  FormFieldDocument,
+  FormFieldSchema,
+} from './formfields/entity/formfield.entity';
 import { FormFieldModule } from './formfields/formfield.module';
 import { CategoriesModule } from './categories/categories.module';
-import { SubcategorySchema } from './subcategories/entities/subcategory.entity';
-import { CategorySchema } from './categories/entities/category.entity';
-import { CategoriesService } from './categories/categories.service';
-import { SubcategoriesService } from './subcategories/subcategories.service';
+import {
+  Subcategory,
+  SubcategoryDocument,
+  SubcategorySchema,
+} from './subcategories/entities/subcategory.entity';
+import {
+  Category,
+  CategoryDocument,
+  CategorySchema,
+} from './categories/entities/category.entity';
 import { LocationsModule } from './locations/locations.module';
 import { RegionsModule } from './regions/regions.module';
 import { Seeder } from './database/seeders';
-import { RegionsService } from './regions/regions.service';
-import { RegionsSchema } from './regions/entity/regions.entity';
+import {
+  Regions,
+  RegionsDocument,
+  RegionsSchema,
+} from './regions/entity/regions.entity';
 import { LocationsSchema } from './locations/entity/locations.entity';
 import { FieldgroupsModule } from './fieldgroups/fieldgroups.module';
+import {
+  FieldGroups,
+  FieldGroupsDocuments,
+  FieldGroupsSchema,
+} from './fieldgroups/entity/fieldgroups.entity';
+import {
+  BrandModels,
+  BrandModelsDocument,
+  BrandModelsSchema,
+} from './brand-models/entity/brand-models.entity';
+import { BrandModelsModule } from './brand-models/brand-models.module';
+import { Model } from 'mongoose';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -74,35 +98,44 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
         schema: SubcategorySchema,
       },
       {
-        name: 'Regions',
+        name: Regions.name,
         schema: RegionsSchema,
       },
       {
         name: 'Locations',
         schema: LocationsSchema,
       },
+      {
+        name: 'FieldGroups',
+        schema: FieldGroupsSchema,
+      },
+      {
+        name: BrandModels.name,
+        schema: BrandModelsSchema,
+      },
     ]),
     FormFieldModule,
     LocationsModule,
     RegionsModule,
     FieldgroupsModule,
+    BrandModelsModule,
   ],
   controllers: [AppController],
-  providers: [
-    ...databaseProviders,
-    AppService,
-    FormfieldService,
-    CategoriesService,
-    SubcategoriesService,
-    RegionsService,
-  ],
+  providers: [...databaseProviders, AppService],
 })
 export class AppModule extends Seeder {
   constructor(
-    private readonly formFieldService: FormfieldService,
-    private readonly categoriesService: CategoriesService,
-    private readonly subcategoriesService: SubcategoriesService,
-    private readonly regionsService: RegionsService,
+    @InjectModel(FormField.name)
+    private readonly formFieldModel: Model<FormFieldDocument>,
+    @InjectModel(Category.name)
+    private readonly categoryModel: Model<CategoryDocument>,
+    @InjectModel(Subcategory.name)
+    private readonly subcategoriesModel: Model<SubcategoryDocument>,
+    @InjectModel(FieldGroups.name)
+    private readonly fieldGroupsModel: Model<FieldGroupsDocuments>,
+    @InjectModel(Regions.name) private regionsModel: Model<RegionsDocument>,
+    @InjectModel(BrandModels.name)
+    private brandModelsModel: Model<BrandModelsDocument>,
   ) {
     super();
   }

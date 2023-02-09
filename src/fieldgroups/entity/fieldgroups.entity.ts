@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { FormField } from '~server/src/formfields/entity/formfield.entity';
 
 @ObjectType()
 @Schema()
@@ -16,18 +17,9 @@ export class FieldGroups {
   @Prop()
   canBeToggled: boolean;
 
-  @Field()
-  @Prop({ ref: 'FormField', type: SchemaTypes.ObjectId, default: [] })
+  @Field(() => [FormField], { nullable: true })
+  @Prop({ ref: 'FormField', type: [SchemaTypes.ObjectId], default: [] })
   fields: string[];
-
-  @Field()
-  @Prop({
-    type: SchemaTypes.ObjectId,
-    ref: 'FormField',
-    required: false,
-    nullable: true,
-  })
-  requiredFields: string[];
 }
 
 export type FieldGroupsDocuments = HydratedDocument<FieldGroups>;

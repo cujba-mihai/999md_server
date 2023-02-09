@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FormField } from './entity/formfield.entity';
-import { CreateFieldFromStringDTO } from './dto/create-field-from-string.dto';
-import createValidationSchema from '../utils/createValidationSchema';
-import yupToJsonSchema from '@sodaru/yup-to-json-schema';
 
 @Injectable()
 export class FormfieldService {
@@ -24,22 +21,5 @@ export class FormfieldService {
     } catch (err) {
       return false;
     }
-  }
-
-  async createFieldFromString({
-    stringSchema,
-    label,
-  }: CreateFieldFromStringDTO) {
-    const validationSchema = createValidationSchema(stringSchema);
-
-    const schema = yupToJsonSchema(validationSchema.schema);
-
-    const createdField = await this.formFieldModel.create({
-      validationSchema: schema,
-      label,
-      type: validationSchema.type,
-    });
-
-    return createdField;
   }
 }

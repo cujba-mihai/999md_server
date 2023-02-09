@@ -13,7 +13,9 @@ export class CreateCategoriesInput {
 
 export class CreateFieldFromStringDTO {
   label: string;
-  stringSchema: string;
+  options: string[];
+  type: string;
+  validationString: string;
 }
 
 export class CreateProductInput {
@@ -38,6 +40,10 @@ export class CreateSubcategoriesInput {
 export class CreateSubcategoryInput {
   categoryId: string;
   name: string;
+}
+
+export class GetFieldGroupDTO {
+  id: string;
 }
 
 export class UpdateProductInput {
@@ -67,10 +73,24 @@ export class UserInput {
   password: string;
 }
 
+export class BrandModels {
+  _id: string;
+  brand: string;
+  models: string[];
+  subcategoryName: string;
+}
+
 export class Category {
   id: string;
   name: string;
   subcategories?: Nullable<Subcategory[]>;
+}
+
+export class FieldGroups {
+  _id: string;
+  canBeToggled: boolean;
+  fields?: Nullable<FormField[]>;
+  name: string;
 }
 
 export class FormField {
@@ -78,7 +98,7 @@ export class FormField {
   label: string;
   options: string[];
   type: string;
-  validationSchema: string;
+  validationString: string;
 }
 
 export class Locations {
@@ -101,6 +121,10 @@ export abstract class IMutation {
     createField: CreateFieldFromStringDTO,
   ): FormField | Promise<FormField>;
 
+  abstract createFormGroup(): FieldGroups | Promise<FieldGroups>;
+
+  abstract createFormGroups(): FieldGroups[] | Promise<FieldGroups[]>;
+
   abstract createProduct(
     createProductInput: CreateProductInput,
   ): Product | Promise<Product>;
@@ -117,7 +141,11 @@ export abstract class IMutation {
     createSubcategoryInput: CreateSubcategoryInput,
   ): Subcategory | Promise<Subcategory>;
 
+  abstract removeAllBrandModels(): boolean | Promise<boolean>;
+
   abstract removeAllCategories(): boolean | Promise<boolean>;
+
+  abstract removeAllFieldGroups(): boolean | Promise<boolean>;
 
   abstract removeAllFields(): boolean | Promise<boolean>;
 
@@ -164,11 +192,19 @@ export class Product {
 export abstract class IQuery {
   abstract categories(): Category[] | Promise<Category[]>;
 
+  abstract findAllBrandModels(): BrandModels[] | Promise<BrandModels[]>;
+
   abstract findAllFields(): FormField[] | Promise<FormField[]>;
 
   abstract findRegion(): Regions | Promise<Regions>;
 
   abstract findRegions(): Regions[] | Promise<Regions[]>;
+
+  abstract getAllFieldGroups(): FieldGroups[] | Promise<FieldGroups[]>;
+
+  abstract getFieldGroup(
+    id: GetFieldGroupDTO,
+  ): FieldGroups | Promise<FieldGroups>;
 
   abstract me(): User | Promise<User>;
 

@@ -49,7 +49,7 @@
     "rxjs": "^7.6.0",
     "ts-morph": "^17.0.1",
     "typeorm": "^0.3.11",
-    "yup": "^0.32.11"
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.1.5",

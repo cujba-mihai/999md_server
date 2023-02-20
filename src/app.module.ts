@@ -22,12 +22,12 @@ import { SubcategorySchema } from './subcategories/entities/subcategory.entity';
 import { CategorySchema } from './categories/entities/category.entity';
 import { CategoriesService } from './categories/categories.service';
 import { SubcategoriesService } from './subcategories/subcategories.service';
-import { LocationsModule } from './locations/locations.module';
-import { RegionsModule } from './regions/regions.module';
+import { LocationModule } from './location/location.module';
+import { RegionModule } from './region/region.module';
 import { Seeder } from './database/seeders';
-import { RegionsService } from './regions/regions.service';
-import { RegionsSchema } from './regions/entity/regions.entity';
-import { LocationsSchema } from './locations/entity/locations.entity';
+import { RegionService } from './region/region.service';
+import { RegionSchema } from './region/entity/region.entity';
+import { LocationSchema } from './location/entity/location.entity';
 import { FieldgroupsModule } from './fieldgroups/fieldgroups.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
@@ -74,17 +74,17 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
         schema: SubcategorySchema,
       },
       {
-        name: 'Regions',
-        schema: RegionsSchema,
+        name: 'Region',
+        schema: RegionSchema,
       },
       {
-        name: 'Locations',
-        schema: LocationsSchema,
+        name: 'Location',
+        schema: LocationSchema,
       },
     ]),
     FormFieldModule,
-    LocationsModule,
-    RegionsModule,
+    LocationModule,
+    RegionModule,
     FieldgroupsModule,
   ],
   controllers: [AppController],
@@ -94,7 +94,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     FormfieldService,
     CategoriesService,
     SubcategoriesService,
-    RegionsService,
+    RegionService,
   ],
 })
 export class AppModule extends Seeder {
@@ -102,7 +102,7 @@ export class AppModule extends Seeder {
     private readonly formFieldService: FormfieldService,
     private readonly categoriesService: CategoriesService,
     private readonly subcategoriesService: SubcategoriesService,
-    private readonly regionsService: RegionsService,
+    private readonly regionService: RegionService,
   ) {
     super();
   }

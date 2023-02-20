@@ -1,69 +1,51 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCategoriesInput } from './dto/create-categories.input';
-import { Category, CategoryDocument } from './entities/category.entity';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Category } from './entities/category.entity';
+import { InjectQueryService, QueryService } from '@ptc-org/nestjs-query-core';
+import { Subcategory } from '../subcategories/entities/subcategory.entity';
+import { MutationLoggerService } from '../utils/mutation-logger.service';
+import { Args, Mutation } from '@nestjs/graphql';
+import { CreateCategoryInput } from './dto/create-category.dto';
+import { SubcategoriesService } from '../subcategories/subcategories.service';
+import { CreateCategoriesInput } from './dto/create-categories.dto';
 
-@Injectable()
-export class CategoriesService {
+export class CategoriesService extends MutationLoggerService<Category> {
   constructor(
-    @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
-  ) {}
-
-  async removeAll(): Promise<boolean> {
-    try {
-      await this.categoryModel.deleteMany({}).exec();
-      return true;
-    } catch (error) {
-      return false;
-    }
+    private readonly subcategoriesService: SubcategoriesService,
+    @InjectQueryService(Category) queryService: QueryService<Category>,
+    @InjectQueryService(Subcategory)
+    subcategoryQueryService: QueryService<Subcategory>,
+  ) {
+    super(CategoriesService.name, queryService);
   }
 
-  async findOne(id: string): Promise<Category | null> {
-    return await this.categoryModel.findById(id).exec();
+  @Mutation(() => [Category])
+  async createCategoriesWithSubcategories(
+    @Args('categories') { categories }: CreateCategoriesInput,
+  ) {
+    return await Promise.all(
+      categories.map(async (category) => {
+        return await this.createCategoryWithSubcategories(category);
+      }),
+    );
   }
 
-  async createMany(
-    createCategoriesInput: CreateCategoriesInput,
-  ): Promise<CategoryDocument[]> {
-    const { categoriesToAdd } = createCategoriesInput;
+  @Mutation(() => Category)
+  async createCategoryWithSubcategories(
+    @Args('category') category: CreateCategoryInput,
+  ) {
+    const subcategoriesInput = Array.isArray(category?.subcategories)
+      ? category.subcategories
+      : [];
 
-    await categoriesToAdd.reduce(async (promise, category) => {
-      return promise.then(async () => {
-        const categoryExists = await this.categoryModel.findOne({
-          name: category,
-        });
+    const subcategories = await this.subcategoriesService.createSubcategories(
+      subcategoriesInput,
+    );
 
-        if (categoryExists) return Promise.resolve('Category already exists');
+    const createdCategory = await super.createOne({
+      name: category.name,
+      subcategories,
+    });
 
-        const createdCategory = await this.categoryModel.create({
-          name: category,
-        });
-
-        await createdCategory.save();
-      });
-    }, Promise.resolve());
-
-    const categories = await this.categoryModel
-      .find({
-        name: { $in: categoriesToAdd },
-      })
-      .exec();
-
-    return categories;
-  }
-
-  async findAll() {
-    return await this.categoryModel
-      .find()
-      .populate([
-        {
-          path: 'subcategories',
-          populate: {
-            path: 'childCategories',
-          },
-        },
-      ])
-      .exec();
+    return createdCategory;
   }
 }

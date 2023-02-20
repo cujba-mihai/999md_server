@@ -2,19 +2,210 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddLocationsToRegionInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input AddSubcategoriesToCategoryDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input AddSubcategoriesToSubcategoriesDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
 type Category {
   id: String!
   name: String!
-  subcategories: [Subcategory!]
+  subcategories: SubcategoriesDTO
 }
 
+type CategoryDTO {
+  id: String!
+  name: String!
+  subcategories(
+    """
+    Specify to filter the records returned.
+    """
+    filter: SubcategoriesDTOFilter! = {}
+
+    """
+    Specify to sort results.
+    """
+    sorting: [SubcategoriesDTOSort!]! = []
+  ): [SubcategoriesDTO!]!
+}
+
+type CategoryDTOConnection {
+  """
+  Array of edges.
+  """
+  edges: [CategoryDTOEdge!]!
+
+  """
+  Paging information
+  """
+  pageInfo: PageInfo!
+}
+
+input CategoryDTODeleteFilter {
+  and: [CategoryDTODeleteFilter!]
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [CategoryDTODeleteFilter!]
+}
+
+type CategoryDTODeleteResponse {
+  id: String
+  name: String
+  subcategories: SubcategoriesDTO
+}
+
+type CategoryDTOEdge {
+  """
+  Cursor for this node.
+  """
+  cursor: ConnectionCursor!
+
+  """
+  The node containing the CategoryDTO
+  """
+  node: CategoryDTO!
+}
+
+input CategoryDTOFilter {
+  and: [CategoryDTOFilter!]
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [CategoryDTOFilter!]
+}
+
+input CategoryDTOSort {
+  direction: SortDirection!
+  field: CategoryDTOSortFields!
+  nulls: SortNulls
+}
+
+enum CategoryDTOSortFields {
+  id
+  name
+}
+
+input CategoryDTOUpdateFilter {
+  and: [CategoryDTOUpdateFilter!]
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [CategoryDTOUpdateFilter!]
+}
+
+"""
+Cursor for paging through collections
+"""
+scalar ConnectionCursor
+
 input CreateCategoriesInput {
-  categoriesToAdd: [String!]!
+  categories: [CreateCategoryInput!]!
+}
+
+type CreateCategoryDTO {
+  name: String!
+  subcategories: [CreateSubcategoriesDTO!]
+}
+
+input CreateCategoryInput {
+  name: String!
+  subcategories: [CreateSubcategoriesInput!] = []
 }
 
 input CreateFieldFromStringDTO {
   label: String!
   stringSchema: String!
+}
+
+input CreateLocationInputDTO {
+  location: String!
+  region: String!
+  sector: [String!]!
+}
+
+input CreateManyCategoryDTOSInput {
+  """
+  Array of records to create
+  """
+  categoryDTOS: [CreateCategoryInput!]!
+}
+
+input CreateManyLocationsInput {
+  """
+  Array of records to create
+  """
+  locations: [CreateLocationInputDTO!]!
+}
+
+input CreateManyRegionsInput {
+  """
+  Array of records to create
+  """
+  regions: [CreateRegion!]!
+}
+
+input CreateManySubcategoriesDTOSInput {
+  """
+  Array of records to create
+  """
+  subcategoriesDTOS: [CreateSubcategoriesInput!]!
+}
+
+input CreateOneCategoryDTOInput {
+  """
+  The record to create
+  """
+  categoryDTO: CreateCategoryInput!
+}
+
+input CreateOneLocationInput {
+  """
+  The record to create
+  """
+  location: CreateLocationInputDTO!
+}
+
+input CreateOneRegionInput {
+  """
+  The record to create
+  """
+  region: CreateRegion!
+}
+
+input CreateOneSubcategoriesDTOInput {
+  """
+  The record to create
+  """
+  subcategoriesDTO: CreateSubcategoriesInput!
 }
 
 input CreateProductInput {
@@ -30,15 +221,104 @@ input CreateProductInput {
   thumbnail: String!
 }
 
-input CreateSubcategoriesInput {
-  name: String!
-  parentCategory: String!
-  subcategories: [CreateSubcategoriesInput!]
+input CreateRegion {
+  id: ID!
+  region: String
 }
 
-input CreateSubcategoryInput {
-  categoryId: String!
+type CreateSubcategoriesDTO {
+  childSubcategories: [CreateSubcategoriesDTO!]
   name: String!
+}
+
+input CreateSubcategoriesInput {
+  childSubcategories: [CreateSubcategoriesInput!] = []
+  name: String!
+}
+
+input CursorPaging {
+  """
+  Paginate after opaque cursor
+  """
+  after: ConnectionCursor
+
+  """
+  Paginate before opaque cursor
+  """
+  before: ConnectionCursor
+
+  """
+  Paginate first
+  """
+  first: Int
+
+  """
+  Paginate last
+  """
+  last: Int
+}
+
+input DeleteManyCategoryDTOSInput {
+  """
+  Filter to find records to delete
+  """
+  filter: CategoryDTODeleteFilter!
+}
+
+input DeleteManyLocationsInput {
+  """
+  Filter to find records to delete
+  """
+  filter: LocationDeleteFilter!
+}
+
+input DeleteManyRegionsInput {
+  """
+  Filter to find records to delete
+  """
+  filter: RegionDeleteFilter!
+}
+
+type DeleteManyResponse {
+  """
+  The number of records deleted.
+  """
+  deletedCount: Int!
+}
+
+input DeleteManySubcategoriesDTOSInput {
+  """
+  Filter to find records to delete
+  """
+  filter: SubcategoriesDTODeleteFilter!
+}
+
+input DeleteOneCategoryDTOInput {
+  """
+  The id of the record to delete.
+  """
+  id: ID!
+}
+
+input DeleteOneLocationInput {
+  """
+  The id of the record to delete.
+  """
+  id: ID!
+}
+
+input DeleteOneRegionInput {
+  """
+  The id of the record to delete.
+  """
+  id: ID!
+}
+
+input DeleteOneSubcategoriesDTOInput {
+  """
+  The id of the record to delete.
+  """
+  id: ID!
 }
 
 type FormField {
@@ -49,43 +329,199 @@ type FormField {
   validationSchema: String!
 }
 
-type Locations {
-  _id: ID!
+input IDFilterComparison {
+  eq: ID
+  gt: ID
+  gte: ID
+  iLike: ID
+  in: [ID!]
+  is: Boolean
+  isNot: Boolean
+  like: ID
+  lt: ID
+  lte: ID
+  neq: ID
+  notILike: ID
+  notIn: [ID!]
+  notLike: ID
+}
+
+type Location {
+  id: ID!
   location: String!
-  region: String!
+  region: Region
   sector: [String!]!
+}
+
+type LocationConnection {
+  """
+  Array of edges.
+  """
+  edges: [LocationEdge!]!
+
+  """
+  Paging information
+  """
+  pageInfo: PageInfo!
+}
+
+input LocationDeleteFilter {
+  and: [LocationDeleteFilter!]
+  id: IDFilterComparison
+  location: StringFieldComparison
+  or: [LocationDeleteFilter!]
+}
+
+type LocationDeleteResponse {
+  id: ID
+  location: String
+  region: Region
+  sector: [String!]
+}
+
+type LocationEdge {
+  """
+  Cursor for this node.
+  """
+  cursor: ConnectionCursor!
+
+  """
+  The node containing the Location
+  """
+  node: Location!
+}
+
+input LocationFilter {
+  and: [LocationFilter!]
+  id: IDFilterComparison
+  location: StringFieldComparison
+  or: [LocationFilter!]
+}
+
+input LocationInputDTO {
+  id: ID!
+  location: String!
+  region: RegionInputDTO
+  sector: [String!]!
+}
+
+input LocationSort {
+  direction: SortDirection!
+  field: LocationSortFields!
+  nulls: SortNulls
+}
+
+enum LocationSortFields {
+  id
+  location
+}
+
+input LocationUpdateFilter {
+  and: [LocationUpdateFilter!]
+  id: IDFilterComparison
+  location: StringFieldComparison
+  or: [LocationUpdateFilter!]
 }
 
 type Mutation {
   LogIn(email: String!, password: String!): User!
   Register(input: UserInput!): UserType!
-  createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
+  addLocationsToRegion(input: AddLocationsToRegionInput!): Region!
+  addSubcategoriesToCategoryDTO(
+    input: AddSubcategoriesToCategoryDTOInput!
+  ): CategoryDTO!
+  addSubcategoriesToSubcategoriesDTO(
+    input: AddSubcategoriesToSubcategoriesDTOInput!
+  ): SubcategoriesDTO!
+  createCategoriesWithSubcategories(
+    categories: CreateCategoriesInput!
+  ): [Category!]!
+  createCategoryWithSubcategories(category: CreateCategoryInput!): Category!
 
   """
   Allows us to create form field with validation from string.
         Example of validationString: string,oneOf['one','two],required,min[0],max[50]
   """
   createFieldFromString(createField: CreateFieldFromStringDTO!): FormField!
+  createManyCategoryDTOS(input: CreateManyCategoryDTOSInput!): [CategoryDTO!]!
+  createManyLocations(input: CreateManyLocationsInput!): [Location!]!
+  createManyRegions(input: CreateManyRegionsInput!): [Region!]!
+  createManySubcategoriesDTOS(
+    input: CreateManySubcategoriesDTOSInput!
+  ): [SubcategoriesDTO!]!
+  createOneCategoryDTO(input: CreateOneCategoryDTOInput!): CategoryDTO!
+  createOneLocation(input: CreateOneLocationInput!): Location!
+  createOneRegion(input: CreateOneRegionInput!): Region!
+  createOneSubcategoriesDTO(
+    input: CreateOneSubcategoriesDTOInput!
+  ): SubcategoriesDTO!
   createProduct(createProductInput: CreateProductInput!): Product!
-  createRegionWithLocations: Regions!
-  createRegionsWithLocations: [Regions!]!
-  createSubcategories(input: CreateSubcategoriesInput!): Subcategory!
-  createSubcategory(
-    createSubcategoryInput: CreateSubcategoryInput!
-  ): Subcategory!
-  removeAllCategories: Boolean!
+  deleteManyCategoryDTOS(
+    input: DeleteManyCategoryDTOSInput!
+  ): DeleteManyResponse!
+  deleteManyLocations(input: DeleteManyLocationsInput!): DeleteManyResponse!
+  deleteManyRegions(input: DeleteManyRegionsInput!): DeleteManyResponse!
+  deleteManySubcategoriesDTOS(
+    input: DeleteManySubcategoriesDTOSInput!
+  ): DeleteManyResponse!
+  deleteOneCategoryDTO(
+    input: DeleteOneCategoryDTOInput!
+  ): CategoryDTODeleteResponse!
+  deleteOneLocation(input: DeleteOneLocationInput!): LocationDeleteResponse!
+  deleteOneRegion(input: DeleteOneRegionInput!): RegionDeleteResponse!
+  deleteOneSubcategoriesDTO(
+    input: DeleteOneSubcategoriesDTOInput!
+  ): SubcategoriesDTODeleteResponse!
   removeAllFields: Boolean!
   removeAllProducts: Product!
-  removeAllRegions: Boolean!
-  removeAllSubcategories: Boolean!
   removeAllUsers: Boolean!
   removeProduct(id: Int!): Product!
-  removeSubcategory(id: Int!): Subcategory!
+  setLocationsOnRegion(input: SetLocationsOnRegionInput!): Region!
+  setRegionOnLocation(input: SetRegionOnLocationInput!): Location!
+  setSubcategoriesOnCategoryDTO(
+    input: SetSubcategoriesOnCategoryDTOInput!
+  ): CategoryDTO!
+  setSubcategoriesOnSubcategoriesDTO(
+    input: SetSubcategoriesOnSubcategoriesDTOInput!
+  ): SubcategoriesDTO!
+  updateManyCategoryDTOS(
+    input: UpdateManyCategoryDTOSInput!
+  ): UpdateManyResponse!
+  updateManyLocations(input: UpdateManyLocationsInput!): UpdateManyResponse!
+  updateManyRegions(input: UpdateManyRegionsInput!): UpdateManyResponse!
+  updateManySubcategoriesDTOS(
+    input: UpdateManySubcategoriesDTOSInput!
+  ): UpdateManyResponse!
+  updateOneCategoryDTO(input: UpdateOneCategoryDTOInput!): CategoryDTO!
+  updateOneLocation(input: UpdateOneLocationInput!): Location!
+  updateOneRegion(input: UpdateOneRegionInput!): Region!
+  updateOneSubcategoriesDTO(
+    input: UpdateOneSubcategoriesDTOInput!
+  ): SubcategoriesDTO!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
-  updateSubcategory(
-    updateSubcategoryInput: UpdateSubcategoryInput!
-  ): Subcategory!
   userCreateProduct(product: CreateProductInput!, userId: String!): UserType!
+}
+
+type PageInfo {
+  """
+  The cursor of the last returned record.
+  """
+  endCursor: ConnectionCursor
+
+  """
+  true if paging forward and there are more records.
+  """
+  hasNextPage: Boolean
+
+  """
+  true if paging backwards and there are more records.
+  """
+  hasPreviousPage: Boolean
+
+  """
+  The cursor of the first returned record.
+  """
+  startCursor: ConnectionCursor
 }
 
 type Product {
@@ -103,29 +539,470 @@ type Product {
 }
 
 type Query {
-  categories: [Category!]!
+  categoryDTO(
+    """
+    The id of the record to find.
+    """
+    id: ID!
+  ): CategoryDTO!
+  categoryDTOS(
+    """
+    Specify to filter the records returned.
+    """
+    filter: CategoryDTOFilter! = {}
+
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging! = { first: 10 }
+
+    """
+    Specify to sort results.
+    """
+    sorting: [CategoryDTOSort!]! = []
+  ): CategoryDTOConnection!
   findAllFields: [FormField!]!
-  findRegion: Regions!
-  findRegions: [Regions!]!
+  location(
+    """
+    The id of the record to find.
+    """
+    id: ID!
+  ): Location!
+  locations(
+    """
+    Specify to filter the records returned.
+    """
+    filter: LocationFilter! = {}
+
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging! = { first: 10 }
+
+    """
+    Specify to sort results.
+    """
+    sorting: [LocationSort!]! = []
+  ): LocationConnection!
   me: User!
   product(id: Int!): Product!
   products: [Product!]!
-  subcategories: [Subcategory!]!
-  subcategory(id: Int!): Subcategory!
+  region(
+    """
+    The id of the record to find.
+    """
+    id: ID!
+  ): Region!
+  regions(
+    """
+    Specify to filter the records returned.
+    """
+    filter: RegionFilter! = {}
+
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging! = { first: 10 }
+
+    """
+    Specify to sort results.
+    """
+    sorting: [RegionSort!]! = []
+  ): RegionConnection!
+  subcategoriesDTO(
+    """
+    The id of the record to find.
+    """
+    id: ID!
+  ): SubcategoriesDTO!
+  subcategoriesDTOS(
+    """
+    Specify to filter the records returned.
+    """
+    filter: SubcategoriesDTOFilter! = {}
+
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging! = { first: 10 }
+
+    """
+    Specify to sort results.
+    """
+    sorting: [SubcategoriesDTOSort!]! = []
+  ): SubcategoriesDTOConnection!
   users: [UserType!]!
 }
 
-type Regions {
-  _id: ID!
-  locations: [Locations!]!
-  region: String!
+type Region {
+  id: ID!
+  locations(
+    """
+    Specify to filter the records returned.
+    """
+    filter: LocationFilter! = {}
+
+    """
+    Specify to sort results.
+    """
+    sorting: [LocationSort!]! = []
+  ): [Location!]
+  region: String
+}
+
+type RegionConnection {
+  """
+  Array of edges.
+  """
+  edges: [RegionEdge!]!
+
+  """
+  Paging information
+  """
+  pageInfo: PageInfo!
+}
+
+input RegionDeleteFilter {
+  and: [RegionDeleteFilter!]
+  id: IDFilterComparison
+  or: [RegionDeleteFilter!]
+  region: StringFieldComparison
+}
+
+type RegionDeleteResponse {
+  id: ID
+  region: String
+}
+
+type RegionEdge {
+  """
+  Cursor for this node.
+  """
+  cursor: ConnectionCursor!
+
+  """
+  The node containing the Region
+  """
+  node: Region!
+}
+
+input RegionFilter {
+  and: [RegionFilter!]
+  id: IDFilterComparison
+  or: [RegionFilter!]
+  region: StringFieldComparison
+}
+
+input RegionInputDTO {
+  id: ID!
+  locations: [LocationInputDTO!]
+  region: String
+}
+
+input RegionSort {
+  direction: SortDirection!
+  field: RegionSortFields!
+  nulls: SortNulls
+}
+
+enum RegionSortFields {
+  id
+  region
+}
+
+input RegionUpdateFilter {
+  and: [RegionUpdateFilter!]
+  id: IDFilterComparison
+  or: [RegionUpdateFilter!]
+  region: StringFieldComparison
+}
+
+input SetLocationsOnRegionInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input SetRegionOnLocationInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The id of relation.
+  """
+  relationId: ID!
+}
+
+input SetSubcategoriesOnCategoryDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input SetSubcategoriesOnSubcategoriesDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+"""
+Sort Directions
+"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""
+Sort Nulls Options
+"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+input StringFieldComparison {
+  eq: String
+  gt: String
+  gte: String
+  iLike: String
+  in: [String!]
+  is: Boolean
+  isNot: Boolean
+  like: String
+  lt: String
+  lte: String
+  neq: String
+  notILike: String
+  notIn: [String!]
+  notLike: String
+}
+
+type SubcategoriesDTO {
+  childSubcategories: [SubcategoriesDTO!]
+  id: String!
+  name: String
+  subcategories(
+    """
+    Specify to filter the records returned.
+    """
+    filter: SubcategoriesDTOFilter! = {}
+
+    """
+    Specify to sort results.
+    """
+    sorting: [SubcategoriesDTOSort!]! = []
+  ): [SubcategoriesDTO!]!
+}
+
+type SubcategoriesDTOConnection {
+  """
+  Array of edges.
+  """
+  edges: [SubcategoriesDTOEdge!]!
+
+  """
+  Paging information
+  """
+  pageInfo: PageInfo!
+}
+
+input SubcategoriesDTODeleteFilter {
+  and: [SubcategoriesDTODeleteFilter!]
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [SubcategoriesDTODeleteFilter!]
+}
+
+type SubcategoriesDTODeleteResponse {
+  childSubcategories: [SubcategoriesDTO!]
+  id: String
+  name: String
+}
+
+type SubcategoriesDTOEdge {
+  """
+  Cursor for this node.
+  """
+  cursor: ConnectionCursor!
+
+  """
+  The node containing the SubcategoriesDTO
+  """
+  node: SubcategoriesDTO!
+}
+
+input SubcategoriesDTOFilter {
+  and: [SubcategoriesDTOFilter!]
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [SubcategoriesDTOFilter!]
+}
+
+input SubcategoriesDTOSort {
+  direction: SortDirection!
+  field: SubcategoriesDTOSortFields!
+  nulls: SortNulls
+}
+
+enum SubcategoriesDTOSortFields {
+  id
+  name
+}
+
+input SubcategoriesDTOUpdateFilter {
+  and: [SubcategoriesDTOUpdateFilter!]
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [SubcategoriesDTOUpdateFilter!]
+}
+
+input SubcategoriesInputDTO {
+  childSubcategories: [SubcategoriesInputDTO!] = []
+  id: String!
+  name: String
+  subcategories: [SubcategoriesInputDTO!]!
 }
 
 type Subcategory {
-  _id: String!
-  childCategories: [Subcategory!]!
+  childSubcategories: [Subcategory!]
+  name: String!
+}
+
+input UpdateCategoryDTO {
+  id: String
   name: String
-  parentCategory: String!
+  subcategories: SubcategoriesInputDTO
+}
+
+input UpdateLocation {
+  id: ID
+  location: String
+  region: RegionInputDTO
+  sector: [String!]
+}
+
+input UpdateManyCategoryDTOSInput {
+  """
+  Filter used to find fields to update
+  """
+  filter: CategoryDTOUpdateFilter!
+
+  """
+  The update to apply to all records found using the filter
+  """
+  update: UpdateCategoryDTO!
+}
+
+input UpdateManyLocationsInput {
+  """
+  Filter used to find fields to update
+  """
+  filter: LocationUpdateFilter!
+
+  """
+  The update to apply to all records found using the filter
+  """
+  update: UpdateLocation!
+}
+
+input UpdateManyRegionsInput {
+  """
+  Filter used to find fields to update
+  """
+  filter: RegionUpdateFilter!
+
+  """
+  The update to apply to all records found using the filter
+  """
+  update: UpdateRegion!
+}
+
+type UpdateManyResponse {
+  """
+  The number of records updated.
+  """
+  updatedCount: Int!
+}
+
+input UpdateManySubcategoriesDTOSInput {
+  """
+  Filter used to find fields to update
+  """
+  filter: SubcategoriesDTOUpdateFilter!
+
+  """
+  The update to apply to all records found using the filter
+  """
+  update: UpdateSubcategoriesDTO!
+}
+
+input UpdateOneCategoryDTOInput {
+  """
+  The id of the record to update
+  """
+  id: ID!
+
+  """
+  The update to apply.
+  """
+  update: UpdateCategoryDTO!
+}
+
+input UpdateOneLocationInput {
+  """
+  The id of the record to update
+  """
+  id: ID!
+
+  """
+  The update to apply.
+  """
+  update: UpdateLocation!
+}
+
+input UpdateOneRegionInput {
+  """
+  The id of the record to update
+  """
+  id: ID!
+
+  """
+  The update to apply.
+  """
+  update: UpdateRegion!
+}
+
+input UpdateOneSubcategoriesDTOInput {
+  """
+  The id of the record to update
+  """
+  id: ID!
+
+  """
+  The update to apply.
+  """
+  update: UpdateSubcategoriesDTO!
 }
 
 input UpdateProductInput {
@@ -142,9 +1019,14 @@ input UpdateProductInput {
   thumbnail: String
 }
 
-input UpdateSubcategoryInput {
-  categoryId: String
-  id: Int!
+input UpdateRegion {
+  id: ID
+  region: String
+}
+
+input UpdateSubcategoriesDTO {
+  childSubcategories: [SubcategoriesInputDTO!] = []
+  id: String
   name: String
 }
 

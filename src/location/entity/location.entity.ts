@@ -1,40 +1,34 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Document, HydratedDocument, SchemaTypes, Types } from 'mongoose';
 
-@ObjectType()
-@Schema()
-export class Locations {
-  @Field(() => ID)
-  _id: string;
-
-  @Field()
+@ObjectType('LocationEntity')
+@Schema({ timestamps: true })
+export class Location extends Document {
   @Prop({
     type: SchemaTypes.ObjectId,
-    ref: 'Regions',
+    ref: 'Region',
     required: true,
     nullable: false,
   })
-  region: string;
+  region: Types.ObjectId;
 
-  @Field()
   @Prop({ required: true })
   location: string;
 
-  @Field(() => [String])
   @Prop({ required: true, default: ['center', 'suburbs'] })
   sector: string[];
 }
 
-export type LocationsDocument = HydratedDocument<Locations>;
+export type LocationDocument = HydratedDocument<Location>;
 
-export const LocationsSchema = SchemaFactory.createForClass(Locations);
+export const LocationSchema = SchemaFactory.createForClass(Location);
 
 // Ensure that the combination of "location" and "region" fields is unique.
 // For example, if we already have "Bulboaca" in Anenii Noi and "Bulboaca" in Briceni,
-// we can add these two locations, but we won't be able to add a new entry with a location and region
+// we can add these two location, but we won't be able to add a new entry with a location and region
 // that already exists.
-LocationsSchema.index(
+LocationSchema.index(
   {
     location: 1,
     region: 1,

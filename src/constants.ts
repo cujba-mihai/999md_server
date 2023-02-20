@@ -1,6 +1,6 @@
 export const MONO_DB_CONNECTION_STRING = `mongodb+srv://${process.env.DB_USERlabel}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`;
 
-export const regions = [
+export const region = [
   'chisinau',
   'balti',
   'tiraspol',

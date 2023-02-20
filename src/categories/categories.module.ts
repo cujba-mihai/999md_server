@@ -1,21 +1,39 @@
 import { Module } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
-import { CategoriesResolver } from './categories.resolver';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Category, CategorySchema } from './entities/category.entity';
-import {
-  Subcategory,
-  SubcategorySchema,
-} from 'src/subcategories/entities/subcategory.entity';
+
+import { NestjsQueryGraphQLModule } from '@ptc-org/nestjs-query-graphql';
+import { NestjsQueryMongooseModule } from '@ptc-org/nestjs-query-mongoose';
+
+import { GetCategoriesDTO } from './dto/get-categories.input';
+import { SubcategoriesModule } from '../subcategories/subcategories.module';
+import { CategoriesService } from './categories.service';
+import { CreateCategoryInput } from './dto/create-category.dto';
+import { SubcategoriesService } from '../subcategories/subcategories.service';
+
+const nestjsQueryMongooseModule = NestjsQueryMongooseModule.forFeature([
+  {
+    document: Category,
+    name: Category.name,
+    schema: CategorySchema,
+  },
+]);
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Category.name, schema: CategorySchema },
-      { name: Subcategory.name, schema: SubcategorySchema },
-    ]),
+    NestjsQueryGraphQLModule.forFeature({
+      imports: [nestjsQueryMongooseModule, SubcategoriesModule],
+      services: [CategoriesService, SubcategoriesService],
+      resolvers: [
+        {
+          DTOClass: GetCategoriesDTO,
+          EntityClass: Category,
+          CreateDTOClass: CreateCategoryInput,
+          ServiceClass: CategoriesService,
+        },
+      ],
+    }),
+    nestjsQueryMongooseModule,
   ],
-  providers: [CategoriesResolver, CategoriesService],
-  exports: [CategoriesResolver, CategoriesService],
+  exports: [nestjsQueryMongooseModule],
 })
 export class CategoriesModule {}

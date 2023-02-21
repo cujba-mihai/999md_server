@@ -4,8 +4,6 @@ import {
   FilterableField,
   UnPagedRelation,
 } from '@ptc-org/nestjs-query-graphql';
-import { CreateSubcategoriesDTO } from '~server/src/graphql';
-import { Subcategory } from '../entities/subcategory.entity';
 
 @ObjectType('SubcategoriesDTO')
 @InputType('SubcategoriesInputDTO')

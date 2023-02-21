@@ -2,6 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddCategoriesToGetProductDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
 input AddLocationsToRegionInput {
   """
   The id of the record.
@@ -14,7 +26,31 @@ input AddLocationsToRegionInput {
   relationIds: [ID!]!
 }
 
+input AddProductsToUserDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
 input AddSubcategoriesToCategoryDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input AddSubcategoriesToGetProductDTOInput {
   """
   The id of the record.
   """
@@ -41,7 +77,7 @@ input AddSubcategoriesToSubcategoriesDTOInput {
 type Category {
   id: String!
   name: String!
-  subcategories: SubcategoriesDTO
+  subcategories: [SubcategoriesDTO!]
 }
 
 type CategoryDTO {
@@ -159,6 +195,13 @@ input CreateManyCategoryDTOSInput {
   categoryDTOS: [CreateCategoryInput!]!
 }
 
+input CreateManyGetProductDTOSInput {
+  """
+  Array of records to create
+  """
+  getProductDTOS: [CreateProductInput!]!
+}
+
 input CreateManyLocationsInput {
   """
   Array of records to create
@@ -180,11 +223,25 @@ input CreateManySubcategoriesDTOSInput {
   subcategoriesDTOS: [CreateSubcategoriesInput!]!
 }
 
+input CreateManyUserDTOSInput {
+  """
+  Array of records to create
+  """
+  userDTOS: [CreateUserDTO!]!
+}
+
 input CreateOneCategoryDTOInput {
   """
   The record to create
   """
   categoryDTO: CreateCategoryInput!
+}
+
+input CreateOneGetProductDTOInput {
+  """
+  The record to create
+  """
+  getProductDTO: CreateProductInput!
 }
 
 input CreateOneLocationInput {
@@ -206,6 +263,13 @@ input CreateOneSubcategoriesDTOInput {
   The record to create
   """
   subcategoriesDTO: CreateSubcategoriesInput!
+}
+
+input CreateOneUserDTOInput {
+  """
+  The record to create
+  """
+  userDTO: CreateUserDTO!
 }
 
 input CreateProductInput {
@@ -234,6 +298,15 @@ type CreateSubcategoriesDTO {
 input CreateSubcategoriesInput {
   childSubcategories: [CreateSubcategoriesInput!] = []
   name: String!
+}
+
+input CreateUserDTO {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  refresh_token: String
 }
 
 input CursorPaging {
@@ -265,6 +338,13 @@ input DeleteManyCategoryDTOSInput {
   filter: CategoryDTODeleteFilter!
 }
 
+input DeleteManyGetProductDTOSInput {
+  """
+  Filter to find records to delete
+  """
+  filter: GetProductDTODeleteFilter!
+}
+
 input DeleteManyLocationsInput {
   """
   Filter to find records to delete
@@ -293,7 +373,21 @@ input DeleteManySubcategoriesDTOSInput {
   filter: SubcategoriesDTODeleteFilter!
 }
 
+input DeleteManyUserDTOSInput {
+  """
+  Filter to find records to delete
+  """
+  filter: UserDTODeleteFilter!
+}
+
 input DeleteOneCategoryDTOInput {
+  """
+  The id of the record to delete.
+  """
+  id: ID!
+}
+
+input DeleteOneGetProductDTOInput {
   """
   The id of the record to delete.
   """
@@ -321,12 +415,121 @@ input DeleteOneSubcategoriesDTOInput {
   id: ID!
 }
 
+input DeleteOneUserDTOInput {
+  """
+  The id of the record to delete.
+  """
+  id: ID!
+}
+
 type FormField {
   _id: ID!
   label: String!
   options: [String!]!
   type: String!
   validationSchema: String!
+}
+
+type GetProductDTO {
+  _id: String!
+  author: String!
+  categories(
+    """
+    Specify to filter the records returned.
+    """
+    filter: CategoryDTOFilter! = {}
+
+    """
+    Specify to sort results.
+    """
+    sorting: [CategoryDTOSort!]! = []
+  ): [CategoryDTO!]!
+  currency: String!
+  description: String!
+  images: [String!]!
+  name: String!
+  price: Float!
+  productDetails: String!
+  subcategories(
+    """
+    Specify to filter the records returned.
+    """
+    filter: SubcategoriesDTOFilter! = {}
+
+    """
+    Specify to sort results.
+    """
+    sorting: [SubcategoriesDTOSort!]! = []
+  ): [SubcategoriesDTO!]!
+  thumbnail: String!
+}
+
+type GetProductDTOConnection {
+  """
+  Array of edges.
+  """
+  edges: [GetProductDTOEdge!]!
+
+  """
+  Paging information
+  """
+  pageInfo: PageInfo!
+}
+
+input GetProductDTODeleteFilter {
+  and: [GetProductDTODeleteFilter!]
+  name: StringFieldComparison
+  or: [GetProductDTODeleteFilter!]
+  price: NumberFieldComparison
+}
+
+type GetProductDTODeleteResponse {
+  _id: String
+  author: String
+  currency: String
+  description: String
+  images: [String!]
+  name: String
+  price: Float
+  productDetails: String
+  thumbnail: String
+}
+
+type GetProductDTOEdge {
+  """
+  Cursor for this node.
+  """
+  cursor: ConnectionCursor!
+
+  """
+  The node containing the GetProductDTO
+  """
+  node: GetProductDTO!
+}
+
+input GetProductDTOFilter {
+  and: [GetProductDTOFilter!]
+  name: StringFieldComparison
+  or: [GetProductDTOFilter!]
+  price: NumberFieldComparison
+}
+
+input GetProductDTOSort {
+  direction: SortDirection!
+  field: GetProductDTOSortFields!
+  nulls: SortNulls
+}
+
+enum GetProductDTOSortFields {
+  name
+  price
+}
+
+input GetProductDTOUpdateFilter {
+  and: [GetProductDTOUpdateFilter!]
+  name: StringFieldComparison
+  or: [GetProductDTOUpdateFilter!]
+  price: NumberFieldComparison
 }
 
 input IDFilterComparison {
@@ -426,10 +629,17 @@ input LocationUpdateFilter {
 type Mutation {
   LogIn(email: String!, password: String!): User!
   Register(input: UserInput!): UserType!
+  addCategoriesToGetProductDTO(
+    input: AddCategoriesToGetProductDTOInput!
+  ): GetProductDTO!
   addLocationsToRegion(input: AddLocationsToRegionInput!): Region!
+  addProductsToUserDTO(input: AddProductsToUserDTOInput!): UserDTO!
   addSubcategoriesToCategoryDTO(
     input: AddSubcategoriesToCategoryDTOInput!
   ): CategoryDTO!
+  addSubcategoriesToGetProductDTO(
+    input: AddSubcategoriesToGetProductDTOInput!
+  ): GetProductDTO!
   addSubcategoriesToSubcategoriesDTO(
     input: AddSubcategoriesToSubcategoriesDTOInput!
   ): SubcategoriesDTO!
@@ -444,62 +654,105 @@ type Mutation {
   """
   createFieldFromString(createField: CreateFieldFromStringDTO!): FormField!
   createManyCategoryDTOS(input: CreateManyCategoryDTOSInput!): [CategoryDTO!]!
+  createManyGetProductDTOS(
+    input: CreateManyGetProductDTOSInput!
+  ): [GetProductDTO!]!
   createManyLocations(input: CreateManyLocationsInput!): [Location!]!
   createManyRegions(input: CreateManyRegionsInput!): [Region!]!
   createManySubcategoriesDTOS(
     input: CreateManySubcategoriesDTOSInput!
   ): [SubcategoriesDTO!]!
+  createManyUserDTOS(input: CreateManyUserDTOSInput!): [UserDTO!]!
   createOneCategoryDTO(input: CreateOneCategoryDTOInput!): CategoryDTO!
+  createOneGetProductDTO(input: CreateOneGetProductDTOInput!): GetProductDTO!
   createOneLocation(input: CreateOneLocationInput!): Location!
   createOneRegion(input: CreateOneRegionInput!): Region!
   createOneSubcategoriesDTO(
     input: CreateOneSubcategoriesDTOInput!
   ): SubcategoriesDTO!
-  createProduct(createProductInput: CreateProductInput!): Product!
+  createOneUserDTO(input: CreateOneUserDTOInput!): UserDTO!
   deleteManyCategoryDTOS(
     input: DeleteManyCategoryDTOSInput!
+  ): DeleteManyResponse!
+  deleteManyGetProductDTOS(
+    input: DeleteManyGetProductDTOSInput!
   ): DeleteManyResponse!
   deleteManyLocations(input: DeleteManyLocationsInput!): DeleteManyResponse!
   deleteManyRegions(input: DeleteManyRegionsInput!): DeleteManyResponse!
   deleteManySubcategoriesDTOS(
     input: DeleteManySubcategoriesDTOSInput!
   ): DeleteManyResponse!
+  deleteManyUserDTOS(input: DeleteManyUserDTOSInput!): DeleteManyResponse!
   deleteOneCategoryDTO(
     input: DeleteOneCategoryDTOInput!
   ): CategoryDTODeleteResponse!
+  deleteOneGetProductDTO(
+    input: DeleteOneGetProductDTOInput!
+  ): GetProductDTODeleteResponse!
   deleteOneLocation(input: DeleteOneLocationInput!): LocationDeleteResponse!
   deleteOneRegion(input: DeleteOneRegionInput!): RegionDeleteResponse!
   deleteOneSubcategoriesDTO(
     input: DeleteOneSubcategoriesDTOInput!
   ): SubcategoriesDTODeleteResponse!
+  deleteOneUserDTO(input: DeleteOneUserDTOInput!): UserDTODeleteResponse!
   removeAllFields: Boolean!
-  removeAllProducts: Product!
   removeAllUsers: Boolean!
-  removeProduct(id: Int!): Product!
+  setCategoriesOnGetProductDTO(
+    input: SetCategoriesOnGetProductDTOInput!
+  ): GetProductDTO!
   setLocationsOnRegion(input: SetLocationsOnRegionInput!): Region!
+  setProductsOnUserDTO(input: SetProductsOnUserDTOInput!): UserDTO!
   setRegionOnLocation(input: SetRegionOnLocationInput!): Location!
   setSubcategoriesOnCategoryDTO(
     input: SetSubcategoriesOnCategoryDTOInput!
   ): CategoryDTO!
+  setSubcategoriesOnGetProductDTO(
+    input: SetSubcategoriesOnGetProductDTOInput!
+  ): GetProductDTO!
   setSubcategoriesOnSubcategoriesDTO(
     input: SetSubcategoriesOnSubcategoriesDTOInput!
   ): SubcategoriesDTO!
   updateManyCategoryDTOS(
     input: UpdateManyCategoryDTOSInput!
   ): UpdateManyResponse!
+  updateManyGetProductDTOS(
+    input: UpdateManyGetProductDTOSInput!
+  ): UpdateManyResponse!
   updateManyLocations(input: UpdateManyLocationsInput!): UpdateManyResponse!
   updateManyRegions(input: UpdateManyRegionsInput!): UpdateManyResponse!
   updateManySubcategoriesDTOS(
     input: UpdateManySubcategoriesDTOSInput!
   ): UpdateManyResponse!
+  updateManyUserDTOS(input: UpdateManyUserDTOSInput!): UpdateManyResponse!
   updateOneCategoryDTO(input: UpdateOneCategoryDTOInput!): CategoryDTO!
+  updateOneGetProductDTO(input: UpdateOneGetProductDTOInput!): GetProductDTO!
   updateOneLocation(input: UpdateOneLocationInput!): Location!
   updateOneRegion(input: UpdateOneRegionInput!): Region!
   updateOneSubcategoriesDTO(
     input: UpdateOneSubcategoriesDTOInput!
   ): SubcategoriesDTO!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateOneUserDTO(input: UpdateOneUserDTOInput!): UserDTO!
   userCreateProduct(product: CreateProductInput!, userId: String!): UserType!
+}
+
+input NumberFieldComparison {
+  between: NumberFieldComparisonBetween
+  eq: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  is: Boolean
+  isNot: Boolean
+  lt: Float
+  lte: Float
+  neq: Float
+  notBetween: NumberFieldComparisonBetween
+  notIn: [Float!]
+}
+
+input NumberFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
 }
 
 type PageInfo {
@@ -524,8 +777,8 @@ type PageInfo {
   startCursor: ConnectionCursor
 }
 
-type Product {
-  _id: String!
+type ProductEntity {
+  _id: ID!
   author: String!
   category: String!
   currency: String!
@@ -562,6 +815,30 @@ type Query {
     sorting: [CategoryDTOSort!]! = []
   ): CategoryDTOConnection!
   findAllFields: [FormField!]!
+  getCategories: [Category!]!
+  getCategory(categoryName: String!): Category!
+  getProductDTO(
+    """
+    The id of the record to find.
+    """
+    id: ID!
+  ): GetProductDTO!
+  getProductDTOS(
+    """
+    Specify to filter the records returned.
+    """
+    filter: GetProductDTOFilter! = {}
+
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging! = { first: 10 }
+
+    """
+    Specify to sort results.
+    """
+    sorting: [GetProductDTOSort!]! = []
+  ): GetProductDTOConnection!
   location(
     """
     The id of the record to find.
@@ -585,8 +862,6 @@ type Query {
     sorting: [LocationSort!]! = []
   ): LocationConnection!
   me: User!
-  product(id: Int!): Product!
-  products: [Product!]!
   region(
     """
     The id of the record to find.
@@ -631,6 +906,28 @@ type Query {
     """
     sorting: [SubcategoriesDTOSort!]! = []
   ): SubcategoriesDTOConnection!
+  userDTO(
+    """
+    The id of the record to find.
+    """
+    id: ID!
+  ): UserDTO!
+  userDTOS(
+    """
+    Specify to filter the records returned.
+    """
+    filter: UserDTOFilter! = {}
+
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging! = { first: 10 }
+
+    """
+    Specify to sort results.
+    """
+    sorting: [UserDTOSort!]! = []
+  ): UserDTOConnection!
   users: [UserType!]!
 }
 
@@ -717,7 +1014,31 @@ input RegionUpdateFilter {
   region: StringFieldComparison
 }
 
+input SetCategoriesOnGetProductDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
 input SetLocationsOnRegionInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input SetProductsOnUserDTOInput {
   """
   The id of the record.
   """
@@ -742,6 +1063,18 @@ input SetRegionOnLocationInput {
 }
 
 input SetSubcategoriesOnCategoryDTOInput {
+  """
+  The id of the record.
+  """
+  id: ID!
+
+  """
+  The ids of the relations.
+  """
+  relationIds: [ID!]!
+}
+
+input SetSubcategoriesOnGetProductDTOInput {
   """
   The id of the record.
   """
@@ -895,6 +1228,18 @@ input UpdateCategoryDTO {
   subcategories: SubcategoriesInputDTO
 }
 
+input UpdateGetProductDTO {
+  _id: String
+  author: String
+  currency: String
+  description: String
+  images: [String!]
+  name: String
+  price: Float
+  productDetails: String
+  thumbnail: String
+}
+
 input UpdateLocation {
   id: ID
   location: String
@@ -912,6 +1257,18 @@ input UpdateManyCategoryDTOSInput {
   The update to apply to all records found using the filter
   """
   update: UpdateCategoryDTO!
+}
+
+input UpdateManyGetProductDTOSInput {
+  """
+  Filter used to find fields to update
+  """
+  filter: GetProductDTOUpdateFilter!
+
+  """
+  The update to apply to all records found using the filter
+  """
+  update: UpdateGetProductDTO!
 }
 
 input UpdateManyLocationsInput {
@@ -957,6 +1314,18 @@ input UpdateManySubcategoriesDTOSInput {
   update: UpdateSubcategoriesDTO!
 }
 
+input UpdateManyUserDTOSInput {
+  """
+  Filter used to find fields to update
+  """
+  filter: UserDTOUpdateFilter!
+
+  """
+  The update to apply to all records found using the filter
+  """
+  update: UpdateUserDTO!
+}
+
 input UpdateOneCategoryDTOInput {
   """
   The id of the record to update
@@ -967,6 +1336,18 @@ input UpdateOneCategoryDTOInput {
   The update to apply.
   """
   update: UpdateCategoryDTO!
+}
+
+input UpdateOneGetProductDTOInput {
+  """
+  The id of the record to update
+  """
+  id: ID!
+
+  """
+  The update to apply.
+  """
+  update: UpdateGetProductDTO!
 }
 
 input UpdateOneLocationInput {
@@ -1005,18 +1386,16 @@ input UpdateOneSubcategoriesDTOInput {
   update: UpdateSubcategoriesDTO!
 }
 
-input UpdateProductInput {
-  author: String
-  category: String
-  currency: String
-  description: String
-  id: String!
-  images: [String!]
-  name: String
-  price: Int
-  productDetails: String
-  subcategory: String
-  thumbnail: String
+input UpdateOneUserDTOInput {
+  """
+  The id of the record to update
+  """
+  id: ID!
+
+  """
+  The update to apply.
+  """
+  update: UpdateUserDTO!
 }
 
 input UpdateRegion {
@@ -1030,6 +1409,15 @@ input UpdateSubcategoriesDTO {
   name: String
 }
 
+input UpdateUserDTO {
+  _id: String
+  access_token: String
+  email: String
+  firstName: String
+  lastName: String
+  refresh_token: String
+}
+
 type User {
   _id: String!
   access_token: String
@@ -1037,8 +1425,97 @@ type User {
   firstName: String!
   lastName: String!
   password: String!
-  products: [Product!]!
+  products: [ProductEntity!]!
   refresh_token: String
+}
+
+type UserDTO {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  products(
+    """
+    Specify to filter the records returned.
+    """
+    filter: GetProductDTOFilter! = {}
+
+    """
+    Specify to sort results.
+    """
+    sorting: [GetProductDTOSort!]! = []
+  ): [GetProductDTO!]!
+  refresh_token: String
+}
+
+type UserDTOConnection {
+  """
+  Array of edges.
+  """
+  edges: [UserDTOEdge!]!
+
+  """
+  Paging information
+  """
+  pageInfo: PageInfo!
+}
+
+input UserDTODeleteFilter {
+  and: [UserDTODeleteFilter!]
+  email: StringFieldComparison
+  firstName: StringFieldComparison
+  lastName: StringFieldComparison
+  or: [UserDTODeleteFilter!]
+}
+
+type UserDTODeleteResponse {
+  _id: String
+  access_token: String
+  email: String
+  firstName: String
+  lastName: String
+  refresh_token: String
+}
+
+type UserDTOEdge {
+  """
+  Cursor for this node.
+  """
+  cursor: ConnectionCursor!
+
+  """
+  The node containing the UserDTO
+  """
+  node: UserDTO!
+}
+
+input UserDTOFilter {
+  and: [UserDTOFilter!]
+  email: StringFieldComparison
+  firstName: StringFieldComparison
+  lastName: StringFieldComparison
+  or: [UserDTOFilter!]
+}
+
+input UserDTOSort {
+  direction: SortDirection!
+  field: UserDTOSortFields!
+  nulls: SortNulls
+}
+
+enum UserDTOSortFields {
+  email
+  firstName
+  lastName
+}
+
+input UserDTOUpdateFilter {
+  and: [UserDTOUpdateFilter!]
+  email: StringFieldComparison
+  firstName: StringFieldComparison
+  lastName: StringFieldComparison
+  or: [UserDTOUpdateFilter!]
 }
 
 input UserInput {
@@ -1053,5 +1530,5 @@ type UserType {
   email: String!
   firstName: String!
   lastName: String!
-  products: [Product!]!
+  products: [ProductEntity!]!
 }

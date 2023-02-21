@@ -13,6 +13,11 @@ export enum CategoryDTOSortFields {
     name = "name"
 }
 
+export enum GetProductDTOSortFields {
+    name = "name",
+    price = "price"
+}
+
 export enum LocationSortFields {
     id = "id",
     location = "location"
@@ -38,12 +43,33 @@ export enum SubcategoriesDTOSortFields {
     name = "name"
 }
 
+export enum UserDTOSortFields {
+    email = "email",
+    firstName = "firstName",
+    lastName = "lastName"
+}
+
+export class AddCategoriesToGetProductDTOInput {
+    id: string;
+    relationIds: string[];
+}
+
 export class AddLocationsToRegionInput {
     id: string;
     relationIds: string[];
 }
 
+export class AddProductsToUserDTOInput {
+    id: string;
+    relationIds: string[];
+}
+
 export class AddSubcategoriesToCategoryDTOInput {
+    id: string;
+    relationIds: string[];
+}
+
+export class AddSubcategoriesToGetProductDTOInput {
     id: string;
     relationIds: string[];
 }
@@ -104,6 +130,10 @@ export class CreateManyCategoryDTOSInput {
     categoryDTOS: CreateCategoryInput[];
 }
 
+export class CreateManyGetProductDTOSInput {
+    getProductDTOS: CreateProductInput[];
+}
+
 export class CreateManyLocationsInput {
     locations: CreateLocationInputDTO[];
 }
@@ -116,8 +146,16 @@ export class CreateManySubcategoriesDTOSInput {
     subcategoriesDTOS: CreateSubcategoriesInput[];
 }
 
+export class CreateManyUserDTOSInput {
+    userDTOS: CreateUserDTO[];
+}
+
 export class CreateOneCategoryDTOInput {
     categoryDTO: CreateCategoryInput;
+}
+
+export class CreateOneGetProductDTOInput {
+    getProductDTO: CreateProductInput;
 }
 
 export class CreateOneLocationInput {
@@ -130,6 +168,10 @@ export class CreateOneRegionInput {
 
 export class CreateOneSubcategoriesDTOInput {
     subcategoriesDTO: CreateSubcategoriesInput;
+}
+
+export class CreateOneUserDTOInput {
+    userDTO: CreateUserDTO;
 }
 
 export class CreateProductInput {
@@ -155,6 +197,15 @@ export class CreateSubcategoriesInput {
     name: string;
 }
 
+export class CreateUserDTO {
+    _id: string;
+    access_token?: Nullable<string>;
+    email: string;
+    firstName: string;
+    lastName: string;
+    refresh_token?: Nullable<string>;
+}
+
 export class CursorPaging {
     after?: Nullable<ConnectionCursor>;
     before?: Nullable<ConnectionCursor>;
@@ -164,6 +215,10 @@ export class CursorPaging {
 
 export class DeleteManyCategoryDTOSInput {
     filter: CategoryDTODeleteFilter;
+}
+
+export class DeleteManyGetProductDTOSInput {
+    filter: GetProductDTODeleteFilter;
 }
 
 export class DeleteManyLocationsInput {
@@ -178,7 +233,15 @@ export class DeleteManySubcategoriesDTOSInput {
     filter: SubcategoriesDTODeleteFilter;
 }
 
+export class DeleteManyUserDTOSInput {
+    filter: UserDTODeleteFilter;
+}
+
 export class DeleteOneCategoryDTOInput {
+    id: string;
+}
+
+export class DeleteOneGetProductDTOInput {
     id: string;
 }
 
@@ -192,6 +255,37 @@ export class DeleteOneRegionInput {
 
 export class DeleteOneSubcategoriesDTOInput {
     id: string;
+}
+
+export class DeleteOneUserDTOInput {
+    id: string;
+}
+
+export class GetProductDTODeleteFilter {
+    and?: Nullable<GetProductDTODeleteFilter[]>;
+    name?: Nullable<StringFieldComparison>;
+    or?: Nullable<GetProductDTODeleteFilter[]>;
+    price?: Nullable<NumberFieldComparison>;
+}
+
+export class GetProductDTOFilter {
+    and?: Nullable<GetProductDTOFilter[]>;
+    name?: Nullable<StringFieldComparison>;
+    or?: Nullable<GetProductDTOFilter[]>;
+    price?: Nullable<NumberFieldComparison>;
+}
+
+export class GetProductDTOSort {
+    direction: SortDirection;
+    field: GetProductDTOSortFields;
+    nulls?: Nullable<SortNulls>;
+}
+
+export class GetProductDTOUpdateFilter {
+    and?: Nullable<GetProductDTOUpdateFilter[]>;
+    name?: Nullable<StringFieldComparison>;
+    or?: Nullable<GetProductDTOUpdateFilter[]>;
+    price?: Nullable<NumberFieldComparison>;
 }
 
 export class IDFilterComparison {
@@ -245,6 +339,26 @@ export class LocationUpdateFilter {
     or?: Nullable<LocationUpdateFilter[]>;
 }
 
+export class NumberFieldComparison {
+    between?: Nullable<NumberFieldComparisonBetween>;
+    eq?: Nullable<number>;
+    gt?: Nullable<number>;
+    gte?: Nullable<number>;
+    in?: Nullable<number[]>;
+    is?: Nullable<boolean>;
+    isNot?: Nullable<boolean>;
+    lt?: Nullable<number>;
+    lte?: Nullable<number>;
+    neq?: Nullable<number>;
+    notBetween?: Nullable<NumberFieldComparisonBetween>;
+    notIn?: Nullable<number[]>;
+}
+
+export class NumberFieldComparisonBetween {
+    lower: number;
+    upper: number;
+}
+
 export class RegionDeleteFilter {
     and?: Nullable<RegionDeleteFilter[]>;
     id?: Nullable<IDFilterComparison>;
@@ -278,7 +392,17 @@ export class RegionUpdateFilter {
     region?: Nullable<StringFieldComparison>;
 }
 
+export class SetCategoriesOnGetProductDTOInput {
+    id: string;
+    relationIds: string[];
+}
+
 export class SetLocationsOnRegionInput {
+    id: string;
+    relationIds: string[];
+}
+
+export class SetProductsOnUserDTOInput {
     id: string;
     relationIds: string[];
 }
@@ -289,6 +413,11 @@ export class SetRegionOnLocationInput {
 }
 
 export class SetSubcategoriesOnCategoryDTOInput {
+    id: string;
+    relationIds: string[];
+}
+
+export class SetSubcategoriesOnGetProductDTOInput {
     id: string;
     relationIds: string[];
 }
@@ -355,6 +484,18 @@ export class UpdateCategoryDTO {
     subcategories?: Nullable<SubcategoriesInputDTO>;
 }
 
+export class UpdateGetProductDTO {
+    _id?: Nullable<string>;
+    author?: Nullable<string>;
+    currency?: Nullable<string>;
+    description?: Nullable<string>;
+    images?: Nullable<string[]>;
+    name?: Nullable<string>;
+    price?: Nullable<number>;
+    productDetails?: Nullable<string>;
+    thumbnail?: Nullable<string>;
+}
+
 export class UpdateLocation {
     id?: Nullable<string>;
     location?: Nullable<string>;
@@ -365,6 +506,11 @@ export class UpdateLocation {
 export class UpdateManyCategoryDTOSInput {
     filter: CategoryDTOUpdateFilter;
     update: UpdateCategoryDTO;
+}
+
+export class UpdateManyGetProductDTOSInput {
+    filter: GetProductDTOUpdateFilter;
+    update: UpdateGetProductDTO;
 }
 
 export class UpdateManyLocationsInput {
@@ -382,9 +528,19 @@ export class UpdateManySubcategoriesDTOSInput {
     update: UpdateSubcategoriesDTO;
 }
 
+export class UpdateManyUserDTOSInput {
+    filter: UserDTOUpdateFilter;
+    update: UpdateUserDTO;
+}
+
 export class UpdateOneCategoryDTOInput {
     id: string;
     update: UpdateCategoryDTO;
+}
+
+export class UpdateOneGetProductDTOInput {
+    id: string;
+    update: UpdateGetProductDTO;
 }
 
 export class UpdateOneLocationInput {
@@ -402,18 +558,9 @@ export class UpdateOneSubcategoriesDTOInput {
     update: UpdateSubcategoriesDTO;
 }
 
-export class UpdateProductInput {
-    author?: Nullable<string>;
-    category?: Nullable<string>;
-    currency?: Nullable<string>;
-    description?: Nullable<string>;
+export class UpdateOneUserDTOInput {
     id: string;
-    images?: Nullable<string[]>;
-    name?: Nullable<string>;
-    price?: Nullable<number>;
-    productDetails?: Nullable<string>;
-    subcategory?: Nullable<string>;
-    thumbnail?: Nullable<string>;
+    update: UpdateUserDTO;
 }
 
 export class UpdateRegion {
@@ -427,6 +574,45 @@ export class UpdateSubcategoriesDTO {
     name?: Nullable<string>;
 }
 
+export class UpdateUserDTO {
+    _id?: Nullable<string>;
+    access_token?: Nullable<string>;
+    email?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    refresh_token?: Nullable<string>;
+}
+
+export class UserDTODeleteFilter {
+    and?: Nullable<UserDTODeleteFilter[]>;
+    email?: Nullable<StringFieldComparison>;
+    firstName?: Nullable<StringFieldComparison>;
+    lastName?: Nullable<StringFieldComparison>;
+    or?: Nullable<UserDTODeleteFilter[]>;
+}
+
+export class UserDTOFilter {
+    and?: Nullable<UserDTOFilter[]>;
+    email?: Nullable<StringFieldComparison>;
+    firstName?: Nullable<StringFieldComparison>;
+    lastName?: Nullable<StringFieldComparison>;
+    or?: Nullable<UserDTOFilter[]>;
+}
+
+export class UserDTOSort {
+    direction: SortDirection;
+    field: UserDTOSortFields;
+    nulls?: Nullable<SortNulls>;
+}
+
+export class UserDTOUpdateFilter {
+    and?: Nullable<UserDTOUpdateFilter[]>;
+    email?: Nullable<StringFieldComparison>;
+    firstName?: Nullable<StringFieldComparison>;
+    lastName?: Nullable<StringFieldComparison>;
+    or?: Nullable<UserDTOUpdateFilter[]>;
+}
+
 export class UserInput {
     email: string;
     firstName: string;
@@ -437,7 +623,7 @@ export class UserInput {
 export class Category {
     id: string;
     name: string;
-    subcategories?: Nullable<SubcategoriesDTO>;
+    subcategories?: Nullable<SubcategoriesDTO[]>;
 }
 
 export class CategoryDTO {
@@ -484,6 +670,42 @@ export class FormField {
     validationSchema: string;
 }
 
+export class GetProductDTO {
+    _id: string;
+    author: string;
+    categories: CategoryDTO[];
+    currency: string;
+    description: string;
+    images: string[];
+    name: string;
+    price: number;
+    productDetails: string;
+    subcategories: SubcategoriesDTO[];
+    thumbnail: string;
+}
+
+export class GetProductDTOConnection {
+    edges: GetProductDTOEdge[];
+    pageInfo: PageInfo;
+}
+
+export class GetProductDTODeleteResponse {
+    _id?: Nullable<string>;
+    author?: Nullable<string>;
+    currency?: Nullable<string>;
+    description?: Nullable<string>;
+    images?: Nullable<string[]>;
+    name?: Nullable<string>;
+    price?: Nullable<number>;
+    productDetails?: Nullable<string>;
+    thumbnail?: Nullable<string>;
+}
+
+export class GetProductDTOEdge {
+    cursor: ConnectionCursor;
+    node: GetProductDTO;
+}
+
 export class Location {
     id: string;
     location: string;
@@ -513,9 +735,15 @@ export abstract class IMutation {
 
     abstract Register(input: UserInput): UserType | Promise<UserType>;
 
+    abstract addCategoriesToGetProductDTO(input: AddCategoriesToGetProductDTOInput): GetProductDTO | Promise<GetProductDTO>;
+
     abstract addLocationsToRegion(input: AddLocationsToRegionInput): Region | Promise<Region>;
 
+    abstract addProductsToUserDTO(input: AddProductsToUserDTOInput): UserDTO | Promise<UserDTO>;
+
     abstract addSubcategoriesToCategoryDTO(input: AddSubcategoriesToCategoryDTOInput): CategoryDTO | Promise<CategoryDTO>;
+
+    abstract addSubcategoriesToGetProductDTO(input: AddSubcategoriesToGetProductDTOInput): GetProductDTO | Promise<GetProductDTO>;
 
     abstract addSubcategoriesToSubcategoriesDTO(input: AddSubcategoriesToSubcategoriesDTOInput): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
@@ -527,13 +755,19 @@ export abstract class IMutation {
 
     abstract createManyCategoryDTOS(input: CreateManyCategoryDTOSInput): CategoryDTO[] | Promise<CategoryDTO[]>;
 
+    abstract createManyGetProductDTOS(input: CreateManyGetProductDTOSInput): GetProductDTO[] | Promise<GetProductDTO[]>;
+
     abstract createManyLocations(input: CreateManyLocationsInput): Location[] | Promise<Location[]>;
 
     abstract createManyRegions(input: CreateManyRegionsInput): Region[] | Promise<Region[]>;
 
     abstract createManySubcategoriesDTOS(input: CreateManySubcategoriesDTOSInput): SubcategoriesDTO[] | Promise<SubcategoriesDTO[]>;
 
+    abstract createManyUserDTOS(input: CreateManyUserDTOSInput): UserDTO[] | Promise<UserDTO[]>;
+
     abstract createOneCategoryDTO(input: CreateOneCategoryDTOInput): CategoryDTO | Promise<CategoryDTO>;
+
+    abstract createOneGetProductDTO(input: CreateOneGetProductDTOInput): GetProductDTO | Promise<GetProductDTO>;
 
     abstract createOneLocation(input: CreateOneLocationInput): Location | Promise<Location>;
 
@@ -541,9 +775,11 @@ export abstract class IMutation {
 
     abstract createOneSubcategoriesDTO(input: CreateOneSubcategoriesDTOInput): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
-    abstract createProduct(createProductInput: CreateProductInput): Product | Promise<Product>;
+    abstract createOneUserDTO(input: CreateOneUserDTOInput): UserDTO | Promise<UserDTO>;
 
     abstract deleteManyCategoryDTOS(input: DeleteManyCategoryDTOSInput): DeleteManyResponse | Promise<DeleteManyResponse>;
+
+    abstract deleteManyGetProductDTOS(input: DeleteManyGetProductDTOSInput): DeleteManyResponse | Promise<DeleteManyResponse>;
 
     abstract deleteManyLocations(input: DeleteManyLocationsInput): DeleteManyResponse | Promise<DeleteManyResponse>;
 
@@ -551,7 +787,11 @@ export abstract class IMutation {
 
     abstract deleteManySubcategoriesDTOS(input: DeleteManySubcategoriesDTOSInput): DeleteManyResponse | Promise<DeleteManyResponse>;
 
+    abstract deleteManyUserDTOS(input: DeleteManyUserDTOSInput): DeleteManyResponse | Promise<DeleteManyResponse>;
+
     abstract deleteOneCategoryDTO(input: DeleteOneCategoryDTOInput): CategoryDTODeleteResponse | Promise<CategoryDTODeleteResponse>;
+
+    abstract deleteOneGetProductDTO(input: DeleteOneGetProductDTOInput): GetProductDTODeleteResponse | Promise<GetProductDTODeleteResponse>;
 
     abstract deleteOneLocation(input: DeleteOneLocationInput): LocationDeleteResponse | Promise<LocationDeleteResponse>;
 
@@ -559,23 +799,29 @@ export abstract class IMutation {
 
     abstract deleteOneSubcategoriesDTO(input: DeleteOneSubcategoriesDTOInput): SubcategoriesDTODeleteResponse | Promise<SubcategoriesDTODeleteResponse>;
 
-    abstract removeAllFields(): boolean | Promise<boolean>;
+    abstract deleteOneUserDTO(input: DeleteOneUserDTOInput): UserDTODeleteResponse | Promise<UserDTODeleteResponse>;
 
-    abstract removeAllProducts(): Product | Promise<Product>;
+    abstract removeAllFields(): boolean | Promise<boolean>;
 
     abstract removeAllUsers(): boolean | Promise<boolean>;
 
-    abstract removeProduct(id: number): Product | Promise<Product>;
+    abstract setCategoriesOnGetProductDTO(input: SetCategoriesOnGetProductDTOInput): GetProductDTO | Promise<GetProductDTO>;
 
     abstract setLocationsOnRegion(input: SetLocationsOnRegionInput): Region | Promise<Region>;
+
+    abstract setProductsOnUserDTO(input: SetProductsOnUserDTOInput): UserDTO | Promise<UserDTO>;
 
     abstract setRegionOnLocation(input: SetRegionOnLocationInput): Location | Promise<Location>;
 
     abstract setSubcategoriesOnCategoryDTO(input: SetSubcategoriesOnCategoryDTOInput): CategoryDTO | Promise<CategoryDTO>;
 
+    abstract setSubcategoriesOnGetProductDTO(input: SetSubcategoriesOnGetProductDTOInput): GetProductDTO | Promise<GetProductDTO>;
+
     abstract setSubcategoriesOnSubcategoriesDTO(input: SetSubcategoriesOnSubcategoriesDTOInput): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
     abstract updateManyCategoryDTOS(input: UpdateManyCategoryDTOSInput): UpdateManyResponse | Promise<UpdateManyResponse>;
+
+    abstract updateManyGetProductDTOS(input: UpdateManyGetProductDTOSInput): UpdateManyResponse | Promise<UpdateManyResponse>;
 
     abstract updateManyLocations(input: UpdateManyLocationsInput): UpdateManyResponse | Promise<UpdateManyResponse>;
 
@@ -583,7 +829,11 @@ export abstract class IMutation {
 
     abstract updateManySubcategoriesDTOS(input: UpdateManySubcategoriesDTOSInput): UpdateManyResponse | Promise<UpdateManyResponse>;
 
+    abstract updateManyUserDTOS(input: UpdateManyUserDTOSInput): UpdateManyResponse | Promise<UpdateManyResponse>;
+
     abstract updateOneCategoryDTO(input: UpdateOneCategoryDTOInput): CategoryDTO | Promise<CategoryDTO>;
+
+    abstract updateOneGetProductDTO(input: UpdateOneGetProductDTOInput): GetProductDTO | Promise<GetProductDTO>;
 
     abstract updateOneLocation(input: UpdateOneLocationInput): Location | Promise<Location>;
 
@@ -591,7 +841,7 @@ export abstract class IMutation {
 
     abstract updateOneSubcategoriesDTO(input: UpdateOneSubcategoriesDTOInput): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
-    abstract updateProduct(updateProductInput: UpdateProductInput): Product | Promise<Product>;
+    abstract updateOneUserDTO(input: UpdateOneUserDTOInput): UserDTO | Promise<UserDTO>;
 
     abstract userCreateProduct(product: CreateProductInput, userId: string): UserType | Promise<UserType>;
 }
@@ -603,7 +853,7 @@ export class PageInfo {
     startCursor?: Nullable<ConnectionCursor>;
 }
 
-export class Product {
+export class ProductEntity {
     _id: string;
     author: string;
     category: string;
@@ -624,15 +874,19 @@ export abstract class IQuery {
 
     abstract findAllFields(): FormField[] | Promise<FormField[]>;
 
+    abstract getCategories(): Category[] | Promise<Category[]>;
+
+    abstract getCategory(categoryName: string): Category | Promise<Category>;
+
+    abstract getProductDTO(id: string): GetProductDTO | Promise<GetProductDTO>;
+
+    abstract getProductDTOS(filter: GetProductDTOFilter, paging: CursorPaging, sorting: GetProductDTOSort[]): GetProductDTOConnection | Promise<GetProductDTOConnection>;
+
     abstract location(id: string): Location | Promise<Location>;
 
     abstract locations(filter: LocationFilter, paging: CursorPaging, sorting: LocationSort[]): LocationConnection | Promise<LocationConnection>;
 
     abstract me(): User | Promise<User>;
-
-    abstract product(id: number): Product | Promise<Product>;
-
-    abstract products(): Product[] | Promise<Product[]>;
 
     abstract region(id: string): Region | Promise<Region>;
 
@@ -641,6 +895,10 @@ export abstract class IQuery {
     abstract subcategoriesDTO(id: string): SubcategoriesDTO | Promise<SubcategoriesDTO>;
 
     abstract subcategoriesDTOS(filter: SubcategoriesDTOFilter, paging: CursorPaging, sorting: SubcategoriesDTOSort[]): SubcategoriesDTOConnection | Promise<SubcategoriesDTOConnection>;
+
+    abstract userDTO(id: string): UserDTO | Promise<UserDTO>;
+
+    abstract userDTOS(filter: UserDTOFilter, paging: CursorPaging, sorting: UserDTOSort[]): UserDTOConnection | Promise<UserDTOConnection>;
 
     abstract users(): UserType[] | Promise<UserType[]>;
 }
@@ -705,8 +963,37 @@ export class User {
     firstName: string;
     lastName: string;
     password: string;
-    products: Product[];
+    products: ProductEntity[];
     refresh_token?: Nullable<string>;
+}
+
+export class UserDTO {
+    _id: string;
+    access_token?: Nullable<string>;
+    email: string;
+    firstName: string;
+    lastName: string;
+    products: GetProductDTO[];
+    refresh_token?: Nullable<string>;
+}
+
+export class UserDTOConnection {
+    edges: UserDTOEdge[];
+    pageInfo: PageInfo;
+}
+
+export class UserDTODeleteResponse {
+    _id?: Nullable<string>;
+    access_token?: Nullable<string>;
+    email?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    refresh_token?: Nullable<string>;
+}
+
+export class UserDTOEdge {
+    cursor: ConnectionCursor;
+    node: UserDTO;
 }
 
 export class UserType {
@@ -714,7 +1001,7 @@ export class UserType {
     email: string;
     firstName: string;
     lastName: string;
-    products: Product[];
+    products: ProductEntity[];
 }
 
 export type ConnectionCursor = any;

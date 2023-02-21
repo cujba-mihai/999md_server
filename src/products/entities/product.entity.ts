@@ -1,13 +1,15 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { IDField } from '@ptc-org/nestjs-query-graphql';
+import { Document, HydratedDocument, SchemaTypes } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
-@ObjectType()
+@ObjectType('ProductEntity')
 @Schema({ timestamps: true })
-export class Product {
+export class Product extends Document {
   @Field()
+  @IDField(() => ID)
   _id: string;
 
   @Field()

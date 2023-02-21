@@ -16,6 +16,11 @@ import {
   Subcategory,
   SubcategoryDocument,
 } from 'src/subcategories/entities/subcategory.entity';
+import {
+  InjectQueryService,
+  QueryService,
+  RelationQueryService,
+} from '@ptc-org/nestjs-query-core';
 
 @Injectable()
 export class UsersService {
@@ -97,5 +102,14 @@ export class UsersService {
     await user.save();
 
     return user;
+  }
+}
+
+export class UserQueryService extends RelationQueryService<User> {
+  constructor(
+    @InjectQueryService(User) queryService: QueryService<User>,
+    @InjectQueryService(Product) productService: QueryService<Product>,
+  ) {
+    super(queryService, {});
   }
 }

@@ -1,6 +1,4 @@
 import { InputType, Field, ObjectType } from '@nestjs/graphql';
-import { Subcategory } from '../entities/subcategory.entity';
-import { GetSubcategories } from './get-subcategories.dto';
 
 @InputType('CreateSubcategoriesInput')
 @ObjectType('CreateSubcategoriesDTO')

@@ -1,6 +1,15 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Int, Field, ObjectType } from '@nestjs/graphql';
+import { UnPagedRelation } from '@ptc-org/nestjs-query-graphql';
+import { Types } from 'mongoose';
+import { GetCategoriesDTO } from '~server/src/categories/dto/get-categories.input';
+import { GetSubcategories } from '~server/src/subcategories/dto/get-subcategories.dto';
+import { GetUserDTO } from '~server/src/users/dto/get-user.dto';
+import { User } from '~server/src/users/users.schema';
 
-@InputType()
+@InputType('CreateProductInput')
+@ObjectType('CreateProductDTO')
+@UnPagedRelation('subcategory', () => GetSubcategories, { disableRemove: true })
+@UnPagedRelation('category', () => GetCategoriesDTO, { disableRemove: true })
 export class CreateProductInput {
   @Field(() => String, { nullable: false })
   author: string;

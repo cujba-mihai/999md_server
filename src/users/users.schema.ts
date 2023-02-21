@@ -1,13 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Document, HydratedDocument, SchemaTypes } from 'mongoose';
 import { Product, ProductDocument } from 'src/products/entities/product.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
 @ObjectType()
 @Schema()
-export class User {
+export class User extends Document {
   @Field()
   readonly _id: string;
 

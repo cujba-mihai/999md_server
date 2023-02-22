@@ -1,10 +1,10 @@
-import defaultRegions from '~server/constants/defaultRegions';
+// import defaultRegions from '~server/constants/defaultRegions';
 
-export default async function () {
-  await this.regionsService.removeAllRegions();
-  await this.regionsService.createRegionsWithLocations(defaultRegions);
-}
+// export default async function () {
+//   await this.regionsService.removeAllRegions();
+//   await this.regionsService.createRegionsWithLocations(defaultRegions);
+// }
 
-export async function unseed() {
-  return this;
-}
+// export async function unseed() {
+//   return this;
+// }

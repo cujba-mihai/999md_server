@@ -66,7 +66,6 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    // return this.userModel.findOne({ email }).lean();
     return this.userModel
       .findOne({ email })
       .populate({ path: 'products', model: 'Product' })

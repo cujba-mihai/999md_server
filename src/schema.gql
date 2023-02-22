@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CategoriesDTO {
+  id: String!
+  name: String!
+  subcategories: [SubcategoriesDTO!]!
+}
+
 type Category {
   id: String!
   name: String!
@@ -10,6 +16,11 @@ type Category {
 
 input CreateCategoriesInput {
   categoriesToAdd: [String!]!
+}
+
+input CreateCategoryDTO {
+  name: String!
+  subcategories: [CreateSubcategoriesInput!]
 }
 
 input CreateFieldFromStringDTO {
@@ -30,10 +41,14 @@ input CreateProductInput {
   thumbnail: String!
 }
 
-input CreateSubcategoriesInput {
+type CreateSubcategoriesDTO {
+  childSubcategories: [CreateSubcategoriesDTO!]
   name: String!
-  parentCategory: String!
-  subcategories: [CreateSubcategoriesInput!]
+}
+
+input CreateSubcategoriesInput {
+  childSubcategories: [CreateSubcategoriesInput!] = []
+  name: String!
 }
 
 input CreateSubcategoryInput {
@@ -49,6 +64,39 @@ type FormField {
   validationSchema: String!
 }
 
+input GetByIdDTO {
+  id: ID!
+}
+
+input GetOneSubcategoryDTO {
+  id: ID!
+}
+
+type GetProductsDTO {
+  author: UserDTO!
+  category: CategoriesDTO!
+  currency: String!
+  description: String!
+  id: String!
+  images: [String!]!
+  name: String!
+  price: Float!
+  productDetails: String!
+  subcategory: SubcategoriesDTO!
+  thumbnail: String!
+}
+
+input GetSubcategoryByRelationDTO {
+  category: String!
+  subcategory: String!
+}
+
+input ListProductsBySubcategoryDTO {
+  limit: Float! = 50
+  offset: Float! = 0
+  subCategoryId: ID!
+}
+
 type Locations {
   _id: ID!
   location: String!
@@ -60,6 +108,7 @@ type Mutation {
   LogIn(email: String!, password: String!): User!
   Register(input: UserInput!): UserType!
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
+  createCategory(category: CreateCategoryDTO!): Category!
 
   """
   Allows us to create form field with validation from string.
@@ -69,7 +118,7 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   createRegionWithLocations: Regions!
   createRegionsWithLocations: [Regions!]!
-  createSubcategories(input: CreateSubcategoriesInput!): Subcategory!
+  createSubcategories: Subcategory!
   createSubcategory(
     createSubcategoryInput: CreateSubcategoryInput!
   ): Subcategory!
@@ -79,8 +128,8 @@ type Mutation {
   removeAllRegions: Boolean!
   removeAllSubcategories: Boolean!
   removeAllUsers: Boolean!
-  removeProduct(id: Int!): Product!
-  removeSubcategory(id: Int!): Subcategory!
+  removeProduct(id: GetByIdDTO!): Product!
+  removeSubcategory(id: GetOneSubcategoryDTO!): Subcategory!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   updateSubcategory(
     updateSubcategoryInput: UpdateSubcategoryInput!
@@ -103,15 +152,21 @@ type Product {
 }
 
 type Query {
-  categories: [Category!]!
   findAllFields: [FormField!]!
+  findByRelation(filter: GetSubcategoryByRelationDTO!): SubcategoriesDTO!
   findRegion: Regions!
   findRegions: [Regions!]!
+  getCategories: [Category!]!
+  getCategoryByName(categoryName: String!): Category!
+  getProducts: [GetProductsDTO!]!
+  getProductsBySubcategory(
+    listProductByCategoryInput: ListProductsBySubcategoryDTO!
+  ): [GetProductsDTO!]!
   me: User!
-  product(id: Int!): Product!
+  product(id: GetByIdDTO!): GetProductsDTO!
   products: [Product!]!
   subcategories: [Subcategory!]!
-  subcategory(id: Int!): Subcategory!
+  subcategory(subcategoryId: GetOneSubcategoryDTO!): SubcategoriesDTO!
   users: [UserType!]!
 }
 
@@ -121,11 +176,22 @@ type Regions {
   region: String!
 }
 
-type Subcategory {
-  _id: String!
-  childCategories: [Subcategory!]!
+type SubcategoriesDTO {
+  childSubcategories: [SubcategoriesDTO!]
+  id: String!
   name: String
-  parentCategory: String!
+}
+
+input SubcategoriesInputDTO {
+  childSubcategories: [SubcategoriesInputDTO!] = []
+  id: String!
+  name: String
+}
+
+type Subcategory {
+  childSubcategories: [Subcategory!]
+  id: String!
+  name: String!
 }
 
 input UpdateProductInput {
@@ -156,6 +222,16 @@ type User {
   lastName: String!
   password: String!
   products: [Product!]!
+  refresh_token: String
+}
+
+type UserDTO {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  products: [GetProductsDTO!]!
   refresh_token: String
 }
 

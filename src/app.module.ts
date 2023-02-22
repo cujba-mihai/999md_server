@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Module } from '@nestjs/common';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -9,26 +10,36 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { InjectModel, MongooseModule } from '@nestjs/mongoose';
 import { getEnvPath } from './common/helper/env.helper';
 import { AuthModule } from './auth/auth.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { ProductsModule } from './products/products.module';
 import { FormfieldService } from './formfields/formfield.service';
-import { FormFieldSchema } from './formfields/entity/formfield.entity';
+import {
+  FormField,
+  FormFieldSchema,
+} from './formfields/entity/formfield.entity';
 import { FormFieldModule } from './formfields/formfield.module';
 import { CategoriesModule } from './categories/categories.module';
-import { SubcategorySchema } from './subcategories/entities/subcategory.entity';
-import { CategorySchema } from './categories/entities/category.entity';
+import {
+  Subcategory,
+  SubcategorySchema,
+} from './subcategories/entities/subcategory.entity';
+import {
+  Category,
+  CategorySchema,
+} from './categories/entities/category.entity';
 import { CategoriesService } from './categories/categories.service';
 import { SubcategoriesService } from './subcategories/subcategories.service';
 import { LocationsModule } from './locations/locations.module';
 import { RegionsModule } from './regions/regions.module';
 import { Seeder } from './database/seeders';
 import { RegionsService } from './regions/regions.service';
-import { RegionsSchema } from './regions/entity/regions.entity';
+import { Regions, RegionsSchema } from './regions/entity/regions.entity';
 import { LocationsSchema } from './locations/entity/locations.entity';
 import { FieldgroupsModule } from './fieldgroups/fieldgroups.module';
+import { Model } from 'mongoose';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -103,6 +114,10 @@ export class AppModule extends Seeder {
     private readonly categoriesService: CategoriesService,
     private readonly subcategoriesService: SubcategoriesService,
     private readonly regionsService: RegionsService,
+    @InjectModel(Regions.name) regionsModel: Model<Regions>,
+    @InjectModel(Subcategory.name) SubcategoryModel: Model<Subcategory>,
+    @InjectModel(Category.name) CategoryModel: Model<Category>,
+    @InjectModel(FormField.name) FormFieldModel: Model<FormField>,
   ) {
     super();
   }

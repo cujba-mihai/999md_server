@@ -1,31 +1,31 @@
-import { categories as defaultCategories } from 'constants/categories';
-import { getSubcategories } from 'constants/defaultCategoriesWSubcategories';
+// import { categories as defaultCategories } from 'constants/categories';
+// import { getSubcategories } from 'constants/defaultCategoriesWSubcategories';
 
-export default async function seedCategoriesWSubcategories() {
-  const categories = await this.categoriesService.createMany({
-    categoriesToAdd: defaultCategories,
-  });
+// export default async function seedCategoriesWSubcategories() {
+//   const categories = await this.categoriesService.createMany({
+//     categoriesToAdd: defaultCategories,
+//   });
 
-  await Promise.all(
-    categories.map(async (category) => {
-      const categoryName = category.name;
-      const [SUBCATS] = Object.entries(getSubcategories(categoryName));
-      const [SUBCAT_NAME, SUBCATEGORY] = SUBCATS;
+//   await Promise.all(
+//     categories.map(async (category) => {
+//       const categoryName = category.name;
+//       const [SUBCATS] = Object.entries(getSubcategories(categoryName));
+//       const [SUBCAT_NAME, SUBCATEGORY] = SUBCATS;
 
-      const createdSubCategories =
-        await this.subcategoriesService.createSubcategories(
-          SUBCATEGORY.parentCategory,
-          SUBCATEGORY.subcategories,
-          SUBCAT_NAME,
-        );
+//       const createdSubCategories =
+//         await this.subcategoriesService.createSubcategories(
+//           SUBCATEGORY.parentCategory,
+//           SUBCATEGORY.subcategories,
+//           SUBCAT_NAME,
+//         );
 
-      category.subcategories.push(createdSubCategories);
+//       category.subcategories.push(createdSubCategories);
 
-      await category.save();
-    }),
-  );
-}
+//       await category.save();
+//     }),
+//   );
+// }
 
-export async function unseed() {
-  return this;
-}
+// export async function unseed() {
+//   return this;
+// }

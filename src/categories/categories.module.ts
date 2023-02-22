@@ -7,6 +7,7 @@ import {
   Subcategory,
   SubcategorySchema,
 } from 'src/subcategories/entities/subcategory.entity';
+import { SubcategoriesService } from '../subcategories/subcategories.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import {
       { name: Subcategory.name, schema: SubcategorySchema },
     ]),
   ],
-  providers: [CategoriesResolver, CategoriesService],
+  providers: [CategoriesResolver, CategoriesService, SubcategoriesService],
   exports: [CategoriesResolver, CategoriesService],
 })
 export class CategoriesModule {}

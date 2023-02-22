@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: '999md-server',
-      script: 'dist/main.js',
+      script: 'dist/src/main.js',
       watch: '.',
       env_production: {
         NODE_ENV: 'production',

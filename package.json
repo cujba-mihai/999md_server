@@ -8,6 +8,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "create:seeder": "node ./scripts/create-seeder",
+    "unseed:seeder": "node ./scripts/module/unseed-seeder",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
@@ -31,7 +33,7 @@
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.2.1",
-    "@nestjs/typeorm": "^9.0.1",
+    "@sodaru/yup-to-json-schema": "^1.1.1",
     "apollo-server-express": "^3.11.1",
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
@@ -45,7 +47,7 @@
     "rimraf": "^4.0.0",
     "rxjs": "^7.6.0",
     "ts-morph": "^17.0.1",
-    "typeorm": "^0.3.11"
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.1.5",
@@ -102,9 +104,11 @@
     "testEnvironment": "node"
   },
   "volta": {
-    "node": "18.12.1"
+    "node": "18.13.0",
+    "npm": "9.4.1"
   },
   "engines": {
-    "node": "18.12.1"
+    "node": "18.13.0",
+    "npm": "9.4.1"
   }
 }

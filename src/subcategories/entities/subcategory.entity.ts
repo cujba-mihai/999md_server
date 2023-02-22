@@ -1,29 +1,26 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Document, HydratedDocument, SchemaTypes } from 'mongoose';
 
 export type SubcategoryDocument = HydratedDocument<Subcategory>;
 
 @ObjectType()
 @Schema()
-export class Subcategory {
+export class Subcategory extends Document {
   @Field()
-  _id: string;
+  id: string;
 
   @Field()
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'Category', required: true })
-  parentCategory: string;
-
-  @Field()
-  @Prop()
+  @Prop({ nullable: false, require: true })
   name: string;
 
-  @Field(() => [Subcategory])
+  @Field(() => [Subcategory], { nullable: true, defaultValue: [] })
   @Prop({
     type: [{ type: SchemaTypes.ObjectId, ref: 'Subcategory' }],
     default: [],
+    nullable: true,
   })
-  childCategories: Subcategory[];
+  childSubcategories: Subcategory[];
 }
 
 export const SubcategorySchema = SchemaFactory.createForClass(Subcategory);

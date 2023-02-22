@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoriesInput } from './dto/create-categories.input';
+import { CreateCategoryDTO } from './dto/create-category.dto';
 
 @Resolver(() => Category)
 export class CategoriesResolver {
@@ -14,8 +15,23 @@ export class CategoriesResolver {
     return this.categoriesService.createMany(createCategoriesInput);
   }
 
-  @Query(() => [Category], { name: 'categories' })
-  findAll() {
+  @Mutation(() => Category)
+  createCategory(@Args('category') category: CreateCategoryDTO) {
+    return this.categoriesService.createCategory(category);
+  }
+
+  @Mutation(() => Boolean, { name: 'removeAllCategories' })
+  removeAllCategories() {
+    return this.categoriesService.removeAll();
+  }
+
+  @Query(() => Category)
+  getCategoryByName(@Args('categoryName') name: string) {
+    return this.categoriesService.getCategoryByName(name);
+  }
+
+  @Query(() => [Category])
+  getCategories() {
     return this.categoriesService.findAll();
   }
 }

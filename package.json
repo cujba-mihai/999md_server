@@ -25,6 +25,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@nestjs/jwt": "^10.0.0",
     "@nestjs/cli": "^9.2.0",
     "@nestjs/apollo": "^10.1.6",
     "@nestjs/common": "^9.2.1",
@@ -53,7 +54,6 @@
     "yup": "^1.0.0"
   },
   "devDependencies": {
-    "@nestjs/jwt": "^10.0.0",
     "@nestjs/schematics": "^9.0.3",
     "@nestjs/serve-static": "^3.0.0",
     "@nestjs/testing": "^9.2.1",

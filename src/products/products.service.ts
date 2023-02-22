@@ -65,6 +65,8 @@ export class ProductsService {
       })
       .exec();
 
+    console.log('PRODUCT: ', product);
+
     return product;
   }
 

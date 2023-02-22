@@ -79,7 +79,6 @@ export class SubcategoriesService {
         },
       })
       .exec();
-
     const allSubcategories = categories
       .map((category) => {
         return category.subcategories;

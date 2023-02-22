@@ -59,6 +59,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class',
       },
+      cache: 'bounded',
       debug: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],

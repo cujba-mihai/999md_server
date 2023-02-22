@@ -46,7 +46,7 @@ export class Seeder {
         return promise.then(async () => {
           const func = require(`./${file}`);
 
-          await func.default.call(this);
+          await func?.default?.call(this);
 
           log(`
         =================================================

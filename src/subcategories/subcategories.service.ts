@@ -79,7 +79,6 @@ export class SubcategoriesService {
         },
       })
       .exec();
-    console.log('categories', categories);
     const allSubcategories = categories
       .map((category) => {
         return category.subcategories;
@@ -170,7 +169,7 @@ export class SubcategoriesService {
 
       return true;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return false;
     }
   }

@@ -2,14 +2,16 @@ module.exports = {
   apps: [
     {
       name: '999md-server',
-      script: 'dist/main.js',
-      watch: '.',
+      script: 'dist/src/main.js',
+      watch: ['dist/src/main.js'],
+      ignore_watch: ['dist/src/schema.gql', 'node_modules'],
       env_production: {
         NODE_ENV: 'production',
         MONGODB_URL: 'mongodb://localhost/nest',
         DATABASE_NAME: 'NUME',
         DB_USERNAME: 'mihaicujba',
         DB_PASS: 'Ks3oD6EDEbFhJFMs',
+        $PORT: 5000,
         JWT_SECRET: 'e5mZm8EnMUfqGNQCcSEtuARgaxkfaVSOu7flWhCl',
         CRYPTO_SECRET_KEY:
           'b6AVejHM7YoqilKyIdzRr4D38hTf1kXJx2Z5msaS9WwgFU0pOnvPGBLNQCcEtu',
@@ -21,6 +23,7 @@ module.exports = {
         DATABASE_NAME: 'NUME',
         DB_USERNAME: 'danielr',
         DB_PASS: 'Sq4aRGNZnlRloofa',
+        $PORT: 5000,
         JWT_SECRET: 'e5mZm8EnMUfqGNQCcSEtuARgaxkfaVSOu7flWhCl',
         CRYPTO_SECRET_KEY:
           'b6AVejHM7YoqilKyIdzRr4D38hTf1kXJx2Z5msaS9WwgFU0pOnvPGBLNQCcEtu',

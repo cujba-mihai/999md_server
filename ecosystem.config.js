@@ -3,7 +3,7 @@ module.exports = {
     {
       name: '999md-server',
       script: 'dist/src/main.js',
-      watch: '.',
+      watch: ['dist/src/main.js'],
       ignore_watch: ['dist/src/schema.gql', 'node_modules'],
       env_production: {
         NODE_ENV: 'production',

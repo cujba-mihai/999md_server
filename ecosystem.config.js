@@ -4,7 +4,7 @@ module.exports = {
       name: '999md-server',
       script: 'dist/src/main.js',
       watch: '.',
-      ignore_watch: ['src/schema.gql'],
+      ignore_watch: ['dist/src/schema.gql', 'node_modules'],
       env_production: {
         NODE_ENV: 'production',
         MONGODB_URL: 'mongodb://localhost/nest',

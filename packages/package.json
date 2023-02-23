@@ -1,0 +1,11 @@
+{
+  "name": "@999md-clone/packages",
+  "version": "1.0.17",
+  "description": "Utilities for the clone of 999md website.",
+  "author": "Cujba Mihai",
+  "license": "UNLICENSED",
+  "scripts": {
+    "pub": "npm run build && npm publish --access=public",
+    "build": "lerna run build"
+  }
+}

@@ -10,6 +10,7 @@ module.exports = {
         DATABASE_NAME: 'NUME',
         DB_USERNAME: 'mihaicujba',
         DB_PASS: 'Ks3oD6EDEbFhJFMs',
+        $PORT: 5000,
         JWT_SECRET: 'e5mZm8EnMUfqGNQCcSEtuARgaxkfaVSOu7flWhCl',
         CRYPTO_SECRET_KEY:
           'b6AVejHM7YoqilKyIdzRr4D38hTf1kXJx2Z5msaS9WwgFU0pOnvPGBLNQCcEtu',
@@ -21,6 +22,7 @@ module.exports = {
         DATABASE_NAME: 'NUME',
         DB_USERNAME: 'danielr',
         DB_PASS: 'Sq4aRGNZnlRloofa',
+        $PORT: 5000,
         JWT_SECRET: 'e5mZm8EnMUfqGNQCcSEtuARgaxkfaVSOu7flWhCl',
         CRYPTO_SECRET_KEY:
           'b6AVejHM7YoqilKyIdzRr4D38hTf1kXJx2Z5msaS9WwgFU0pOnvPGBLNQCcEtu',

@@ -17,8 +17,8 @@ import createProjection from '../database/projection';
 export class SubcategoriesResolver {
   constructor(
     private readonly subcategoriesService: SubcategoriesService,
-    @InjectModel(Subcategory.name) private subcategoryModel: Model<Subcategory>
-    ) {}
+    @InjectModel(Subcategory.name) private subcategoryModel: Model<Subcategory>,
+  ) {}
 
   @Mutation(() => Subcategory)
   createSubcategory(
@@ -34,17 +34,14 @@ export class SubcategoriesResolver {
   }
 
   @Query(() => [Subcategory], { name: 'subcategories' })
-  async findAll(
-    @Info() info: GraphQLResolveInfo
-  ) {
+  async findAll(@Info() info: GraphQLResolveInfo) {
     // Generate a projection object based on the requested fields
     const { projection, populate } = createProjection(info);
-    const subcategoriesQuery = this.subcategoryModel
-      .find({}, projection)
+    const subcategoriesQuery = this.subcategoryModel.find({}, projection);
 
-      if(populate.length) {
-        subcategoriesQuery.populate(populate)
-      }
+    if (populate.length) {
+      subcategoriesQuery.populate(populate);
+    }
 
     const subcategories = await subcategoriesQuery.lean().exec();
 

@@ -3,7 +3,10 @@ import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
 console.log(process.env.DOTENV_CONFIG_PATH);
-const env = dotenv.config({ path: process.env.DOTENV_CONFIG_PATH, debug: true });
+const env = dotenv.config({
+  path: process.env.DOTENV_CONFIG_PATH,
+  debug: true,
+});
 dotenvExpand.expand(env);
 
 import { Module } from '@nestjs/common';

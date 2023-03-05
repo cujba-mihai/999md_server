@@ -1,10 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Info,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Info } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
@@ -40,17 +34,14 @@ export class ProductsResolver {
   }
 
   @Query(() => [GetProductsDTO])
-  async getProducts(
-    @Info() info: GraphQLResolveInfo,
-  ) {
+  async getProducts(@Info() info: GraphQLResolveInfo) {
     // Generate a projection object based on the requested fields
     const { projection, populate } = createProjection(info);
-    const productsQuery = this.productModel
-      .find({}, projection)
+    const productsQuery = this.productModel.find({}, projection);
 
-      if(populate.length) {
-        productsQuery.populate(populate)
-      }
+    if (populate.length) {
+      productsQuery.populate(populate);
+    }
 
     const products = await productsQuery.lean().exec();
 

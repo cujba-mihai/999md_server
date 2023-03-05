@@ -1,10 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Info,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Info } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
 import { Category, CategoryDocument } from './entities/category.entity';
 import { CreateCategoriesInput } from './dto/create-categories.input';
@@ -13,7 +7,6 @@ import { GraphQLResolveInfo } from 'graphql';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import createProjection from '../database/projection';
-
 
 @Resolver(() => Category)
 export class CategoriesResolver {
@@ -44,36 +37,32 @@ export class CategoriesResolver {
     @Args('categoryName') categoryName: string,
     @Args('subcategoryName') subcategoryName: string,
   ) {
-    return this.categoryModel
-      .findOne({name: categoryName})
-      .populate({
-        path: 'subcategories',
-        populate: {
-          path: 'childSubcategories',
-          match: { name: subcategoryName },
-        },
-      });
+    return this.categoryModel.findOne({ name: categoryName }).populate({
+      path: 'subcategories',
+      populate: {
+        path: 'childSubcategories',
+        match: { name: subcategoryName },
+      },
+    });
   }
 
   @Query(() => Category)
   async getCategoryById(
     @Args('_id') _id: string,
-    @Info() info: GraphQLResolveInfo
+    @Info() info: GraphQLResolveInfo,
   ) {
     // Generate a projection object based on the requested fields
     const { projection, populate } = createProjection(info);
 
     // Create a Mongoose query object for all categories
-    const categoriesQuery = this.categoryModel
-    .findById(_id, projection)
+    const categoriesQuery = this.categoryModel.findById(_id, projection);
 
-    if(populate.length) {
-      categoriesQuery.populate(populate)
+    if (populate.length) {
+      categoriesQuery.populate(populate);
     }
 
     // Execute the query and return the results
     const categories = await categoriesQuery.lean().exec();
-
 
     return categories;
   }
@@ -84,18 +73,15 @@ export class CategoriesResolver {
   }
 
   @Query(() => [Category])
-  async getCategories(
-    @Info() info: GraphQLResolveInfo
-  ) {
+  async getCategories(@Info() info: GraphQLResolveInfo) {
     // Generate a projection object based on the requested fields
     const { projection, populate } = createProjection(info);
 
     // Create a Mongoose query object for all categories
-    const categoriesQuery = this.categoryModel
-    .find({}, projection)
+    const categoriesQuery = this.categoryModel.find({}, projection);
 
-    if(populate.length) {
-      categoriesQuery.populate(populate)
+    if (populate.length) {
+      categoriesQuery.populate(populate);
     }
 
     // Execute the query and return the results
@@ -103,5 +89,4 @@ export class CategoriesResolver {
 
     return categories;
   }
-  
 }

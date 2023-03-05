@@ -16,6 +16,4 @@ export class FormfieldsResolver {
   removeAllFields() {
     return this.formfieldService.removeAllFields();
   }
-
-
 }

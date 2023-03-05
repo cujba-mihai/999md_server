@@ -4,7 +4,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 @InputType('SubcategoriesInputDTO')
 export class GetSubcategories {
   @Field(() => String)
-  id: string;
+  _id: string;
 
   @Field(() => String, { nullable: true })
   name: string;

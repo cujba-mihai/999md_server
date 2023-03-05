@@ -1,8 +1,8 @@
-import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @InputType()
 @ObjectType()
 export class GetByIdDTO {
-  @Field(() => ID)
-  id: string;
+  @Field(() => String)
+  _id: string;
 }

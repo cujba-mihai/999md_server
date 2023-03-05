@@ -6,7 +6,7 @@ import { GetUserDTO } from '~server/src/users/dto/get-user.dto';
 @ObjectType('GetProductsDTO')
 export class GetProductsDTO {
   @Field()
-  id: string;
+  _id: string;
 
   @Field(() => GetUserDTO)
   author: string;

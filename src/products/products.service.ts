@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
 import { GetByIdDTO } from './dto/get-by-id.dto';
+import { ListProductsByCategoryDTO } from './dto/list-products-by-category';
 import { ListProductsBySubcategoryDTO } from './dto/list-products-by-subcategory';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
@@ -21,33 +22,44 @@ export class ProductsService {
     return product;
   }
 
-  async getProductsBySubcategory(query: ListProductsBySubcategoryDTO) {
-    return await this.productModel
+  getProductsByCategory(query: ListProductsByCategoryDTO) {
+    return this.productModel
+      .find({
+        subcategory: query.categoryId,
+      })
+      .skip(query.offset)
+      .limit(query.limit)
+      .populate(DEFAULT_POPULATE_FIELDS)
+      .lean();
+  }
+
+  getProductsBySubcategory(query: ListProductsBySubcategoryDTO) {
+    return this.productModel
       .find({
         subcategory: query.subCategoryId,
       })
       .skip(query.offset)
       .limit(query.limit)
       .populate(DEFAULT_POPULATE_FIELDS)
-      .exec();
+      .lean();
   }
 
   async getProducts() {
-    return await this.productModel
+    const products = await this.productModel
       .find({})
       .populate(DEFAULT_POPULATE_FIELDS)
+      .lean()
       .exec();
-  }
-
-  async findAll() {
-    const products = await this.productModel.find().exec();
-
     return products;
   }
 
-  async findOne({ id }: GetByIdDTO) {
-    const product = await this.productModel
-      .findById(id)
+  findAll() {
+    return this.productModel.find().lean();
+  }
+
+  findOne({ _id }: GetByIdDTO) {
+    return this.productModel
+      .findById(_id)
       .populate({
         path: 'author',
       })
@@ -63,23 +75,14 @@ export class ProductsService {
           path: 'childSubcategories',
         },
       })
-      .exec();
-
-    console.log('PRODUCT: ', product);
-
-    return product;
+      .lean();
   }
 
   async update(id: string, updateProductInput: UpdateProductInput) {
-    const product = await this.productModel
-      .findByIdAndUpdate(id, updateProductInput)
-      .exec();
-    return product;
+    return this.productModel.findByIdAndUpdate(id, updateProductInput).lean();
   }
 
-  async remove({ id }: GetByIdDTO) {
-    const product = await this.productModel.findByIdAndRemove(id).exec();
-
-    return product;
+  async remove({ _id }: GetByIdDTO) {
+    return this.productModel.findByIdAndRemove(_id).lean();
   }
 }

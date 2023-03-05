@@ -8,8 +8,8 @@ export type CategoryDocument = HydratedDocument<Category>;
 @ObjectType()
 @Schema()
 export class Category {
-  @Field()
-  id: string;
+  @Field(() => String)
+  _id: string;
 
   @Field()
   @Prop({ unique: true, required: true })
@@ -20,7 +20,7 @@ export class Category {
     type: [
       {
         type: SchemaTypes.ObjectId,
-        ref: 'Subcategory',
+        ref: Subcategory.name,
         nullable: false,
         default: [],
       },

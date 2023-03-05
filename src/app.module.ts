@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
+
+console.log(process.env.DOTENV_CONFIG_PATH);
+const env = dotenv.config({ path: process.env.DOTENV_CONFIG_PATH, debug: true });
+dotenvExpand.expand(env);
+
 import { Module } from '@nestjs/common';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { databaseProviders } from './database/database.providers';
-import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { UsersModule } from './users/users.module';
 import { InjectModel, MongooseModule } from '@nestjs/mongoose';
-import { getEnvPath } from './common/helper/env.helper';
 import { AuthModule } from './auth/auth.module';
 import { SubcategoriesModule } from './subcategories/subcategories.module';
 import { ProductsModule } from './products/products.module';
@@ -41,37 +46,15 @@ import { LocationsSchema } from './locations/entity/locations.entity';
 import { FieldgroupsModule } from './fieldgroups/fieldgroups.module';
 import { Model } from 'mongoose';
 
-const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
-
 @Module({
   imports: [
-    UsersModule,
-    AuthModule,
     ConfigModule.forRoot({
-      envFilePath,
+      envFilePath: process.env.DOTENV_CONFIG_PATH,
       isGlobal: true,
+      cache: true,
+      expandVariables: true,
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-      definitions: {
-        path: join(process.cwd(), 'src/graphql.ts'),
-        outputAs: 'class',
-      },
-      cache: 'bounded',
-      debug: true,
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-    }),
-    DatabaseModule,
-    UsersModule,
-    MongooseModule.forRoot(
-      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@999clonedev.gs1u1cg.mongodb.net/?retryWrites=true&w=majority`,
-    ),
-    CategoriesModule,
-    SubcategoriesModule,
-    ProductsModule,
+    MongooseModule.forRoot(`${process.env.MONGODB_URL}`),
     MongooseModule.forFeature([
       {
         name: 'FormField',
@@ -94,6 +77,26 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
         schema: LocationsSchema,
       },
     ]),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      introspection: true,
+      stopOnTerminationSignals: true,
+      definitions: {
+        path: join(process.cwd(), 'src/graphql.ts'),
+        outputAs: 'class',
+      },
+      cache: 'bounded',
+      debug: true,
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+    }),
+    AuthModule,
+    UsersModule,
+    CategoriesModule,
+    SubcategoriesModule,
+    ProductsModule,
     FormFieldModule,
     LocationsModule,
     RegionsModule,

@@ -7,7 +7,7 @@ import { execSync } from 'node:child_process';
 const PATH_TO_SEEDERS = path.join(process.cwd(), 'src', 'database', 'seeders');
 const PATH_TO_SEEDED = path.join(
   PATH_TO_SEEDERS,
-  `seeded_${process.env._NODE_ENV || 'development'}.json`,
+  `seeded_${process.env.ENV || 'development'}.json`,
 );
 
 const rl = readline.createInterface({

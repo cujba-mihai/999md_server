@@ -2,14 +2,8 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type CategoriesDTO {
-  id: String!
-  name: String!
-  subcategories: [SubcategoriesDTO!]!
-}
-
 type Category {
-  id: String!
+  _id: String!
   name: String!
   subcategories: [Subcategory!]
 }
@@ -21,11 +15,6 @@ input CreateCategoriesInput {
 input CreateCategoryDTO {
   name: String!
   subcategories: [CreateSubcategoriesInput!]
-}
-
-input CreateFieldFromStringDTO {
-  label: String!
-  stringSchema: String!
 }
 
 input CreateProductInput {
@@ -65,19 +54,25 @@ type FormField {
 }
 
 input GetByIdDTO {
-  id: ID!
+  _id: String!
+}
+
+type GetCategoriesDTO {
+  _id: String!
+  name: String!
+  subcategories: [SubcategoriesDTO!]!
 }
 
 input GetOneSubcategoryDTO {
-  id: ID!
+  _id: String!
 }
 
 type GetProductsDTO {
-  author: UserDTO!
-  category: CategoriesDTO!
+  _id: String!
+  author: GetUserDTO!
+  category: GetCategoriesDTO!
   currency: String!
   description: String!
-  id: String!
   images: [String!]!
   name: String!
   price: Float!
@@ -89,6 +84,22 @@ type GetProductsDTO {
 input GetSubcategoryByRelationDTO {
   category: String!
   subcategory: String!
+}
+
+type GetUserDTO {
+  _id: String!
+  access_token: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  products: [GetProductsDTO!]!
+  refresh_token: String
+}
+
+input ListProductsByCategoryDTO {
+  categoryId: ID!
+  limit: Float! = 50
+  offset: Float! = 0
 }
 
 input ListProductsBySubcategoryDTO {
@@ -109,12 +120,6 @@ type Mutation {
   Register(input: UserInput!): UserType!
   createCategories(createCategoriesInput: CreateCategoriesInput!): [Category!]!
   createCategory(category: CreateCategoryDTO!): Category!
-
-  """
-  Allows us to create form field with validation from string.
-        Example of validationString: string,oneOf['one','two],required,min[0],max[50]
-  """
-  createFieldFromString(createField: CreateFieldFromStringDTO!): FormField!
   createProduct(createProductInput: CreateProductInput!): Product!
   createRegionWithLocations: Regions!
   createRegionsWithLocations: [Regions!]!
@@ -128,7 +133,7 @@ type Mutation {
   removeAllRegions: Boolean!
   removeAllSubcategories: Boolean!
   removeAllUsers: Boolean!
-  removeProduct(id: GetByIdDTO!): Product!
+  removeProduct(_id: GetByIdDTO!): Product!
   removeSubcategory(id: GetOneSubcategoryDTO!): Subcategory!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   updateSubcategory(
@@ -157,13 +162,21 @@ type Query {
   findRegion: Regions!
   findRegions: [Regions!]!
   getCategories: [Category!]!
+  getCategoryById(_id: String!): Category!
   getCategoryByName(categoryName: String!): Category!
+  getCategoryByNameAndSubcategory(
+    categoryName: String!
+    subcategoryName: String!
+  ): Category!
   getProducts: [GetProductsDTO!]!
+  getProductsByCategory(
+    listProductByCategoryInput: ListProductsByCategoryDTO!
+  ): [GetProductsDTO!]!
   getProductsBySubcategory(
     listProductByCategoryInput: ListProductsBySubcategoryDTO!
   ): [GetProductsDTO!]!
   me: User!
-  product(id: GetByIdDTO!): GetProductsDTO!
+  product(_id: GetByIdDTO!): GetProductsDTO!
   products: [Product!]!
   subcategories: [Subcategory!]!
   subcategory(subcategoryId: GetOneSubcategoryDTO!): SubcategoriesDTO!
@@ -177,20 +190,20 @@ type Regions {
 }
 
 type SubcategoriesDTO {
+  _id: String!
   childSubcategories: [SubcategoriesDTO!]
-  id: String!
   name: String
 }
 
 input SubcategoriesInputDTO {
+  _id: String!
   childSubcategories: [SubcategoriesInputDTO!] = []
-  id: String!
   name: String
 }
 
 type Subcategory {
+  _id: String!
   childSubcategories: [Subcategory!]
-  id: String!
   name: String!
 }
 
@@ -209,8 +222,8 @@ input UpdateProductInput {
 }
 
 input UpdateSubcategoryInput {
+  _id: String!
   categoryId: String
-  id: Int!
   name: String
 }
 
@@ -222,16 +235,6 @@ type User {
   lastName: String!
   password: String!
   products: [Product!]!
-  refresh_token: String
-}
-
-type UserDTO {
-  _id: String!
-  access_token: String
-  email: String!
-  firstName: String!
-  lastName: String!
-  products: [GetProductsDTO!]!
   refresh_token: String
 }
 

@@ -105,9 +105,9 @@ export class SubcategoriesService {
     return subcategoryFound;
   }
 
-  async findOne({ id }: GetOneSubcategoryDTO) {
+  async findOne({ _id }: GetOneSubcategoryDTO) {
     return await this.subcategoryModel
-      .findById(id)
+      .findById(_id)
       .populate([
         {
           path: 'childCategories',
@@ -121,7 +121,7 @@ export class SubcategoriesService {
       .exec();
   }
 
-  update(id: number, updateSubcategoryInput: UpdateSubcategoryInput) {
+  update(id: string, updateSubcategoryInput: UpdateSubcategoryInput) {
     return this.subcategoryModel.findByIdAndUpdate(id, updateSubcategoryInput);
   }
 
@@ -174,7 +174,7 @@ export class SubcategoriesService {
     }
   }
 
-  remove({ id }: GetOneSubcategoryDTO) {
-    return this.subcategoryModel.findByIdAndRemove(id);
+  remove({ _id }: GetOneSubcategoryDTO) {
+    return this.subcategoryModel.findByIdAndRemove(_id);
   }
 }

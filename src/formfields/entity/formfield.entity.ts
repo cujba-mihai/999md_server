@@ -1,6 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { JsonSchemaType } from '@sodaru/yup-to-json-schema/dist/TypeMap';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 import { FormFieldType } from '~server/types';
 
@@ -16,7 +15,7 @@ export class FormField {
 
   @Field(() => String)
   @Prop({ type: Object, required: true, default: {} })
-  validationSchema: JsonSchemaType;
+  validationSchema: string;
 
   @Field(() => String)
   @Prop({ type: SchemaTypes.String, required: true })

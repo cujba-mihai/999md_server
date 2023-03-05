@@ -6,6 +6,7 @@
     "calarasi",
     "camenca",
     "cantemir",
+    "clonedev",
     "datetime",
     "donduseni",
     "drochia",
@@ -16,9 +17,13 @@
     "glodeni",
     "grigoriopol",
     "loglevel",
+    "populator",
+    "Raileanu",
     "regionlocation",
     "regionlocationsector",
     "sitearea",
+    "tripple",
+    "unseed",
     "vulcanesi"
   ]
 }

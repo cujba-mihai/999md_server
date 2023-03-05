@@ -88,11 +88,14 @@ export class CategoriesService {
   }
 
   findAll() {
-    return this.categoryModel.find().populate({
-      path: 'subcategories',
-      populate: {
-        path: 'childSubcategories',
-      },
-    });
+    return this.categoryModel
+      .find({})
+      .populate({
+        path: 'subcategories',
+        populate: {
+          path: 'childSubcategories',
+        },
+      })
+      .lean();
   }
 }

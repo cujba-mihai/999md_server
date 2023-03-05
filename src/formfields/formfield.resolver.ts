@@ -17,13 +17,5 @@ export class FormfieldsResolver {
     return this.formfieldService.removeAllFields();
   }
 
-  @Mutation(() => FormField, {
-    description: `Allows us to create form field with validation from string. 
-      Example of validationString: string,oneOf['one','two],required,min[0],max[50]`,
-  })
-  createFieldFromString(
-    @Args('createField') createFieldFromString: CreateFieldFromStringDTO,
-  ) {
-    return this.formfieldService.createFieldFromString(createFieldFromString);
-  }
+
 }

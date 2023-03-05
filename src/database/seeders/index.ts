@@ -19,7 +19,7 @@ export class Seeder {
               'src',
               'database',
               'seeders',
-              `seeded_${process.env.NODE_ENV}.json`,
+              `seeded_${process.env.ENV}.json`,
             ),
           )
           .toString(),
@@ -64,7 +64,7 @@ export class Seeder {
           'src',
           'database',
           'seeders',
-          `seeded_${process.env.NODE_ENV}.json`,
+          `seeded_${process.env.ENV}.json`,
         ),
         JSON.stringify(
           {

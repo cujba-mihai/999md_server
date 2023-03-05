@@ -34,7 +34,9 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-#env
-.env
+# env
+.env*
+
+# Schemas
 src/schema.gql
 src/graphql.ts

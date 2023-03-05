@@ -7,16 +7,16 @@ export type SubcategoryDocument = HydratedDocument<Subcategory>;
 @ObjectType()
 @Schema()
 export class Subcategory extends Document {
-  @Field()
-  id: string;
+  @Field(() => String)
+  _id: string;
 
-  @Field()
+  @Field(() => String)
   @Prop({ nullable: false, require: true })
   name: string;
 
   @Field(() => [Subcategory], { nullable: true, defaultValue: [] })
   @Prop({
-    type: [{ type: SchemaTypes.ObjectId, ref: 'Subcategory' }],
+    type: [{ type: SchemaTypes.ObjectId, ref: Subcategory.name }],
     default: [],
     nullable: true,
   })

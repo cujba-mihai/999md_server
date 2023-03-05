@@ -4,7 +4,7 @@ import { GetProductsDTO } from '~server/src/products/dto/get-products.dto';
 export type TCategoryName = string;
 export type TCategories = TCategoryName[];
 
-@ObjectType('UserDTO')
+@ObjectType()
 export class GetUserDTO {
   @Field()
   readonly _id: string;

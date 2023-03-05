@@ -1,7 +1,7 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class GetOneSubcategoryDTO {
-  @Field(() => ID)
-  id: string;
+  @Field(() => String)
+  _id: string;
 }

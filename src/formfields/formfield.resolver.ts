@@ -1,5 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateFieldFromStringDTO } from './dto/create-field-from-string.dto';
+import { Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FormField } from './entity/formfield.entity';
 import { FormfieldService } from './formfield.service';
 

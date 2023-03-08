@@ -40,3 +40,4 @@ lerna-debug.log*
 # Schemas
 src/schema.gql
 src/graphql.ts
+packages/validations

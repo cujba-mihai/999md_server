@@ -109,11 +109,11 @@
   },
   "volta": {
     "node": "18.13.0",
-    "npm": "9.5.1"
+    "npm": "9.8.1"
   },
   "engines": {
     "node": "18.13.0",
-    "npm": "9.5.1"
+    "npm": "9.8.1"
   },
   "workspaces": [
     "packages/*"
